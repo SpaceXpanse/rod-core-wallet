@@ -171,3 +171,4 @@ osx_volname
 dist/
 
 /guix-build-*
+*.~yml
