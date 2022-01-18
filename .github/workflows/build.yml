@@ -72,7 +72,7 @@ jobs:
     - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: |
         make -j2
-        sudo make install 
+        sudo make install/strip # todo: make check 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
