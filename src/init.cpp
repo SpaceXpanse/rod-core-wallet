@@ -598,7 +598,7 @@ void SetupServerArgs(ArgsManager& argsman)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/spacexpanse/spacexpanse>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/spacexpanse/rod-core-wallet>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +

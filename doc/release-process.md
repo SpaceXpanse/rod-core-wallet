@@ -78,7 +78,7 @@ Check out the source code in the following directory hierarchy.
     cd /path/to/your/toplevel/build
     git clone https://github.com/namecoin/guix.sigs.git
     #git clone https://github.com/namecoin/namecoin-detached-sigs.git # Namecoin doesn't use detached sigs yet, so don't do this.
-    git clone https://github.com/spacexpanse/spacexpanse.git
+    git clone https://github.com/spacexpanse/rod-core-wallet.git
 
 ### Write the release notes
 

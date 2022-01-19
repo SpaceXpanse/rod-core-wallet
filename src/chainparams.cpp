@@ -23,10 +23,10 @@
 namespace
 {
 
-constexpr const char pszTimestampTestnet[] = "Decentralised Autonomous Worlds";
+constexpr const char pszTimestampTestnet[] = "SpaceXpance Testnet";
 constexpr const char pszTimestampMainnet[]
-    = "HUC #2,351,800: "
-      "8730ea650d24cd01692a5adb943e7b8720b0ba8a4c64ffcdf5a95d9b3fb57b7f";
+    = "Forbes, 16.01.2022 10:59am EST: "
+      "Amazon\'s The Expanse Finale Packed 30 Easter Eggs Into One Shot";
 
 /* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
    coins needed in case everything is sold in the ICO.  If this is not the case
@@ -165,7 +165,7 @@ public:
         /* The value of ~3.8 ROD is calculated to yield the desired total
            PoW coin supply.  For the calculation, see here:
 
-           https://github.com/spacexpanse/spacexpanse/issues/70#issuecomment-441292533
+           https://github.com/spacexpanse/rod-core-wallet/issues/70#issuecomment-441292533
         */
         consensus.initialSubsidy = 382934346;
         consensus.BIP16Height = 0;

@@ -42,7 +42,7 @@ class PostIcoForkTest (BitcoinTestFramework):
 
     # Test that we can restart the client just fine.  There was a bug
     # with non-zero nNonce values in the on-disk block index that caused
-    # a crash here:  https://github.com/spacexpanse/spacexpanse/issues/82
+    # a crash here:  https://github.com/spacexpanse/rod-core-wallet/issues/82
     self.node.generate (10)
     self.restart_node (0)
     assert_equal (blkHash, self.nodes[0].getblockhash (FORK_HEIGHT))
