@@ -9,13 +9,13 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 110016;
+static const int PROTOCOL_VERSION = 120016;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 31800;
+static const int MIN_PEER_PROTO_VERSION = 120016;
 
 //! BIP 0031, pong message, is enabled for all versions AFTER this one
 static const int BIP0031_VERSION = 60000;
@@ -24,22 +24,22 @@ static const int BIP0031_VERSION = 60000;
 static const int NO_BLOOM_VERSION = 70011;
 
 //! Version when we switched to a size-based "headers" limit.
-static const int SIZE_HEADERS_LIMIT_VERSION = 110000;
+static const int SIZE_HEADERS_LIMIT_VERSION = 120000;
 
 //! "sendheaders" command and announcing blocks with headers starts with this version
-static const int SENDHEADERS_VERSION = 110012;
+static const int SENDHEADERS_VERSION = 120012;
 
 //! "feefilter" tells peers to filter invs to you by fee starts with this version
-static const int FEEFILTER_VERSION = 110013;
+static const int FEEFILTER_VERSION = 120013;
 
 //! short-id-based block download starts with this version
-static const int SHORT_IDS_BLOCKS_VERSION = 110014;
+static const int SHORT_IDS_BLOCKS_VERSION = 120014;
 
 //! not banning for invalid compact blocks starts with this version
-static const int INVALID_CB_NO_BAN_VERSION = 110015;
+static const int INVALID_CB_NO_BAN_VERSION = 120015;
 
 //! "wtxidrelay" command for wtxid-based relay starts with this version
-static const int WTXID_RELAY_VERSION = 110016;
+static const int WTXID_RELAY_VERSION = 120016;
 
 // Make sure that none of the values above collide with
 // `SERIALIZE_TRANSACTION_NO_WITNESS` or `ADDRV2_FORMAT`.
