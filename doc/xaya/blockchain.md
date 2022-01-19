@@ -64,7 +64,7 @@ The current parameters for `mainnet` are:
   each of the two possible [mining algorithms](mining.md).  Merge mined
   SHA-256d blocks are scheduled once every two minutes and standalone
   Neoscrypt blocks every 40 seconds.
-* The initial block reward is set to **3.82934346 CHI**,
+* The initial block reward is set to **3.82934346 ROD**,
   and halves every **4.2 million** blocks, which corresponds to Bitcoin's
   halving of once every four years.  This reward was chosen to yield the
   [correct total coin

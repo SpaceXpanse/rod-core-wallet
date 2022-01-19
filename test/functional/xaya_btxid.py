@@ -35,7 +35,7 @@ class BtxidTest (BitcoinTestFramework):
   def build_tx (self, utxo, chiOut, name, nameAddr, value):
     """
     Builds and returns (in the form returned by decoderawtransaction)
-    a transaction that spends the given utxo, pays CHI to some output
+    a transaction that spends the given utxo, pays ROD to some output
     (as dict {addr: value}) and updates/transfers the name as given.
 
     The transaction is just constructed but not signed at all.

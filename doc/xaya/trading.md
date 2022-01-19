@@ -14,20 +14,20 @@ using **atomic transactions** instead.
 The basic setting is as follows:  A *seller* owns some assets in the
 game state of some application on the SpaceXpanse platform (or perhaps provides
 services).  A *buyer* wants to buy those assets (or hire services),
-**paying directly in CHI**.  (Trades and payment in currencies or assets
+**paying directly in ROD**.  (Trades and payment in currencies or assets
 belonging to the game state itself can be implemented easily simply by designing
-the game rules accordingly.  Only trades between CHI and game assets
+the game rules accordingly.  Only trades between ROD and game assets
 are harder to do and will thus be discussed here.)
 
 This can be accomplished in a **trustless manner** through an
 *atomic transaction*:  Roughly speaking, buyer and seller cooperate to
 build a single transaction together, which performs the desired update in
 the game state (e.g. sending assets from seller to buyer)
-*while at the same time* sending CHI from buyer to seller.
+*while at the same time* sending ROD from buyer to seller.
 By doing that in a single transaction, it is guaranteed that either both
 effects take place (buyer and seller get what they want) or none (in which
 case noone of them lost anything).  It is not possible at all for one
-party to defraud the other, e.g. for the seller to get CHI without
+party to defraud the other, e.g. for the seller to get ROD without
 transferring the sold assets to the buyer.
 Atomic transactions can be compared to
 [CoinJoin's](https://en.bitcoin.it/wiki/CoinJoin) in Bitcoin.
@@ -45,20 +45,20 @@ for atomic transactions.  Each one has different potential usecases, which
 ### <a name="game-state-reacts">Game State Reacts</a>
 
 The simplest type of transaction is one where the buyer simply sends
-a game move indicating their desired purchase and transfers CHI to
+a game move indicating their desired purchase and transfers ROD to
 a pre-determined address of the seller.
 The game rules can then be defined in such a way that they
 [react properly to such payments](games.md#currency).
 
-For instance, the game rules could define that anyone sending `x` CHI
+For instance, the game rules could define that anyone sending `x` ROD
 to the game developer's address `Cabc` gets `x` pieces of gold in the game.
 Then it is guaranteed for a buyer that they will get their gold pieces as long
-as they send CHI.
+as they send ROD.
 
 This approach is very simple, but it is best suited to situations where
 the offer is not cancellable and *unlimited in quantity*.  In a situation
 where the seller has exactly one magic sword to sell, it could happen that
-two prospective buyers send CHI at the same time.  Then the game state would not
+two prospective buyers send ROD at the same time.  Then the game state would not
 be able to honour both purchases.
 (There are ways to work around this by means of "reserving" offers first,
 but they are cumbersome.)
@@ -77,11 +77,11 @@ a transaction of the following structure:
 - The seller provides the name's current transaction output as input for
   the transaction.
 
-- The seller also adds an output sending `x` CHI to an address he owns.
+- The seller also adds an output sending `x` ROD to an address he owns.
 
 - The buyer adds an output updating the name to an address *of hers*.
 
-- The buyer provides CHI inputs to the transaction providing at least `x` CHI
+- The buyer provides ROD inputs to the transaction providing at least `x` ROD
   (for the seller's output).  She can also add a change output as needed.
 
 Then both parties check that the transaction has the desired structure for
@@ -99,7 +99,7 @@ that someone else owns.  In particular, they can propose a contract
 of the following form:
 
 > If you update your name `p/seller` to the value
-> `xyz`, then I will pay you `x` CHI.
+> `xyz`, then I will pay you `x` ROD.
 
 In a typical situation, `xyz` would be a game-specific [move](games.md#moves)
 that transfers the desired asset to the buyer in the game state.
@@ -112,10 +112,10 @@ To construct such a transaction, the buyer needs to do the following:
 - Add an output that updates the name to the desired value `xyz`, while keeping
   it at the same address (owned by the seller).
 
-- Add an output of `x` CHI also the seller's address (e.g. which holds the
+- Add an output of `x` ROD also the seller's address (e.g. which holds the
   name at the moment).
 
-- Fund the transaction with her own CHI inputs and add a change output
+- Fund the transaction with her own ROD inputs and add a change output
   of hers as needed.
 
 - Sign the inputs belonging to her (i.e. all except for the name input).
@@ -141,10 +141,10 @@ gold pieces from anyone.
 
 Similarly to [ANU bids](#anu-bids), sellers can themselves
 propose to update their name to a certain value if anyone is willing to send
-them `x` CHI for that.  In other words, they can propose an offer like this:
+them `x` ROD for that.  In other words, they can propose an offer like this:
 
 > Anyone is able to update my name `p/seller` to the value `xyz`, provided
-> that they pay `x` CHI to my address that owns the name.
+> that they pay `x` ROD to my address that owns the name.
 
 Constructing a partially signed transaction that represents such an ask is
 a bit trickier than constructing a partially signed bid, since the inputs
@@ -157,7 +157,7 @@ though:
 - The seller adds his name as input for the transaction.
 
 - The seller adds an output, which updates the name to `xyz` and sends
-  `x` CHI *more than the amount currently held in the name coin* into the
+  `x` ROD *more than the amount currently held in the name coin* into the
   name's output.
 
 - The seller then signs the input using the flags `SINGLE | ANYONECANPAY`.
@@ -165,13 +165,13 @@ though:
 The signature flags used imply that the signature stays valid even if more
 inputs and outputs are added to the transaction, provided that the seller's
 output stays untouched.  This ensures that the name cannot be stolen from
-him and that he will get `x` CHI as payment (sent directly into the name
+him and that he will get `x` ROD as payment (sent directly into the name
 output).
 
 A prospective buyer who wants to accept such an offer now has to do the
 following:
 
-- She needs to add inputs of her own to cover `x` CHI and any potential
+- She needs to add inputs of her own to cover `x` ROD and any potential
   transaction fees.
 
 - She may add a change output as needed.
@@ -206,10 +206,10 @@ the input / output pair does not involve names at all:
 
 As before, this partially-signed transaction allows anyone to add more inputs
 and outputs.  It ensures, though, that the seller will always get back his
-CHI and none can be stolen.
+ROD and none can be stolen.
 
 This transaction by itself does not do much useful.  It can, however, be used
-to ensure **uniqueness of payments of CHI** to the seller (for unique / limited
+to ensure **uniqueness of payments of ROD** to the seller (for unique / limited
 items):  Everyone can include the input / output pair in their transaction
 (e.g. when buying an item).  But SpaceXpanse's coin tracking rules ensure that the
 sentinel input can be spent by only one transaction at most, so that
@@ -226,26 +226,26 @@ to solve some common usecases of trading in games.
 
 Perhaps the simplest usecase is that of selling some unlimited asset
 or service.  This situation may be because the developer of the game is
-selling something (which is unlimited in quantity) for CHI.  Or it could
+selling something (which is unlimited in quantity) for ROD.  Or it could
 be a guard "selling" the right for safe passage to players.
 
 In such a situation, trading should simply be done by
 [coding the game rules accordingly](#game-state-reacts).  In other words,
 there will be rules in the game logic that state something like this:
 
-> Anyone sending `x` CHI to my address `Cabc` will get `x` gold pieces
+> Anyone sending `x` ROD to my address `Cabc` will get `x` gold pieces
 > in return.
 
 Or perhaps:
 
-> Any player who sent `x` CHI to `Cabc` in the last 100 blocks will not be
+> Any player who sent `x` ROD to `Cabc` in the last 100 blocks will not be
 > attacked when walking by me.
 
 The exact nature of the offer can either be hard-coded into the game
 (e.g. for selling items by the developers), or it may be configurable
 through moves the seller sends (e.g. for setting a price for safe passage).
 
-In both situations, the buyer can simply transfer CHI as specified, and the
+In both situations, the buyer can simply transfer ROD as specified, and the
 game backend will [see the transaction](games.md#currency)
 and react accordingly.
 
@@ -353,7 +353,7 @@ increasing the locked amount (acting like a [sentinel input](#sentinel-inputs)).
 However, the move and its game-state
 interpretation should then include correct payment.  For instance like this:
 
-> If this transaction pays `x` (up to a maximum of 100) CHI to the
+> If this transaction pays `x` (up to a maximum of 100) ROD to the
 > address `Cabc`, then reserve `x` gold pieces from my assets and send
 > them to whoever spends the second output of this transaction in the future.
 
@@ -367,7 +367,7 @@ offline asks.  The basic idea is this:
 - The seller then sends an ordinary move, which describes the offer they
   are making.  The game rules should implement logic like this:
 
-  > If a move sent later spends the sentinel input and pays `x` CHI to
+  > If a move sent later spends the sentinel input and pays `x` ROD to
   > my address `Cabc`, then transfer `x` gold pieces from my assets
   > to the sender of that move.
 
@@ -408,7 +408,7 @@ it must be possible for them to ensure that the seller actually has the
 asset (and thus that it can be transferred) upon execution of the trade.
 For instance, it must not be possible for a seller who just received a
 bid to sell a magic sword to transfer the sword to someone else and then
-accept the bid, so that they would still get the CHI payment for it.
+accept the bid, so that they would still get the ROD payment for it.
 
 Since all transaction schemes described above with the exception of
 sentinel inputs spend the seller's name, this can be ensured by defining

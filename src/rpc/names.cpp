@@ -412,7 +412,7 @@ NameOptionsHelp::withWriteOptions ()
            });
 
   withArg ("burn", RPCArg::Type::OBJ_USER_KEYS,
-           "Data and amounts of CHI to burn in the transaction",
+           "Data and amounts of ROD to burn in the transaction",
            {
               {"data", RPCArg::Type::AMOUNT, RPCArg::Optional::NO,
                "A key-value pair. The key (string) is the burn data,"

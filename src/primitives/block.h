@@ -39,7 +39,7 @@ public:
    * the generation of random numbers in games.  Note that there is some
    * potential for miners to manipulate this:  Namely, they can withhold
    * a block if they do not like the resulting effect in some game they
-   * are involved in; this costs them the CHI block reward, but may be
+   * are involved in; this costs them the ROD block reward, but may be
    * worth it for high stakes in a game.
    */
   uint256 GetRngSeed() const;

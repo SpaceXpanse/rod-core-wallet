@@ -144,7 +144,7 @@ sends five units to `p/alice` and three to `p/charly`:
 ## Trading and Atomic Transactions
 
 For a currency as defined here, it is very useful to have the opportunity
-to **trade it against CHI** or another currency, and to do
+to **trade it against ROD** or another currency, and to do
 **atomic transactions** with trading partners.
 
 Note that it is not possible to do atomic transactions with currencies as
@@ -168,21 +168,21 @@ partners in a single transaction).  There are two reasons for this:
 
 ### Temporary Names ("Vessels")
 
-Instead, currencies can be traded for CHI atomically by using
+Instead, currencies can be traded for ROD atomically by using
 **temporary *vessel* names**:  If Alice wants to sell 100 of some token
-for 100 CHI to Bob, she creates a temporary name in her wallet and sends the
+for 100 ROD to Bob, she creates a temporary name in her wallet and sends the
 tokens to it.  Then, Alice and Bob do an *atomic name trade*, where Bob buys
-the vessel name from Alice for 100 CHI.  Finally, Bob can transfer the tokens
+the vessel name from Alice for 100 ROD.  Finally, Bob can transfer the tokens
 out of the vessel (or keep them there).
 
 Note that if Alice sends the tokens out of the vessel before the name trade
 is confirmed, this *double spends the vessel name* and thus also *invalidates
-the whole trading transaction*.  In other words, Alice also won't get the CHI,
+the whole trading transaction*.  In other words, Alice also won't get the ROD,
 so that these kinds of transactions are safe.
 
 Vessel names in a user's wallet can be reused, so that there is not an
 ever-growing number of unused names cluttering the blockchain.  Since each
-name registration costs the locked amount of 0.01 CHI, there is incentive for
+name registration costs the locked amount of 0.01 ROD, there is incentive for
 users to reuse vessels where possible.
 
 ## Implementation Notes

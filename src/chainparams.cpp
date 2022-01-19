@@ -28,7 +28,7 @@ constexpr const char pszTimestampMainnet[]
     = "HUC #2,351,800: "
       "8730ea650d24cd01692a5adb943e7b8720b0ba8a4c64ffcdf5a95d9b3fb57b7f";
 
-/* Premined amount is 222,222,222 CHI.  This is the maximum possible number of
+/* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
    coins needed in case everything is sold in the ICO.  If this is not the case
    and we need to reduce the coin supply, excessive coins will be burnt by
    sending to an unspendable OP_RETURN output.  */
@@ -162,7 +162,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 4200000;
-        /* The value of ~3.8 CHI is calculated to yield the desired total
+        /* The value of ~3.8 ROD is calculated to yield the desired total
            PoW coin supply.  For the calculation, see here:
 
            https://github.com/spacexpanse/spacexpanse/issues/70#issuecomment-441292533
@@ -232,7 +232,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "chi";
+        bech32_hrp = "rod";
 
         vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_main), std::end(chainparams_seed_main));
 

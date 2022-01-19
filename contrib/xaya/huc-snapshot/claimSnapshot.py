@@ -3,8 +3,8 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# This Python script can be used to easily claim all CHI from the
-# Huntercoin snapshot, based on your Huntercoin wallet.  The CHI addresses
+# This Python script can be used to easily claim all ROD from the
+# Huntercoin snapshot, based on your Huntercoin wallet.  The ROD addresses
 # with coins from the snapshot will be imported into the wallet with label
 # 'huc-snapshot' (can be changed by editing the file below).  No rescan
 # is run, so make sure to manually rescan the SpaceXpanse wallet to make all
@@ -66,13 +66,13 @@ for entry in snapshot:
   if info['ismine']:
     log.info ("Found address: %s" % entry['address']['huc'])
     totalHuc += Decimal (entry['amount']['huc']).quantize (PRECISION)
-    totalChi += Decimal (entry['amount']['chi']).quantize (PRECISION)
+    totalChi += Decimal (entry['amount']['rod']).quantize (PRECISION)
     pkHuc = huc.dumpprivkey (entry['address']['huc'])
     keyHex = b58check_to_hex (pkHuc)
     pkChi = hex_to_b58check (keyHex, CHI_PRIVKEY_VERSION)
     privkeys.append (pkChi)
 log.info ("Total HUC amount eligible: %s" % totalHuc)
-log.info ("Total CHI amount claimed: %s" % totalChi)
+log.info ("Total ROD amount claimed: %s" % totalChi)
 
 # Import the found addresses.
 for pk in privkeys:

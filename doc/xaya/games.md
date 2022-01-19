@@ -192,38 +192,38 @@ For an admin command, the `cmd` field can also be duplicated:
 In this case, all associated values are considered valid admin commands
 for the game in question.
 
-## CHI Transactions in Games <a name="currency"></a>
+## ROD Transactions in Games <a name="currency"></a>
 
-Games may also need to process CHI transactions, at least in a limited fashion.
+Games may also need to process ROD transactions, at least in a limited fashion.
 For instance, it may be possible to buy in-game items from the game developer
-with CHI, or the game may implement a player-to-player market place where
-transactions are settled in CHI.
+with ROD, or the game may implement a player-to-player market place where
+transactions are settled in ROD.
 
 To facilitate this, game engines can process all **currency outputs**
 created by name transactions that reference their game ID.  In other words,
-a player can issue a move and *in the same SpaceXpanse transaction* also send CHI to,
+a player can issue a move and *in the same SpaceXpanse transaction* also send ROD to,
 for instance, the SpaceXpanse address of the game developer or a trading partner.
 The game engine will then (but only if done in the same transaction) know about
 this, and can implement rules that update the game state accordingly.
 For instance, a game rule could be like this:
 
 > If the move data contains `{"buy": "diamond sword"}` **and** at least
-  1,000 CHI are sent to the company address Cxyz, **then** the player gets
+  1,000 ROD are sent to the company address Cxyz, **then** the player gets
   a diamond sword for her avatar in the game state.
 
 Note that there exists a second possibility for trading in games:
 [Atomic name updates](trading.md) can be used to couple game moves
-(e.g. an explicit command to transfer an item) with payments in CHI.
+(e.g. an explicit command to transfer an item) with payments in ROD.
 This is particularly useful for market places between players themselves,
 rather than payments to a game developer.
 
-An alternative to handling CHI payments is to require **burning of CHI**.
+An alternative to handling ROD payments is to require **burning of ROD**.
 This can be used to create a cost for certain actions (e.g. to discourage
 spamming them), while not creating a privileged instance (the receiver
-of payments).  To burn CHI in relation to a given move in a game,
+of payments).  To burn ROD in relation to a given move in a game,
 they should be sent to an `OP_RETURN` output with `g/GAMEID` as the data
 part.  (The burn must be related uniquely to a specific game, since otherwise
-a single burn of CHI could be used for multiple games at the same time.)
+a single burn of ROD could be used for multiple games at the same time.)
 
 ## Processing Backwards in Time <a name="undoing"></a>
 

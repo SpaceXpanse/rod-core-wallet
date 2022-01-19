@@ -74,7 +74,7 @@ void KeccakF(uint64_t (&st)[25])
         bc0 = st[6]; st[6] = Rotl(t, 20); t = bc0;
         st[1] = Rotl(t, 44);
 
-        // Chi Iota
+        // Rod Iota
         bc0 = st[0]; bc1 = st[1]; bc2 = st[2]; bc3 = st[3]; bc4 = st[4];
         st[0] = bc0 ^ (~bc1 & bc2) ^ RNDC[round];
         st[1] = bc1 ^ (~bc2 & bc3);

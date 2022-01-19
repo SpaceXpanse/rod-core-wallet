@@ -357,12 +357,12 @@ class GameBlocksTest (SpaceXpanseZmqTest):
 
   def _test_burn (self):
     """
-    Tests CHI burns in moves.
+    Tests ROD burns in moves.
     """
 
-    self.log.info ("Sending move with CHI burns...")
+    self.log.info ("Sending move with ROD burns...")
 
-    # We send a tx that includes moves for two games as well as some CHI burns
+    # We send a tx that includes moves for two games as well as some ROD burns
     # related to the games and not related to them.  We build the transaction
     # directly, so that we can test edge cases not available with the
     # name_update options argument.  spacexpanse_gamepending.py verifies that the

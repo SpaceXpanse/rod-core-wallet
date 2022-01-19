@@ -10,7 +10,7 @@ file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
    The code is used to build a stand-alone HTML file that can be used
    online or offline to convert the keys.  This will be useful for claiming
-   CHI balances from the Huntercoin snapshot.  */
+   ROD balances from the Huntercoin snapshot.  */
 
 let bs58check = require ('bs58check');
 
@@ -28,17 +28,17 @@ function update ()
   const domIdChi = "chi-privkey";
 
   let huc = document.getElementById (domIdHuc).value;
-  let chi;
+  let rod;
   try
     {
-      chi = convertWifKey (huc);
+      rod = convertWifKey (huc);
     }
   catch (err)
     {
-      chi = "<invalid Huntercoin private key>";
+      rod = "<invalid Huntercoin private key>";
     }
   let chiField = document.getElementById (domIdChi);
-  chiField.value = chi;
+  chiField.value = rod;
 }
 
 function init ()

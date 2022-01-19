@@ -130,7 +130,7 @@ The placeholders have the following meaning:
   as described in the model for
   [currency transaction in games](games.md#currency).
 * **`BURNT`:**
-  The total amount of CHI burnt in this transaction with data `g/GAMEID`
+  The total amount of ROD burnt in this transaction with data `g/GAMEID`
   (i.e. "for the current game").
 
 If the block contains an update to the game's `g/` name, then these

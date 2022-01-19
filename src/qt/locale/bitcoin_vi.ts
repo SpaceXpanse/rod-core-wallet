@@ -956,7 +956,7 @@
     <name>ModalOverlay</name>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation type="unfinished">Giao dịch gần đây có thể chưa được hiển thị, và vì vậy số dư wallet của bạn có thể không dúng. Thông tin này sẽ được làm đúng khi wallet hoàn thành đồng bộ với bitcoin network, như chi tiết bên dưới.</translation>
+        <translation type="unfinished">Giao dịch gần đây có thể chưa được hiển thị, và vì vậy số dư wallet của bạn có thể không dúng. Thông tin này sẽ được làm đúng khi wallet hoàn thành đồng bộ với bitcoin network, như rod tiết bên dưới.</translation>
     </message>
     <message>
         <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
@@ -1177,7 +1177,7 @@
     </message>
     <message>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>Tất cả giao dịch vẫn chưa được confirmed, và chưa tính vào số dư có thể chi tiêu</translation>
+        <translation>Tất cả giao dịch vẫn chưa được confirmed, và chưa tính vào số dư có thể rod tiêu</translation>
     </message>
     <message>
         <source>Immature:</source>
@@ -1429,7 +1429,7 @@
     </message>
     <message>
         <source>Select a peer to view detailed information.</source>
-        <translation type="unfinished">Chọn một peer để xem thông tin chi tiết.</translation>
+        <translation type="unfinished">Chọn một peer để xem thông tin rod tiết.</translation>
     </message>
     <message>
         <source>Version</source>
@@ -2296,7 +2296,7 @@
     </message>
     <message>
         <source>A fatal internal error occurred, see debug.log for details</source>
-        <translation type="unfinished">Lỗi nghiêm trọng xảy ra, xem debug.log để biết chi tiết</translation>
+        <translation type="unfinished">Lỗi nghiêm trọng xảy ra, xem debug.log để biết rod tiết</translation>
     </message>
     <message>
         <source>Cannot write to data directory '%s'; check permissions.</source>

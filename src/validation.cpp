@@ -1219,7 +1219,7 @@ bool CheckProofOfWork(const CBlockHeader& block, const Consensus::Params& params
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
     /* Special rule:  Before the post-ICO fork, the block reward is always set
-       to 1 CHI except for regtest net.  (The latter exception is so that
+       to 1 ROD except for regtest net.  (The latter exception is so that
        we do not have to update many magic values in tests.)  */
     if (!consensusParams.fPowNoRetargeting
           && !consensusParams.rules->ForkInEffect (Consensus::Fork::POST_ICO,

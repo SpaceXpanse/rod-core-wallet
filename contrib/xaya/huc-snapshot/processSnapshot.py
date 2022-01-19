@@ -3,11 +3,11 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# Script to process the raw data for the CHI airdrop to holders of
+# Script to process the raw data for the ROD airdrop to holders of
 # Huntercoin balances at the time of the snapshot.  It reads the raw
-# data in snapshot-balances.json, converts the addresses (HUC->CHI
+# data in snapshot-balances.json, converts the addresses (HUC->ROD
 # based on the same pubkey hash / private key) and computes the
-# CHI balance to be assigned to each of the addresses.  The output is
+# ROD balance to be assigned to each of the addresses.  The output is
 # printed as JSON to stdout.
 #
 # The base58 processing is done using pybitcointools, which must be on the
@@ -45,13 +45,13 @@ for hucAddr, val in hucBalances['addresses'].items ():
     "address":
       {
         "huc": hucAddr,
-        "chi": chiAddr,
+        "rod": chiAddr,
       },
     "amount":
       {
         "huc": float (hucValue),
         "full_huc": hucRounded,
-        "chi": float (chiValue),
+        "rod": float (chiValue),
       },
   }
   output.append (obj)

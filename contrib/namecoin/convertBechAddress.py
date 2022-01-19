@@ -28,7 +28,7 @@ addr = sys.argv[1]
 if len (sys.argv) >= 3:
   hrp = sys.argv[2]
 else:
-  hrp = "chi"
+  hrp = "rod"
 
 enc, oldHrp, data = segwit_addr.bech32_decode (addr)
 print ("Encoding %s, old HRP: %s" % (enc, oldHrp))

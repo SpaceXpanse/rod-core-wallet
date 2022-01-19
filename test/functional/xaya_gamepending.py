@@ -123,7 +123,7 @@ class GamePendingTest (SpaceXpanseZmqTest):
     self.node.generate (1)
 
   def _test_sendAndBurn (self):
-    self.log.info ("Sending and burning CHI...")
+    self.log.info ("Sending and burning ROD...")
 
     addr = self.node.getnewaddress ()
     opt = {
