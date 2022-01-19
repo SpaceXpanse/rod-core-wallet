@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/split.hpp>
 
 const std::string UNIX_EPOCH_TIME = "UNIX epoch time";
-const std::string EXAMPLE_ADDRESS[2] = {"chi1qcy7mpn9ggm85cwsw85dw53unw0v3nks2g0uxw9", "chi1q83vv47j63mrxputa58s8z06xtgzc3dgx3dqq8m"};
+const std::string EXAMPLE_ADDRESS[2] = {"rod1qcy7mpn9ggm85cwsw85dw53unw0v3nks2g0uxw9", "rod1q83vv47j63mrxputa58s8z06xtgzc3dgx3dqq8m"};
 
 void RPCTypeCheck(const UniValue& params,
                   const std::list<UniValueType>& typesExpected,

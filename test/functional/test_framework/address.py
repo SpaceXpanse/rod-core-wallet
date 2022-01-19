@@ -14,10 +14,10 @@ from .script import hash256, hash160, sha256, CScript, OP_0
 from .segwit_addr import encode_segwit_address
 from .util import assert_equal, hex_str_to_bytes
 
-ADDRESS_BCRT1_UNSPENDABLE = 'chirt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq563mzw'
-ADDRESS_BCRT1_UNSPENDABLE_DESCRIPTOR = 'addr(chirt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq563mzw)#6j3c4r5v'
+ADDRESS_BCRT1_UNSPENDABLE = 'rodrt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq563mzw'
+ADDRESS_BCRT1_UNSPENDABLE_DESCRIPTOR = 'addr(rodrt1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq563mzw)#6j3c4r5v'
 # Coins sent to this address can be spent with a witness stack of just OP_TRUE
-ADDRESS_BCRT1_P2WSH_OP_TRUE = 'chirt1qft5p2uhsdcdc3l2ua4ap5qqfg4pjaqlp250x7us7a8qqhrxrxfsq49s6pg'
+ADDRESS_BCRT1_P2WSH_OP_TRUE = 'rodrt1qft5p2uhsdcdc3l2ua4ap5qqfg4pjaqlp250x7us7a8qqhrxrxfsq49s6pg'
 
 
 class AddressType(enum.Enum):
@@ -104,7 +104,7 @@ def program_to_witness(version, program, main=False):
     assert 0 <= version <= 16
     assert 2 <= len(program) <= 40
     assert version > 0 or len(program) in [20, 32]
-    return encode_segwit_address("rod" if main else "chirt", version, program)
+    return encode_segwit_address("rod" if main else "rodrt", version, program)
 
 def script_to_p2wsh(script, main=False):
     script = check_script(script)

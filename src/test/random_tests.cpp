@@ -115,21 +115,21 @@ BOOST_AUTO_TEST_CASE(shuffle_stat_test)
         ++counts[pos];
     }
     unsigned int sum = 0;
-    double chi_score = 0.0;
+    double rod_score = 0.0;
     for (int i = 0; i < 5 * 5 * 5 * 5 * 5; ++i) {
         int i1 = i % 5, i2 = (i / 5) % 5, i3 = (i / 25) % 5, i4 = (i / 125) % 5, i5 = i / 625;
         uint32_t count = counts[i];
         if (i1 == i2 || i1 == i3 || i1 == i4 || i1 == i5 || i2 == i3 || i2 == i4 || i2 == i5 || i3 == i4 || i3 == i5 || i4 == i5) {
             BOOST_CHECK(count == 0);
         } else {
-            chi_score += ((count - 100.0) * (count - 100.0)) / 100.0;
+            rod_score += ((count - 100.0) * (count - 100.0)) / 100.0;
             BOOST_CHECK(count > 50);
             BOOST_CHECK(count < 150);
             sum += count;
         }
     }
-    BOOST_CHECK(chi_score > 58.1411); // 99.9999% confidence interval
-    BOOST_CHECK(chi_score < 210.275);
+    BOOST_CHECK(rod_score > 58.1411); // 99.9999% confidence interval
+    BOOST_CHECK(rod_score < 210.275);
     BOOST_CHECK_EQUAL(sum, 12000U);
 }
 

@@ -32,7 +32,7 @@ class BtxidTest (BitcoinTestFramework):
     self.add_nodes (self.num_nodes, extra_args=args)
     self.start_nodes ()
 
-  def build_tx (self, utxo, chiOut, name, nameAddr, value):
+  def build_tx (self, utxo, rodOut, name, nameAddr, value):
     """
     Builds and returns (in the form returned by decoderawtransaction)
     a transaction that spends the given utxo, pays ROD to some output
@@ -44,7 +44,7 @@ class BtxidTest (BitcoinTestFramework):
     nameData = self.nodes[0].name_show (name)
     inputs = [nameData, utxo]
     outputs = {nameAddr: Decimal ('0.01')}
-    outputs.update (chiOut)
+    outputs.update (rodOut)
 
     tx = self.nodes[0].createrawtransaction (inputs, outputs)
     nameOp = {
@@ -90,12 +90,12 @@ class BtxidTest (BitcoinTestFramework):
     self.nodes[0].generate (1)
     data = self.nodes[0].name_show ("p/test")
     assert_equal (data["address"][0], "c")
-    assert not data["address"].startswith ("chirt")
+    assert not data["address"].startswith ("rodrt")
 
     utxos = self.nodes[1].listunspent ()[:2]
     value = None
     for u in utxos:
-      assert u["address"].startswith ("chirt")
+      assert u["address"].startswith ("rodrt")
       if value is None or value > u["amount"]:
         value = u["amount"]
     value -= 1

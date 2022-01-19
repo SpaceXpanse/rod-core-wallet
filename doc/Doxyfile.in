@@ -1315,12 +1315,12 @@ CHM_FILE               =
 
 HHC_LOCATION           =
 
-# The GENERATE_CHI flag controls if a separate .rod index file is generated
+# The GENERATE_ROD flag controls if a separate .rod index file is generated
 # (YES) or that it should be included in the master .chm file (NO).
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTMLHELP is set to YES.
 
-GENERATE_CHI           = NO
+GENERATE_ROD           = NO
 
 # The CHM_INDEX_ENCODING is used to encode HtmlHelp index (hhk), content (hhc)
 # and project file content.

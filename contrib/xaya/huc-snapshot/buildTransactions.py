@@ -73,12 +73,12 @@ originalInput['vout'] = INPUT_VOUT
 originalInput['scriptPubKey'] = originalInput['scriptPubKey']['hex']
 
 # Quick check on the amount compared to what we need to give out.
-requiredChi = Decimal ('0.00000000')
+requiredRod = Decimal ('0.00000000')
 for entry in snapshot:
-  requiredChi += Decimal (entry['amount']['rod']).quantize (PRECISION)
-assert requiredChi < inputValue
-totalFee = inputValue - requiredChi
-log.info ("ROD sent out in snapshot: %s" % requiredChi)
+  requiredRod += Decimal (entry['amount']['rod']).quantize (PRECISION)
+assert requiredRod < inputValue
+totalFee = inputValue - requiredRod
+log.info ("ROD sent out in snapshot: %s" % requiredRod)
 log.info ("Value of input: %s" % inputValue)
 log.info ("Available for fees: %s" % totalFee)
 

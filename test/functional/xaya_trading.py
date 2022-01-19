@@ -48,7 +48,7 @@ class AtomicTradingTest (BitcoinTestFramework):
     not changing except through the test.
     """
 
-    addr = "chirt1qcmdxwpu35mqlzxz3alc9u9ztp22edsuc5s7zzk"
+    addr = "rodrt1qcmdxwpu35mqlzxz3alc9u9ztp22edsuc5s7zzk"
     self.nodes[ind].generatetoaddress (n, addr)
 
   def buildTxOut (self, addr, amount):

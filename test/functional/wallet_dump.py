@@ -67,7 +67,7 @@ def read_dump(file_name, addrs, script_addrs, hd_master_addr_old):
                 # count key types
                 for addrObj in addrs:
                     if addrObj['address'] == addr.split(",")[0] and addrObj['hdkeypath'] == keypath and keytype == "label=":
-                        if addr.startswith('chirt1'):
+                        if addr.startswith('rodrt1'):
                             found_bech32_addr += 1
                         elif addr.startswith('c'):
                             # P2PKH address

@@ -30,7 +30,7 @@ import sys
 
 from bitcoin import b58check_to_hex, hex_to_b58check
 
-CHI_PRIVKEY_VERSION = 130
+ROD_PRIVKEY_VERSION = 130
 PRECISION = Decimal ('1.00000000')
 INPUT_FILE = "processed-snapshot.json"
 LABEL = "huc-snapshot"
@@ -59,20 +59,20 @@ for rpc in [huc, spacexpanse]:
 # Go through the snapshot data and look for addresses that are in the HUC
 # wallet we own.
 totalHuc = Decimal ('0.00000000')
-totalChi = Decimal ('0.00000000')
+totalRod = Decimal ('0.00000000')
 privkeys = []
 for entry in snapshot:
   info = huc.getaddressinfo (entry['address']['huc'])
   if info['ismine']:
     log.info ("Found address: %s" % entry['address']['huc'])
     totalHuc += Decimal (entry['amount']['huc']).quantize (PRECISION)
-    totalChi += Decimal (entry['amount']['rod']).quantize (PRECISION)
+    totalRod += Decimal (entry['amount']['rod']).quantize (PRECISION)
     pkHuc = huc.dumpprivkey (entry['address']['huc'])
     keyHex = b58check_to_hex (pkHuc)
-    pkChi = hex_to_b58check (keyHex, CHI_PRIVKEY_VERSION)
-    privkeys.append (pkChi)
+    pkRod = hex_to_b58check (keyHex, ROD_PRIVKEY_VERSION)
+    privkeys.append (pkRod)
 log.info ("Total HUC amount eligible: %s" % totalHuc)
-log.info ("Total ROD amount claimed: %s" % totalChi)
+log.info ("Total ROD amount claimed: %s" % totalRod)
 
 # Import the found addresses.
 for pk in privkeys:

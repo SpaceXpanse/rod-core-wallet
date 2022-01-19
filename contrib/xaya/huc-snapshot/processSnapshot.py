@@ -23,39 +23,39 @@ import json
 
 from bitcoin import b58check_to_hex, hex_to_b58check
 
-CHI_ADDRESS_VERSION = 28
+ROD_ADDRESS_VERSION = 28
 INPUT_FILE = 'snapshot-balances.json'
 PRECISION = Decimal ('1.00000000')
-CHI_PER_HUC = Decimal ('0.23338000')
+ROD_PER_HUC = Decimal ('0.23338000')
 
 with open (INPUT_FILE) as f:
   hucBalances = json.load (f)
 
 output = []
-totalChi = Decimal ('0.00000000')
+totalRod = Decimal ('0.00000000')
 for hucAddr, val in hucBalances['addresses'].items ():
   keyHex = b58check_to_hex (hucAddr)
-  chiAddr = hex_to_b58check (keyHex, CHI_ADDRESS_VERSION)
+  rodAddr = hex_to_b58check (keyHex, ROD_ADDRESS_VERSION)
 
   hucValue = Decimal (val).quantize (PRECISION)
   hucRounded = int (val)
-  chiValue = hucRounded * CHI_PER_HUC
+  rodValue = hucRounded * ROD_PER_HUC
   
   obj = {
     "address":
       {
         "huc": hucAddr,
-        "rod": chiAddr,
+        "rod": rodAddr,
       },
     "amount":
       {
         "huc": float (hucValue),
         "full_huc": hucRounded,
-        "rod": float (chiValue),
+        "rod": float (rodValue),
       },
   }
   output.append (obj)
-  totalChi += chiValue
+  totalRod += rodValue
 
 print (json.dumps (output, indent=2))
-#print (totalChi)
+#print (totalRod)

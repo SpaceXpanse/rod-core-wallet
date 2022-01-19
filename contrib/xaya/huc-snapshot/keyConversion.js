@@ -16,16 +16,16 @@ let bs58check = require ('bs58check');
 
 function convertWifKey (huc)
 {
-  const chiPrivkeyVersion = 130;
+  const rodPrivkeyVersion = 130;
   data = bs58check.decode (huc);
-  data[0] = chiPrivkeyVersion;
+  data[0] = rodPrivkeyVersion;
   return bs58check.encode (data);
 }
 
 function update ()
 {
   const domIdHuc = "huc-privkey";
-  const domIdChi = "chi-privkey";
+  const domIdRod = "rod-privkey";
 
   let huc = document.getElementById (domIdHuc).value;
   let rod;
@@ -37,8 +37,8 @@ function update ()
     {
       rod = "<invalid Huntercoin private key>";
     }
-  let chiField = document.getElementById (domIdChi);
-  chiField.value = rod;
+  let rodField = document.getElementById (domIdRod);
+  rodField.value = rod;
 }
 
 function init ()

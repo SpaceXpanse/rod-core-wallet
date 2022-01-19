@@ -581,7 +581,7 @@ class ImportMultiTest(BitcoinTestFramework):
         # Test ranged descriptor fails if range is not specified
         xpriv = "tprv8ZgxMBicQKsPeuVhWwi6wuMQGfPKi9Li5GtX35jVNknACgqe3CY4g5xgkfDDJcmtF7o1QnxWDRYw4H5P26PXq7sbcUkEqeR4fg3Kxp2tigg"
         addresses = ["dU9yhJXisr7hhgr8N4kEM6sK53cskLTejf", "dDU2c5RmAvhJHVsBtPzLN5wX9RWfGzbPpL"] # hdkeypath=m/0'/0'/0' and 1'
-        addresses += ["chirt1qrd3n235cj2czsfmsuvqqpr3lu6lg0ju7p53clv", "chirt1qfqeppuvj0ww98r6qghmdkj70tv8qpchex4xulc"] # wpkh subscripts corresponding to the above addresses
+        addresses += ["rodrt1qrd3n235cj2czsfmsuvqqpr3lu6lg0ju7p53clv", "rodrt1qfqeppuvj0ww98r6qghmdkj70tv8qpchex4xulc"] # wpkh subscripts corresponding to the above addresses
         desc = "sh(wpkh(" + xpriv + "/0'/0'/*'" + "))"
         self.log.info("Ranged descriptor import should fail without a specified range")
         self.test_importmulti({"desc": descsum_create(desc),
@@ -750,7 +750,7 @@ class ImportMultiTest(BitcoinTestFramework):
         self.log.info("Bech32m addresses and descriptors cannot be imported")
         self.test_importmulti(
             {
-                "scriptPubKey": {"address": "chirt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqam9emx"},
+                "scriptPubKey": {"address": "rodrt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqam9emx"},
                 "timestamp": "now",
             },
             success=False,
@@ -861,11 +861,11 @@ class ImportMultiTest(BitcoinTestFramework):
         assert_equal(wrpc.getwalletinfo()["private_keys_enabled"], False)
         xpub = "tpubDAXcJ7s7ZwicqjprRaEWdPoHKrCS215qxGYxpusRLLmJuT69ZSicuGdSfyvyKpvUNYBW1s2U3NSrT6vrCYB9e6nZUEvrqnwXPF8ArTCRXMY"
         addresses = [
-            'chirt1qtmp74ayg7p24uslctssvjm06q5phz4yrhskhyn', # m/0'/0'/0
-            'chirt1q8vprchan07gzagd5e6v9wd7azyucksq2h5s9pc', # m/0'/0'/1
-            'chirt1qtuqdtha7zmqgcrr26n2rqxztv5y8rafjsf3rgr', # m/0'/0'/2
-            'chirt1qau64272ymawq26t90md6an0ps99qkrse9t49zs', # m/0'/0'/3
-            'chirt1qsg97266hrh6cpmutqen8s4s962aryy77rdpkls', # m/0'/0'/4
+            'rodrt1qtmp74ayg7p24uslctssvjm06q5phz4yrhskhyn', # m/0'/0'/0
+            'rodrt1q8vprchan07gzagd5e6v9wd7azyucksq2h5s9pc', # m/0'/0'/1
+            'rodrt1qtuqdtha7zmqgcrr26n2rqxztv5y8rafjsf3rgr', # m/0'/0'/2
+            'rodrt1qau64272ymawq26t90md6an0ps99qkrse9t49zs', # m/0'/0'/3
+            'rodrt1qsg97266hrh6cpmutqen8s4s962aryy77rdpkls', # m/0'/0'/4
         ]
         result = wrpc.importmulti(
             [{
