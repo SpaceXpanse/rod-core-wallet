@@ -5,13 +5,13 @@
 purposes only.**
 
 This document describes a proposed change to the network consensus rules
-leading to a *soft fork* of the Xaya blockchain.  The new rules allow
+leading to a *soft fork* of the SpaceXpanse blockchain.  The new rules allow
 placing **restrictions on receiving CHI on certain addresses**.  This
 facilitates building in-game market places.
 
 ## Overview
 
-Xaya games [can react to voluntary transfers of CHI](games.md#currency), but
+SpaceXpanse games [can react to voluntary transfers of CHI](games.md#currency), but
 they cannot force transfers.  This still allows an individual game to
 include a market place for trading assets with CHI within its rules:
 Players can list items by specifying a price and their address, and then
@@ -37,17 +37,17 @@ Reservations work, but they are cumbersome to implement, require unnecessary
 transactions in the blockchain and open up a venue for potential abuse and
 DoS attacks on a game's market place.  Thus, we propose an alternative solution:
 
-**The consensus rules of the Xaya network should allow sellers of items to
+**The consensus rules of the SpaceXpanse network should allow sellers of items to
 specify that they want to receive only a single CHI transaction at their
 payment address.  All further payments will be invalid transactions.
 This will allow games to implement simple market places without having
 to rely on reservations (or refunds).**
 
 Such optional *address restrictions* can be imposed with a soft fork of
-the Xaya network.  Before going into the detailed specification below,
+the SpaceXpanse network.  Before going into the detailed specification below,
 here is a brief overview of how those restrictions will work:
 
-* The chain state of Xaya Core will keep track of active restrictions.
+* The chain state of SpaceXpanse Core will keep track of active restrictions.
 * Each restriction consists of a script (address) on which it is placed,
   an expiration block height and the actual restriction data (e.g. how many
   transactions are allowed or how much CHI can be sent in total).

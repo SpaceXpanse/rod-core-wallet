@@ -1143,7 +1143,7 @@ class SegWitTest(BitcoinTestFramework):
         MAX_PROGRAM_LENGTH = 10000
 
         # Note:  Upstream uses pushes of MAX_SCRIPT_ELEMENT_SIZE here,
-        # which is different in Xaya.  Since this test is not about the
+        # which is different in SpaceXpanse.  Since this test is not about the
         # element size itself, we just stick to using 520 bytes and keeping
         # all the rest as upstream.
 

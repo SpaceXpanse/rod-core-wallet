@@ -24,7 +24,7 @@ from typing import Callable, Optional
 logger = logging.getLogger("TestFramework.utils")
 
 # Added in Namecoin for easier rebranding to other projects.
-config_file = "xaya.conf"
+config_file = "spacexpanse.conf"
 
 # Assert functions
 ##################

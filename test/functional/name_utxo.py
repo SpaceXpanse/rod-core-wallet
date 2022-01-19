@@ -18,7 +18,7 @@ class NameUtxoTest (NameTestFramework):
     node = self.nodes[0]
 
     # Unlike Namecoin which has stale name_new's and expired names,
-    # we just need an active name for Xaya.
+    # we just need an active name for SpaceXpanse.
     node.name_register ("d/active", "{}")
     node.generate (1)
 

@@ -91,7 +91,7 @@ class AvoidReuseTest(BitcoinTestFramework):
         reset_balance(self.nodes[1], self.nodes[0].getnewaddress())
         self.test_sending_from_reused_address_fails("bech32")
         reset_balance(self.nodes[1], self.nodes[0].getnewaddress())
-        # FIXME: This test needs to be fixed for Xaya's transaction size changes.
+        # FIXME: This test needs to be fixed for SpaceXpanse's transaction size changes.
         #self.test_getbalances_used()
         reset_balance(self.nodes[1], self.nodes[0].getnewaddress())
         self.test_full_destination_group_is_preferred()

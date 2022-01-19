@@ -855,7 +855,7 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
     t.vout[0].scriptPubKey = CScript() << OP_RETURN;
     BOOST_CHECK(IsStandardTx(CTransaction(t), reason));
 
-    /* Unlike upstream, Xaya allows multiple OP_RETURN outputs in a single
+    /* Unlike upstream, SpaceXpanse allows multiple OP_RETURN outputs in a single
        transaction.  */
     t.vout.resize(2);
     t.vout[0].scriptPubKey = CScript() << OP_RETURN << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38");

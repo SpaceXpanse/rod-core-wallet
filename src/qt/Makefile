@@ -1,11 +1,11 @@
 .PHONY: FORCE
 all: FORCE
-	$(MAKE) -C .. xaya_qt test_xaya_qt
+	$(MAKE) -C .. spacexpanse_qt test_spacexpanse_qt
 clean: FORCE
-	$(MAKE) -C .. xaya_qt_clean test_xaya_qt_clean
+	$(MAKE) -C .. spacexpanse_qt_clean test_spacexpanse_qt_clean
 check: FORCE
-	$(MAKE) -C .. test_xaya_qt_check
-xaya-qt xaya-qt.exe: FORCE
-	 $(MAKE) -C .. xaya_qt
+	$(MAKE) -C .. test_spacexpanse_qt_check
+spacexpanse-qt spacexpanse-qt.exe: FORCE
+	 $(MAKE) -C .. spacexpanse_qt
 apk: FORCE
-	$(MAKE) -C .. xaya_qt_apk
+	$(MAKE) -C .. spacexpanse_qt_apk

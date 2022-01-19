@@ -1,16 +1,16 @@
 # Games on the Blockchain
 
-This document describes how games in Xaya are structured and how they interact
-with the core Xaya blockchain.  By following these rules, games ensure that
-they fit well into the Xaya ecosystem and that the
-[game-specific Xaya interface](interface.md) works well for them.
+This document describes how games in SpaceXpanse are structured and how they interact
+with the core SpaceXpanse blockchain.  By following these rules, games ensure that
+they fit well into the SpaceXpanse ecosystem and that the
+[game-specific SpaceXpanse interface](interface.md) works well for them.
 
 ## Basic Model
 
 Each game has a **game state**, which represents, for instance, the current
 state and position of each avatar, in-game assets that each player owns, etc.
 A particular state is associated
-with each block in the Xaya blockchain, and all nodes running a particular game
+with each block in the SpaceXpanse blockchain, and all nodes running a particular game
 have consensus about the current state.  This state is roughly speaking
 what the UTXO set is in Bitcoin, except that it may be more complex as needed
 for the particular game.
@@ -36,13 +36,13 @@ properly handle chain reorgs, there must be a way to *restore old game states*.
 This is discussed [below](#undoing).
 
 In general, it is the responsibility of the **game engine** to keep track
-of the current state and its updates.  The Xaya daemon, on the other hand,
+of the current state and its updates.  The SpaceXpanse daemon, on the other hand,
 provides the game engine with information about each attached or detached
 block and the [moves](#moves) performed in them.
 
 ## Moves <a name="moves"></a>
 
-Player accounts are represented in Xaya by [names](blockchain.md#names)
+Player accounts are represented in SpaceXpanse by [names](blockchain.md#names)
 with the `p/` prefix.
 For instance, `p/domob` is for the player account "domob".
 Each player performs moves by **updating** this name to a value that encodes
@@ -55,7 +55,7 @@ a JSON value in `.g[GAMEID]`.  The game decides on the type and format of the
 move data, as well as how it processes the move when updating
 the game state.
 
-**As a fundamental rule, game engines should only ever depend on Xaya
+**As a fundamental rule, game engines should only ever depend on SpaceXpanse
 transactions that are name updates (or registrations) referencing the
 particular game ID!  This can be `p/` names that store a move in `g[GAMEID]`,
 and it can be updates to the [`g/` name](#games) itself.
@@ -89,7 +89,7 @@ Here are some example values:
   and moves in two games at the same time:
 
         {
-          "chat": "Xaya rocks!",
+          "chat": "SpaceXpanse rocks!",
           "g":
             {
               "chess": "0-0-0",
@@ -110,7 +110,7 @@ Here are some example values:
 
 Since the [move format](#moves) references particular games, there must be
 **unique IDs** for each game.  These game IDs are strings, and game creators
-must reserve them by registering the name `g/GAMEID` on the Xaya blockchain.
+must reserve them by registering the name `g/GAMEID` on the SpaceXpanse blockchain.
 This ensures uniqueness.
 
 **NOTE:** This rule is not strictly enforceable by the blockchain, but it
@@ -142,7 +142,7 @@ many JSON libraries cannot handle this very well.
 
 ### Moves
 
-From the point of view of moves in a Xaya game, these situations with
+From the point of view of moves in a SpaceXpanse game, these situations with
 duplicated JSON keys are interesting:
 
     {
@@ -150,7 +150,7 @@ duplicated JSON keys are interesting:
       "g": {"second": "move 2"},
     }
 
-For a duplicated `g` field like this, Xaya will process all of them in order.
+For a duplicated `g` field like this, SpaceXpanse will process all of them in order.
 In the example above, the transaction specifies two valid moves,
 one for `g/first` and the other for `g/second`.
 
@@ -163,7 +163,7 @@ one for `g/first` and the other for `g/second`.
     }
 
 If the game ID itself is duplicated (either within one `g` field or
-because the `g` field is also duplicated), then Xaya will ignore all
+because the `g` field is also duplicated), then SpaceXpanse will ignore all
 moves **except the last**.  In other words, in the example above,
 **only `move b`** would be "the" move for `g/my game` in this transaction.
 
@@ -176,7 +176,7 @@ like that (i.e. `{"x": 1, "x": 2}`) as move to the game.  **Games must
 be prepared for this situation, and handle it gracefully in some
 well-defined way.**
 
-For instance, [`libxayagame`](https://github.com/xaya/libxayagame) will
+For instance, [`libspacexpansegame`](https://github.com/spacexpanse/libspacexpansegame) will
 de-dup keys (keeping only the last within each JSON object) before passing
 data on to the individual game logic.
 
@@ -201,8 +201,8 @@ transactions are settled in CHI.
 
 To facilitate this, game engines can process all **currency outputs**
 created by name transactions that reference their game ID.  In other words,
-a player can issue a move and *in the same Xaya transaction* also send CHI to,
-for instance, the Xaya address of the game developer or a trading partner.
+a player can issue a move and *in the same SpaceXpanse transaction* also send CHI to,
+for instance, the SpaceXpanse address of the game developer or a trading partner.
 The game engine will then (but only if done in the same transaction) know about
 this, and can implement rules that update the game state accordingly.
 For instance, a game rule could be like this:
@@ -227,7 +227,7 @@ a single burn of CHI could be used for multiple games at the same time.)
 
 ## Processing Backwards in Time <a name="undoing"></a>
 
-While the typical behaviour of the Xaya blockchain is to attach blocks
+While the typical behaviour of the SpaceXpanse blockchain is to attach blocks
 on top of each other, it may happen that the blockchain is *reorganised*.
 This means that one or multiple blocks that were previously part of the best
 chain must be **detached**, and alternative blocks are attached to replace
@@ -272,7 +272,7 @@ An alternative is to implement separate logic that **reverts** the changes
 made to the game state by a particular block.  This can then be used to
 compute the old game state when detaching a block, before attaching a new one.
 
-Since the moves made in a particular block are archived already by the Xaya
+Since the moves made in a particular block are archived already by the SpaceXpanse
 daemon as part of the block, they are readily available when detaching the
 block.  However, it may very well be the case that the forward-processing
 function `f` is not reversible, because it "destroys" or "overwrites" some
@@ -286,7 +286,7 @@ reverted by the backwards-processing function
 
 > `b`: (new state, moves, undo data) -> old state.
 
-**It is the responsibility of the game engine and not the Xaya daemon to
+**It is the responsibility of the game engine and not the SpaceXpanse daemon to
 keep all the undo data relevant for the particular game!**
 
 This method is, in some sense, a custom implementation of incremental snapshots

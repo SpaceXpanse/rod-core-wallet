@@ -97,7 +97,7 @@ def mineBlock (header, target, ok, hashFcn=auxpow.doubleHashHex):
 def solveData (hexData, target, ok):
   """
   Solve a block header given as hex in getwork's 'data' format (or not).  This
-  uses Neoscrypt for hashing, since that is what we use in Xaya for
+  uses Neoscrypt for hashing, since that is what we use in SpaceXpanse for
   stand-alone (getwork) blocks.
   """
 

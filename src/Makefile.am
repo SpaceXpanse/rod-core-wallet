@@ -82,34 +82,34 @@ EXTRA_LIBRARIES += \
 noinst_LTLIBRARIES = $(LIBBITCOINCONSENSUS)
 
 bin_PROGRAMS =
-noinst_PROGRAMS = xaya-hash
+noinst_PROGRAMS = spacexpanse-hash
 TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += xayad
+  bin_PROGRAMS += spacexpansed
 endif
 
 if BUILD_BITCOIN_NODE
-  bin_PROGRAMS += xaya-node
+  bin_PROGRAMS += spacexpanse-node
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += xaya-cli
+  bin_PROGRAMS += spacexpanse-cli
 endif
 
 if BUILD_BITCOIN_TX
-  bin_PROGRAMS += xaya-tx
+  bin_PROGRAMS += spacexpanse-tx
 endif
 
 if ENABLE_WALLET
 if BUILD_BITCOIN_WALLET
-  bin_PROGRAMS += xaya-wallet
+  bin_PROGRAMS += spacexpanse-wallet
 endif
 endif
 
 if BUILD_BITCOIN_UTIL
-  bin_PROGRAMS += xaya-util
+  bin_PROGRAMS += spacexpanse-util
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -696,48 +696,48 @@ bitcoin_bin_ldadd = \
 
 bitcoin_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS)
 
-xayad_SOURCES = $(bitcoin_daemon_sources) init/bitcoind.cpp
-xayad_CPPFLAGS = $(bitcoin_bin_cppflags)
-xayad_CXXFLAGS = $(bitcoin_bin_cxxflags)
-xayad_LDFLAGS = $(bitcoin_bin_ldflags)
-xayad_LDADD = $(LIBBITCOIN_SERVER) $(bitcoin_bin_ldadd)
+spacexpansed_SOURCES = $(bitcoin_daemon_sources) init/bitcoind.cpp
+spacexpansed_CPPFLAGS = $(bitcoin_bin_cppflags)
+spacexpansed_CXXFLAGS = $(bitcoin_bin_cxxflags)
+spacexpansed_LDFLAGS = $(bitcoin_bin_ldflags)
+spacexpansed_LDADD = $(LIBBITCOIN_SERVER) $(bitcoin_bin_ldadd)
 
-xaya_node_SOURCES = $(bitcoin_daemon_sources) init/bitcoin-node.cpp
-xaya_node_CPPFLAGS = $(bitcoin_bin_cppflags)
-xaya_node_CXXFLAGS = $(bitcoin_bin_cxxflags)
-xaya_node_LDFLAGS = $(bitcoin_bin_ldflags)
-xaya_node_LDADD = $(LIBBITCOIN_SERVER) $(bitcoin_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
+spacexpanse_node_SOURCES = $(bitcoin_daemon_sources) init/bitcoin-node.cpp
+spacexpanse_node_CPPFLAGS = $(bitcoin_bin_cppflags)
+spacexpanse_node_CXXFLAGS = $(bitcoin_bin_cxxflags)
+spacexpanse_node_LDFLAGS = $(bitcoin_bin_ldflags)
+spacexpanse_node_LDADD = $(LIBBITCOIN_SERVER) $(bitcoin_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
 
 # bitcoin-cli binary #
-xaya_cli_SOURCES = bitcoin-cli.cpp
-xaya_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-xaya_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xaya_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+spacexpanse_cli_SOURCES = bitcoin-cli.cpp
+spacexpanse_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+spacexpanse_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+spacexpanse_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-xaya_cli_SOURCES += bitcoin-cli-res.rc
+spacexpanse_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-xaya_cli_LDADD = \
+spacexpanse_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-xaya_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
+spacexpanse_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
 #
 
 # bitcoin-tx binary #
-xaya_tx_SOURCES = bitcoin-tx.cpp
-xaya_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-xaya_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xaya_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+spacexpanse_tx_SOURCES = bitcoin-tx.cpp
+spacexpanse_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+spacexpanse_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+spacexpanse_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-xaya_tx_SOURCES += bitcoin-tx-res.rc
+spacexpanse_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-xaya_tx_LDADD = \
+spacexpanse_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -745,48 +745,48 @@ xaya_tx_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-xaya_tx_LDADD += $(BOOST_LIBS)
+spacexpanse_tx_LDADD += $(BOOST_LIBS)
 #
 
-# xaya-hash binary #
-xaya_hash_SOURCES = xaya-hash.cpp
-xaya_hash_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-xaya_hash_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xaya_hash_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# spacexpanse-hash binary #
+spacexpanse_hash_SOURCES = spacexpanse-hash.cpp
+spacexpanse_hash_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+spacexpanse_hash_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+spacexpanse_hash_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-xaya_hash_LDADD = \
+spacexpanse_hash_LDADD = \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBUNIVALUE) \
   $(LIBSECP256K1)
-xaya_hash_LDADD += $(BOOST_LIBS)
+spacexpanse_hash_LDADD += $(BOOST_LIBS)
 #
 
 # bitcoin-wallet binary #
-xaya_wallet_SOURCES = bitcoin-wallet.cpp
-xaya_wallet_CPPFLAGS = $(bitcoin_bin_cppflags)
-xaya_wallet_CXXFLAGS = $(bitcoin_bin_cxxflags)
-xaya_wallet_LDFLAGS = $(bitcoin_bin_ldflags)
-xaya_wallet_LDADD = $(LIBBITCOIN_WALLET_TOOL) $(bitcoin_bin_ldadd)
+spacexpanse_wallet_SOURCES = bitcoin-wallet.cpp
+spacexpanse_wallet_CPPFLAGS = $(bitcoin_bin_cppflags)
+spacexpanse_wallet_CXXFLAGS = $(bitcoin_bin_cxxflags)
+spacexpanse_wallet_LDFLAGS = $(bitcoin_bin_ldflags)
+spacexpanse_wallet_LDADD = $(LIBBITCOIN_WALLET_TOOL) $(bitcoin_bin_ldadd)
 
 if TARGET_WINDOWS
-xaya_wallet_SOURCES += bitcoin-wallet-res.rc
+spacexpanse_wallet_SOURCES += bitcoin-wallet-res.rc
 endif
 #
 
 # bitcoin-util binary #
-xaya_util_SOURCES = bitcoin-util.cpp
-xaya_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-xaya_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-xaya_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+spacexpanse_util_SOURCES = bitcoin-util.cpp
+spacexpanse_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+spacexpanse_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+spacexpanse_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-xaya_util_SOURCES += bitcoin-util-res.rc
+spacexpanse_util_SOURCES += bitcoin-util-res.rc
 endif
 
-xaya_util_LDADD = \
+spacexpanse_util_LDADD = \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBUNIVALUE) \
@@ -794,7 +794,7 @@ xaya_util_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-xaya_util_LDADD += $(BOOST_LIBS)
+spacexpanse_util_LDADD += $(BOOST_LIBS)
 #
 
 # bitcoinconsensus library #

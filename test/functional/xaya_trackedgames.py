@@ -9,13 +9,13 @@ from test_framework.util import (
   assert_equal,
   zmq_port,
 )
-from test_framework.xaya_zmq import (
-  XayaZmqTest,
+from test_framework.spacexpanse_zmq import (
+  SpaceXpanseZmqTest,
   ZmqSubscriber,
 )
 
 
-class TrackedGamesTest (XayaZmqTest):
+class TrackedGamesTest (SpaceXpanseZmqTest):
 
   def set_test_params (self):
     self.num_nodes = 1

@@ -16,14 +16,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Xaya"
-            VALUE "FileDescription",    "xaya (Xaya node with a JSON-RPC server)"
+            VALUE "CompanyName",        "SpaceXpanse"
+            VALUE "FileDescription",    "spacexpanse (SpaceXpanse node with a JSON-RPC server)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "xayad"
+            VALUE "InternalName",       "spacexpansed"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "xayad.exe"
-            VALUE "ProductName",        "Xaya"
+            VALUE "OriginalFilename",   "spacexpansed.exe"
+            VALUE "ProductName",        "SpaceXpanse"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

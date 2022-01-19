@@ -1,11 +1,11 @@
 Sample configuration files for:
 ```
-systemd: xayad.service
-Upstart: xayad.conf
-OpenRC:  xayad.openrc
-         xayad.openrcconf
-CentOS:  xayad.init
-macOS:   org.xaya.xayad.plist
+systemd: spacexpansed.service
+Upstart: spacexpansed.conf
+OpenRC:  spacexpansed.openrc
+         spacexpansed.openrcconf
+CentOS:  spacexpansed.init
+macOS:   org.spacexpanse.spacexpansed.plist
 ```
 have been made available to assist packagers in creating node packages here.
 

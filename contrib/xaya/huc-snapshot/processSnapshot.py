@@ -15,7 +15,7 @@
 #
 #   https://github.com/vbuterin/pybitcointools
 #
-# This script needs to be run from within the contrib/xaya/huc-snapshot
+# This script needs to be run from within the contrib/spacexpanse/huc-snapshot
 # directory.
 
 from decimal import Decimal

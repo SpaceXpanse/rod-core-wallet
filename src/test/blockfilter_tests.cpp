@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(blockfilter_basic_test)
 
 #if 0
 FIXME: This is disabled because the JSON data format of blocks is not
-valid in Xaya.
+valid in SpaceXpanse.
 
 BOOST_AUTO_TEST_CASE(blockfilters_json_test)
 {

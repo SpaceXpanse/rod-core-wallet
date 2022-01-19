@@ -57,7 +57,7 @@ constexpr const char hexPremineAddressRegtest[]
 
 /*
 The premine on testnet and mainnet is sent to a 2-of-4 multisig address.  The
-keys are held by the founding members of the Xaya team.
+keys are held by the founding members of the SpaceXpanse team.
 
 The address is:
   DHy2615XKevE23LVRVZVxGeqxadRGyiFW4
@@ -165,7 +165,7 @@ public:
         /* The value of ~3.8 CHI is calculated to yield the desired total
            PoW coin supply.  For the calculation, see here:
 
-           https://github.com/xaya/xaya/issues/70#issuecomment-441292533
+           https://github.com/spacexpanse/spacexpanse/issues/70#issuecomment-441292533
         */
         consensus.initialSubsidy = 382934346;
         consensus.BIP16Height = 0;
@@ -191,7 +191,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
 
         // The best chain should have at least this much work.
-        // The value is the chain work of the Xaya mainnet chain at height
+        // The value is the chain work of the SpaceXpanse mainnet chain at height
         // 3'000'000, with best block hash:
         // d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
         consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000002451b0dad53d538c2c52163");
@@ -222,8 +222,8 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("e5062d76e5f50c42f493826ac9920b63a8def2626fd70a5cec707ec47a4c4651"));
         assert(genesis.hashMerkleRoot == uint256S("0827901b75ab43978c3cf20a78baf040faeb0e2eeff3a2c58ab6521a6d46f8fd"));
 
-        vSeeds.emplace_back("seed.xaya.io");
-        vSeeds.emplace_back("seed.xaya.domob.eu");
+        vSeeds.emplace_back("seed.spacexpanse.io");
+        vSeeds.emplace_back("seed.spacexpanse.domob.eu");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,28);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,30);
@@ -301,7 +301,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
 
-        // The value is the chain work of the Xaya testnet chain at height
+        // The value is the chain work of the SpaceXpanse testnet chain at height
         // 110'000 with best block hash:
         // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000e59eda1191b9");
@@ -329,8 +329,8 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.emplace_back("seed.testnet.xaya.io");
-        vSeeds.emplace_back("seed.testnet.xaya.domob.eu");
+        vSeeds.emplace_back("seed.testnet.spacexpanse.io");
+        vSeeds.emplace_back("seed.testnet.spacexpanse.domob.eu");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,88);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,90);

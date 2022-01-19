@@ -793,7 +793,7 @@ sendtoname ()
 
   if (chainman.ActiveChainstate ().IsInitialBlockDownload ())
     throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                       "Xaya is downloading blocks...");
+                       "SpaceXpanse is downloading blocks...");
 
   /* Make sure the results are valid at least up to the most recent block
      the user could have gotten from another RPC command prior to now.  */

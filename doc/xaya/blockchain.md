@@ -1,18 +1,18 @@
 # Blockchain Consensus Protocol
 
 This document gives an overview of the low-level consensus protocol
-implemented by the core Xaya daemon.
+implemented by the core SpaceXpanse daemon.
 
-**NOTE:**  The final reference for the protocol is the Xaya Core implementation.
+**NOTE:**  The final reference for the protocol is the SpaceXpanse Core implementation.
 This document just highlights the most important parts in an easy-to-read form.
 
-## Xaya Is Based on Namecoin <a name="names"></a>
+## SpaceXpanse Is Based on Namecoin <a name="names"></a>
 
-Most parts of the Xaya consensus protocol are inherited from
+Most parts of the SpaceXpanse consensus protocol are inherited from
 [Namecoin](https://www.namecoin.org/), which itself inherits most of the
 [Bitcoin protocol](https://bitcoin.org/).
 
-As with Bitcoin, Namecoin and Xaya implement a distributed ledger by
+As with Bitcoin, Namecoin and SpaceXpanse implement a distributed ledger by
 tracking the current set of "unspent transaction outputs".  However, in addition
 to pure currency transactions, they also implement a **name-value database**.
 This database is stored and updated similar to the UTXO set.  Each entry
@@ -20,15 +20,15 @@ contains the following fields:
 
 * **Name:**
   A byte array with [restrictions](#name-value-restrictions) that is the
-  "key" for the name-value-database.  In Xaya, this is typically the
+  "key" for the name-value-database.  In SpaceXpanse, this is typically the
   account name of a player.  It can be up to 256 bytes.
 * **Value:**
   Another, typically longer, byte array (also with
   [restrictions](#name-value-restrictions)) that holds data associated
-  with the name.  In Xaya, this is used to store a player's latest moves
+  with the name.  In SpaceXpanse, this is used to store a player's latest moves
   or other actions.  It can be up to 2,048 bytes.
 * **Address:**
-  Similar to transaction outputs, each name is associated with a Xaya address
+  Similar to transaction outputs, each name is associated with a SpaceXpanse address
   (Bitcoin script) that "owns" it.  Only the owner has *write access* to this
   name's entry, while everyone can *read* it from the database.  The owner
   can send the name to a different address, either one of their own
@@ -43,7 +43,7 @@ Specific details for the transaction format are not provided here because they
 are the same as in Namecoin.
 
 **In contrast to Namecoin, which registers names in a two-step process
-(`name_new` and `name_firstupdate`), Xaya's name registrations are always
+(`name_new` and `name_firstupdate`), SpaceXpanse's name registrations are always
 done in a single transaction (called `name_register`).  This transaction is
 similar to a `name_update` in Namecoin except that it does not consume a name
 input.**
@@ -51,13 +51,13 @@ input.**
 ## Basic Differences from Bitcoin
 
 Some of the basic chain parameters and properties of the genesis block
-in Xaya differ from those in Bitcoin and Namecoin.  Furthermore, some
+in SpaceXpanse differ from those in Bitcoin and Namecoin.  Furthermore, some
 of these details were changed in the past with scheduled forks.
 The current parameters for `mainnet` are:
 
 * PoW mining is done based on [**triple-purpose mining**](mining.md).
 * The difficulty is updated for each block using the [**Dark Gravity Wave
-  (DGW)**](https://github.com/xayaplatform/xaya/blob/a4ebc9b0daf72c79d3997901aadef0ca6bd01085/src/test/dualalgo_tests.cpp#L29)
+  (DGW)**](https://github.com/spacexpanseplatform/spacexpanse/blob/a4ebc9b0daf72c79d3997901aadef0ca6bd01085/src/test/dualalgo_tests.cpp#L29)
   formula.
 * Blocks are scheduled to be produced, on average, every **30 seconds**
   instead of every 10 minutes.  Difficulty retargets independently for
@@ -68,10 +68,10 @@ The current parameters for `mainnet` are:
   and halves every **4.2 million** blocks, which corresponds to Bitcoin's
   halving of once every four years.  This reward was chosen to yield the
   [correct total coin
-  supply](https://github.com/xaya/xaya/issues/70#issuecomment-441292533)
+  supply](https://github.com/spacexpanse/spacexpanse/issues/70#issuecomment-441292533)
   following the token sale.
 * The genesis block's coinbase transaction pays to a multisig address owned
-  by the Xaya team.  Unlike Bitcoin and Namecoin, it is actually spendable,
+  by the SpaceXpanse team.  Unlike Bitcoin and Namecoin, it is actually spendable,
   and does not observe the usual "block maturity" rule.
   * These coins will be distributed to the community according to the token
     sale and Huntercoin snapshot.  Unsold coins will be destroyed by sending
@@ -84,7 +84,7 @@ The current parameters for `mainnet` are:
 
 ## Activation of Soft Forks
 
-Xaya immediately activates some of the soft forks introduced in Bitcoin
+SpaceXpanse immediately activates some of the soft forks introduced in Bitcoin
 over time since we start with a fresh blockchain:
 
 * [BIP 16](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki)
@@ -104,7 +104,7 @@ to allow for certain tests to be possible.)
 
 ## Name and Value Restrictions <a name="name-value-restrictions"></a>
 
-Valid names and values in Xaya must satisfy additional constraints
+Valid names and values in SpaceXpanse must satisfy additional constraints
 compared to Namecoin, which only enforces maximum lengths.  In particular,
 these conditions must be met by names and values:
 

@@ -33,12 +33,12 @@ void auxMiningCheck(const JSONRPCRequest& request)
   if (connman.GetNodeCount (ConnectionDirection::Both) == 0
         && !Params ().MineBlocksOnDemand ())
     throw JSONRPCError (RPC_CLIENT_NOT_CONNECTED,
-                        "Xaya is not connected!");
+                        "SpaceXpanse is not connected!");
 
   if (chainman.ActiveChainstate ().IsInitialBlockDownload ()
         && !Params ().MineBlocksOnDemand ())
     throw JSONRPCError (RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                        "Xaya is downloading blocks...");
+                        "SpaceXpanse is downloading blocks...");
 }
 
 }  // anonymous namespace

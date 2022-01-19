@@ -106,7 +106,7 @@ class NameScanningTest (NameTestFramework):
     self.checkList (self.node.name_scan ("", 100, options), ["d/a"])
 
     # Upstream Namecoin tests here that a name with invalid UTF-8 doesn't
-    # break name_filter's regexp check.  In Xaya, this name is invalid,
+    # break name_filter's regexp check.  In SpaceXpanse, this name is invalid,
     # so we can't do this.
 
   def checkList (self, data, names):

@@ -7,19 +7,19 @@
 # Huntercoin snapshot, based on your Huntercoin wallet.  The CHI addresses
 # with coins from the snapshot will be imported into the wallet with label
 # 'huc-snapshot' (can be changed by editing the file below).  No rescan
-# is run, so make sure to manually rescan the Xaya wallet to make all
+# is run, so make sure to manually rescan the SpaceXpanse wallet to make all
 # balances show up.
 #
 # The script reads the input data from 'processed-snapshot.json', so
 # should be run from the source directory in the repository!
 #
-# The JSON-RPC interface URLs for the Huntercoin and Xaya Core daemons must
+# The JSON-RPC interface URLs for the Huntercoin and SpaceXpanse Core daemons must
 # be given on the command-line as arguments, and both wallets must be unlocked.
 # They should include all credentials and wallet names already where
 # applicable, e.g.
 #
 #   http://huc:password@localhost:8399
-#   http://xaya:password@localhost:8396/wallet/walletname
+#   http://spacexpanse:password@localhost:8396/wallet/walletname
 
 from decimal import Decimal
 import json
@@ -39,19 +39,19 @@ logging.basicConfig (level=logging.INFO, stream=sys.stderr)
 log = logging.getLogger ()
 
 if len (sys.argv) != 3:
-  sys.exit ("Usage: buildTransactions.py HUC-JSON-RPC XAYA-JSON-RPC")
+  sys.exit ("Usage: buildTransactions.py HUC-JSON-RPC SPACEXPANSE-JSON-RPC")
 
 hucUrl = sys.argv[1]
-xayaUrl = sys.argv[2]
+spacexpanseUrl = sys.argv[2]
 
 with open (INPUT_FILE) as f:
   snapshot = json.load (f)
 
 huc = jsonrpclib.Server (hucUrl)
-xaya = jsonrpclib.Server (xayaUrl)
+spacexpanse = jsonrpclib.Server (spacexpanseUrl)
 
 # Check that the wallet is unlocked.
-for rpc in [huc, xaya]:
+for rpc in [huc, spacexpanse]:
   info = rpc.getwalletinfo ()
   if 'unlocked_until' in info and info['unlocked_until'] < 1000000000:
     sys.exit ("The wallets must be unlocked")
@@ -76,6 +76,6 @@ log.info ("Total CHI amount claimed: %s" % totalChi)
 
 # Import the found addresses.
 for pk in privkeys:
-  xaya.importprivkey (pk, LABEL, False)
+  spacexpanse.importprivkey (pk, LABEL, False)
 log.info ("Imported %d private keys.  You need to manually rescan now."
             % len (privkeys))

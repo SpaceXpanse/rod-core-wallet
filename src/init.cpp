@@ -111,7 +111,7 @@ static const char* DEFAULT_ASMAP_FILENAME="ip_asn.map";
 /**
  * The PID file facilities.
  */
-static const char* BITCOIN_PID_FILENAME = "xayad.pid";
+static const char* BITCOIN_PID_FILENAME = "spacexpansed.pid";
 
 static fs::path GetPidFile(const ArgsManager& args)
 {
@@ -507,7 +507,7 @@ void SetupServerArgs(ArgsManager& argsman)
     argsman.AddArg("-zmqpubsequencehwm=<n>", strprintf("Set publish hash sequence message high water mark (default: %d)", CZMQAbstractNotifier::DEFAULT_ZMQ_SNDHWM), ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubgameblocks=<address>", "Enable publication of game data for block attach/detach events in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
     argsman.AddArg("-zmqpubgamepending=<address>", "Enable publication of pending game transactions in <address>", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
-    argsman.AddArg("-trackgame=<game>", "Enable tracking of the listed game for the Xaya game interface", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
+    argsman.AddArg("-trackgame=<game>", "Enable tracking of the listed game for the SpaceXpanse game interface", ArgsManager::ALLOW_ANY, OptionsCategory::ZMQ);
 #else
     hidden_args.emplace_back("-zmqpubhashblock=<address>");
     hidden_args.emplace_back("-zmqpubhashtx=<address>");
@@ -598,7 +598,7 @@ void SetupServerArgs(ArgsManager& argsman)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/xaya/xaya>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/spacexpanse/spacexpanse>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +

@@ -20,7 +20,7 @@
  * Text used to signify that a signed message follows and to prevent
  * inadvertently signing a transaction.
  */
-const std::string MESSAGE_MAGIC = "Xaya Signed Message:\n";
+const std::string MESSAGE_MAGIC = "SpaceXpanse Signed Message:\n";
 
 MessageVerificationResult MessageVerify(
     std::string& address,

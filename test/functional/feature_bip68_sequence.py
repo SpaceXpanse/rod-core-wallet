@@ -402,7 +402,7 @@ class BIP68Test(BitcoinTestFramework):
         # getblockchaininfo will show CSV as active at block 431 (144 * 3 -1) since it's returning whether CSV is active for the next block.
         min_activation_height = 432
         height = self.nodes[0].getblockcount()
-        # Upstream asserts here that this is the case.  For Xaya, we typically
+        # Upstream asserts here that this is the case.  For SpaceXpanse, we typically
         # have more blocks already, because we needed to mine more before due
         # to the lower block size.
         if height < min_activation_height:

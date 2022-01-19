@@ -116,7 +116,7 @@ bool CoinStatsIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex)
         block_subsidy = GetBlockSubsidy(pindex->nHeight, Params().GetConsensus());
     m_total_subsidy += block_subsidy;
 
-    // In Xaya, the genesis block is fine as well.
+    // In SpaceXpanse, the genesis block is fine as well.
     if (true) {
         if (pindex->nHeight > 0) {
         /* The genesis block has no undo data.  We won't need it either, as
@@ -455,7 +455,7 @@ bool CoinStatsIndex::ReverseBlock(const CBlock& block, const CBlockIndex* pindex
         }
     }
 
-    // In Xaya, the genesis block reward is spendable.  But the genesis block
+    // In SpaceXpanse, the genesis block reward is spendable.  But the genesis block
     // will never be undone.
     const CAmount unclaimed_rewards{(m_block_new_outputs_ex_coinbase_amount + m_block_coinbase_amount + m_block_unspendable_amount) - (m_block_prevout_spent_amount + m_total_subsidy)};
     m_block_unspendable_amount -= unclaimed_rewards;

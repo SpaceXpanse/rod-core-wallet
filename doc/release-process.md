@@ -78,7 +78,7 @@ Check out the source code in the following directory hierarchy.
     cd /path/to/your/toplevel/build
     git clone https://github.com/namecoin/guix.sigs.git
     #git clone https://github.com/namecoin/namecoin-detached-sigs.git # Namecoin doesn't use detached sigs yet, so don't do this.
-    git clone https://github.com/xaya/xaya.git
+    git clone https://github.com/spacexpanse/spacexpanse.git
 
 ### Write the release notes
 
@@ -104,7 +104,7 @@ Checkout the Namecoin Core version you'd like to build:
 
 Checkout the Bitcoin Core version you'd like to build:
 
-### Build and sign Xaya for Linux, Windows, and macOS:
+### Build and sign SpaceXpanse for Linux, Windows, and macOS:
 
 Ensure your guix.sigs are up-to-date if you wish to `guix-verify` your builds
 against other `guix-attest` signatures.

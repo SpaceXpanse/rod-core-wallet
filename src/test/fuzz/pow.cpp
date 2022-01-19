@@ -21,7 +21,7 @@ void initialize_pow()
 }
 
 #if 0
-FIXME: Update and re-enable for Xayas dual-algo changes.
+FIXME: Update and re-enable for SpaceXpanses dual-algo changes.
 
 FUZZ_TARGET_INIT(pow, initialize_pow)
 {
@@ -85,4 +85,4 @@ FUZZ_TARGET_INIT(pow, initialize_pow)
         }
     }
 }
-#endif // disabled on Xaya for now
+#endif // disabled on SpaceXpanse for now

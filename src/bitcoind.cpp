@@ -125,7 +125,7 @@ static bool AppInit(NodeContext& node, int argc, char* argv[])
 
         if (!args.IsArgSet("-version")) {
             strUsage += FormatParagraph(LicenseInfo()) + "\n"
-                "\nUsage:  xayad [options]                     Start " PACKAGE_NAME "\n"
+                "\nUsage:  spacexpansed [options]                     Start " PACKAGE_NAME "\n"
                 "\n";
             strUsage += args.GetHelpMessage();
         }
@@ -161,7 +161,7 @@ static bool AppInit(NodeContext& node, int argc, char* argv[])
         // Error out when loose non-argument tokens are encountered on command line
         for (int i = 1; i < argc; i++) {
             if (!IsSwitchChar(argv[i][0])) {
-                return InitError(Untranslated(strprintf("Command line contains unexpected token '%s', see xayad -h for a list of options.\n", argv[i])));
+                return InitError(Untranslated(strprintf("Command line contains unexpected token '%s', see spacexpansed -h for a list of options.\n", argv[i])));
             }
         }
 

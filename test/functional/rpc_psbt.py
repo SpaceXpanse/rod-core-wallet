@@ -583,7 +583,7 @@ class PSBTTest(BitcoinTestFramework):
         assert_equal(analysis['next'], 'creator')
         assert_equal(analysis['error'], 'PSBT is not valid. Input 0 spends unspendable output')
 
-        # Xaya allows larger amounts (due to higher money supply), so those
+        # SpaceXpanse allows larger amounts (due to higher money supply), so those
         # PSBTs are actually valid.
         # FIXME: We might want to "fix" the magic values and reenable the
         # tests.

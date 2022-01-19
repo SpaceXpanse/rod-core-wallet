@@ -62,7 +62,7 @@ class MempoolPackagesTest(BitcoinTestFramework):
         assert_raises_rpc_error(-26, "too-long-mempool-chain, too many descendants", chain_transaction, self.nodes[0], [chain[0][0], second_chain], [1, 0], chain[0][1] + second_chain_value, fee, 1)
 
         # Upstream has here a check for >40k weight.  Since the maximum
-        # weight in Xaya is smaller in general, this check is removed.
+        # weight in SpaceXpanse is smaller in general, this check is removed.
 
         # But not if it chains directly off the first transaction
         (replacable_txid, replacable_orig_value) = chain_transaction(self.nodes[0], [chain[0][0]], [1], chain[0][1], fee, 1)

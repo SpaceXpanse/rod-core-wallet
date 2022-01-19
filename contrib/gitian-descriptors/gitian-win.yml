@@ -1,5 +1,5 @@
 ---
-name: "xaya-core-win-1.6"
+name: "spacexpanse-core-win-1.6"
 enable_cache: true
 distro: "ubuntu"
 suites:
@@ -24,8 +24,8 @@ packages:
 - "python3"
 - "python3-pip"
 remotes:
-- "url": "https://github.com/xaya/xaya.git"
-  "dir": "xaya"
+- "url": "https://github.com/spacexpanse/spacexpanse.git"
+  "dir": "spacexpanse"
 files: []
 script: |
   set -e -o pipefail
@@ -95,7 +95,7 @@ script: |
   create_per-host_compiler_wrapper "2000-01-01 12:00:00"
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd xaya
+  cd spacexpanse
   BASEPREFIX="${PWD}/depends"
   # Build dependencies for each host
   for i in $HOSTS; do

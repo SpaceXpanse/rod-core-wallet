@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_upper_limit_actual)
 #endif // Disabled tests for difficulty algo.
 
 #if 0
-FIXME: Tests are disabled because CheckProofOfWork is done in Xaya
+FIXME: Tests are disabled because CheckProofOfWork is done in SpaceXpanse
 and replaced by PowData::checkProofOfWork, which does not follow
 exactly the same signature.
 

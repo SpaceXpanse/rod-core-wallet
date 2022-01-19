@@ -5,7 +5,7 @@ file COPYING or http://www.opensource.org/licenses/mit-license.php.
 */
 
 /* Very basic JavaScript code that converts WIF private keys from Huntercoin
-   to the key format used by Xaya (with the same underlying PKH).  It is based
+   to the key format used by SpaceXpanse (with the same underlying PKH).  It is based
    on the bs58check Node module for the base58check logic.
 
    The code is used to build a stand-alone HTML file that can be used

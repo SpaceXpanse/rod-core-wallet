@@ -1,5 +1,5 @@
-# Builds a Docker image that has Xaya Core (and all its dependencies)
-# installed.  It allows running xayad, xaya-cli and xaya-tx when executed.
+# Builds a Docker image that has SpaceXpanse Core (and all its dependencies)
+# installed.  It allows running spacexpansed, spacexpanse-cli and spacexpanse-tx when executed.
 #
 # The Docker build with this file should be run from the source repository
 # root file.  It will copy over the current folder as source, and thus build
@@ -17,9 +17,9 @@ RUN apk add --no-cache \
   libevent-dev \
   libtool
 
-# Build and install Xaya Core itself.  Make sure to clean up any build artefacts
+# Build and install SpaceXpanse Core itself.  Make sure to clean up any build artefacts
 # that may have been copied over from the host machine.
-WORKDIR /usr/src/xaya
+WORKDIR /usr/src/spacexpanse
 COPY . .
 RUN make distclean || true
 RUN ./autogen.sh
@@ -37,17 +37,17 @@ RUN apk add --no-cache \
   libevent \
   libzmq
 COPY --from=build /usr/local/bin/ /usr/local/bin/
-LABEL description="Minimal image with Xaya Core and utilities"
+LABEL description="Minimal image with SpaceXpanse Core and utilities"
 
 # Set up the runtime environment.
-RUN addgroup xaya && adduser -S -G xaya xaya \
-  && mkdir -p /var/lib/xaya \
-  && chown xaya:xaya -R /var/lib/xaya
+RUN addgroup spacexpanse && adduser -S -G spacexpanse spacexpanse \
+  && mkdir -p /var/lib/spacexpanse \
+  && chown spacexpanse:spacexpanse -R /var/lib/spacexpanse
 ENV PATH "/usr/local/bin"
-USER xaya
-COPY contrib/docker/xaya.conf /var/lib/xaya/
+USER spacexpanse
+COPY contrib/docker/spacexpanse.conf /var/lib/spacexpanse/
 COPY contrib/docker/entrypoint.sh /usr/local/bin/
-VOLUME ["/var/lib/xaya"]
+VOLUME ["/var/lib/spacexpanse"]
 ENV HOST "127.0.0.1"
 ENV ZMQ_PORT "28555"
 ENV RPC_PASSWORD ""

@@ -60,7 +60,7 @@ public:
     virtual bool NotifyTransaction(const CTransaction &transaction);
 
     /* Block attach and detach notifications are used for the game
-       interface in Xaya.  */
+       interface in SpaceXpanse.  */
     virtual bool NotifyBlockAttached(const CBlock& block);
     virtual bool NotifyBlockDetached(const CBlock& block);
 

@@ -10,8 +10,8 @@ from test_framework.util import (
   assert_greater_than,
   zmq_port,
 )
-from test_framework.xaya_zmq import (
-  XayaZmqTest,
+from test_framework.spacexpanse_zmq import (
+  SpaceXpanseZmqTest,
   ZmqSubscriber,
 )
 
@@ -29,13 +29,13 @@ def assertMove (obj, txid, name, move):
   assert_equal (obj["move"], move)
 
   # These fields should be reported, but we do not care about the
-  # exact form for this test (this is verified in xaya_gameblocks.py in
+  # exact form for this test (this is verified in spacexpanse_gameblocks.py in
   # more detail).
   for key in ["inputs", "out", "btxid"]:
     assert key in obj
 
 
-class GamePendingTest (XayaZmqTest):
+class GamePendingTest (SpaceXpanseZmqTest):
 
   def set_test_params (self):
     self.num_nodes = 1

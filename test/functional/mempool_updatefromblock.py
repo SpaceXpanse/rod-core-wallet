@@ -115,7 +115,7 @@ class MempoolUpdateFromBlockTest(BitcoinTestFramework):
             assert_equal(self.nodes[0].getrawmempool(True)[tx]['ancestorsize'], sum(tx_size[0:(k + 1)]))
 
     def run_test(self):
-        # With the reduced blocksize in Xaya, we have to use smaller
+        # With the reduced blocksize in SpaceXpanse, we have to use smaller
         # batches of transactions compared to upstream.
         self.transaction_graph_test(size=40, n_tx_to_mine=[10, 20, 30])
 

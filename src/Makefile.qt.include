@@ -2,10 +2,10 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += qt/xaya-qt
+bin_PROGRAMS += qt/spacexpanse-qt
 
 if BUILD_BITCOIN_GUI
-  bin_PROGRAMS += xaya-gui
+  bin_PROGRAMS += spacexpanse-gui
 endif
 
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
@@ -344,19 +344,19 @@ bitcoin_qt_ldadd += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(
 bitcoin_qt_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 bitcoin_qt_libtoolflags = $(AM_LIBTOOLFLAGS) --tag CXX
 
-qt_xaya_qt_CPPFLAGS = $(bitcoin_qt_cppflags)
-qt_xaya_qt_CXXFLAGS = $(bitcoin_qt_cxxflags)
-qt_xaya_qt_SOURCES = $(bitcoin_qt_sources)
-qt_xaya_qt_LDADD = $(bitcoin_qt_ldadd)
-qt_xaya_qt_LDFLAGS = $(bitcoin_qt_ldflags)
-qt_xaya_qt_LIBTOOLFLAGS = $(bitcoin_qt_libtoolflags)
+qt_spacexpanse_qt_CPPFLAGS = $(bitcoin_qt_cppflags)
+qt_spacexpanse_qt_CXXFLAGS = $(bitcoin_qt_cxxflags)
+qt_spacexpanse_qt_SOURCES = $(bitcoin_qt_sources)
+qt_spacexpanse_qt_LDADD = $(bitcoin_qt_ldadd)
+qt_spacexpanse_qt_LDFLAGS = $(bitcoin_qt_ldflags)
+qt_spacexpanse_qt_LIBTOOLFLAGS = $(bitcoin_qt_libtoolflags)
 
-xaya_gui_CPPFLAGS = $(bitcoin_qt_cppflags)
-xaya_gui_CXXFLAGS = $(bitcoin_qt_cxxflags)
-xaya_gui_SOURCES = $(bitcoin_qt_sources)
-xaya_gui_LDADD = $(bitcoin_qt_ldadd)
-xaya_gui_LDFLAGS = $(bitcoin_qt_ldflags)
-xaya_gui_LIBTOOLFLAGS = $(bitcoin_qt_libtoolflags)
+spacexpanse_gui_CPPFLAGS = $(bitcoin_qt_cppflags)
+spacexpanse_gui_CXXFLAGS = $(bitcoin_qt_cxxflags)
+spacexpanse_gui_SOURCES = $(bitcoin_qt_sources)
+spacexpanse_gui_LDADD = $(bitcoin_qt_ldadd)
+spacexpanse_gui_LDFLAGS = $(bitcoin_qt_ldflags)
+spacexpanse_gui_LIBTOOLFLAGS = $(bitcoin_qt_libtoolflags)
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
@@ -387,10 +387,10 @@ CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda 
 
 CLEANFILES += $(CLEAN_QT)
 
-xaya_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_xaya_qt_OBJECTS) qt/xaya-qt$(EXEEXT) $(LIBBITCOINQT)
+spacexpanse_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_spacexpanse_qt_OBJECTS) qt/spacexpanse-qt$(EXEEXT) $(LIBBITCOINQT)
 
-xaya_qt : qt/xaya-qt$(EXEEXT)
+spacexpanse_qt : qt/spacexpanse-qt$(EXEEXT)
 
 APK_LIB_DIR = qt/android/libs/$(ANDROID_ARCH)
 QT_BASE_VERSION = $(lastword $(shell $(MOC) --version))

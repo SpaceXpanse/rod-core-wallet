@@ -1,26 +1,26 @@
 #!/bin/sh -e
 
 case $1 in
-  xaya-tx)
+  spacexpanse-tx)
     exec "$@"
     ;;
 
-  xaya-cli)
+  spacexpanse-cli)
     shift
-    exec xaya-cli \
-      --datadir="/var/lib/xaya" \
+    exec spacexpanse-cli \
+      --datadir="/var/lib/spacexpanse" \
       --rpcconnect="${HOST}" \
       --rpcpassword="${RPC_PASSWORD}" \
       "$@"
     ;;
 
-  xayad)
+  spacexpansed)
     bin=$1
     shift
     ;;
 
   *)
-    bin=xayad
+    bin=spacexpansed
     ;;
 esac
 
@@ -31,7 +31,7 @@ then
 fi
 
 exec $bin \
-  --datadir="/var/lib/xaya" \
+  --datadir="/var/lib/spacexpanse" \
   --rpcpassword="${RPC_PASSWORD}" \
   --rpcbind="${HOST}" \
   --rpcallowip="${RPC_ALLOW_IP}" \

@@ -2,18 +2,18 @@
 
 *.exe
 *.pdb
-src/xaya
-src/xayad
-src/xaya-cli
-src/xaya-gui
-src/xaya-hash
-src/xaya-node
-src/xaya-tx
-src/xaya-util
-src/xaya-wallet
+src/spacexpanse
+src/spacexpansed
+src/spacexpanse-cli
+src/spacexpanse-gui
+src/spacexpanse-hash
+src/spacexpanse-node
+src/spacexpanse-tx
+src/spacexpanse-util
+src/spacexpanse-wallet
 src/test/fuzz/fuzz
-src/test/test_xaya
-src/qt/test/test_xaya-qt
+src/test/test_spacexpanse
+src/qt/test/test_spacexpanse-qt
 
 # autoreconf
 Makefile.in
@@ -113,8 +113,8 @@ ipch/
 *.qm
 Makefile
 !depends/Makefile
-src/qt/xaya-qt
-Xaya-Qt.app
+src/qt/spacexpanse-qt
+SpaceXpanse-Qt.app
 background.tiff*
 
 # Qt Creator

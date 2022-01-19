@@ -340,7 +340,7 @@ game_sendupdates ()
 
   return result;
 #else // ENABLE_ZMQ
-  throw JSONRPCError (RPC_MISC_ERROR, "ZMQ is not built into Xaya");
+  throw JSONRPCError (RPC_MISC_ERROR, "ZMQ is not built into SpaceXpanse");
 #endif // ENABLE_ZMQ
 }
   );
@@ -401,7 +401,7 @@ trackedgames ()
 
   return NullUniValue;
 #else // ENABLE_ZMQ
-  throw JSONRPCError (RPC_MISC_ERROR, "ZMQ is not built into Xaya");
+  throw JSONRPCError (RPC_MISC_ERROR, "ZMQ is not built into SpaceXpanse");
 #endif // ENABLE_ZMQ
 }
   );

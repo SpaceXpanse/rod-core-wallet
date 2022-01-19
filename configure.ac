@@ -7,8 +7,8 @@ define(_CLIENT_VERSION_RC, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2021)
 define(_COPYRIGHT_HOLDERS,[The %s developers])
-define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core, Namecoin and Xaya]])
-AC_INIT([Xaya],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [rc]_CLIENT_VERSION_RC),[https://github.com/xaya/xaya/issues],[xaya],[https://xaya.io/])
+define(_COPYRIGHT_HOLDERS_SUBSTITUTION,[[Bitcoin Core, Namecoin and SpaceXpanse]])
+AC_INIT([SpaceXpanse],m4_join([.], _CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MINOR, _CLIENT_VERSION_REVISION, m4_if(_CLIENT_VERSION_BUILD, [0], [], _CLIENT_VERSION_BUILD))m4_if(_CLIENT_VERSION_RC, [0], [], [rc]_CLIENT_VERSION_RC),[https://github.com/spacexpanse/spacexpanse/issues],[spacexpanse],[https://spacexpanse.io/])
 AC_CONFIG_SRCDIR([src/validation.cpp])
 AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
@@ -20,15 +20,15 @@ if test "x$PKG_CONFIG" = x; then
   AC_MSG_ERROR([pkg-config not found])
 fi
 
-BITCOIN_DAEMON_NAME=xayad
-BITCOIN_GUI_NAME=xaya-qt
-BITCOIN_CLI_NAME=xaya-cli
-BITCOIN_TX_NAME=xaya-tx
-BITCOIN_UTIL_NAME=xaya-util
-BITCOIN_WALLET_TOOL_NAME=xaya-wallet
+BITCOIN_DAEMON_NAME=spacexpansed
+BITCOIN_GUI_NAME=spacexpanse-qt
+BITCOIN_CLI_NAME=spacexpanse-cli
+BITCOIN_TX_NAME=spacexpanse-tx
+BITCOIN_UTIL_NAME=spacexpanse-util
+BITCOIN_WALLET_TOOL_NAME=spacexpanse-wallet
 dnl Multi Process
-BITCOIN_MP_NODE_NAME=xaya-node
-BITCOIN_MP_GUI_NAME=xaya-gui
+BITCOIN_MP_NODE_NAME=spacexpanse-node
+BITCOIN_MP_GUI_NAME=spacexpanse-gui
 
 dnl Unless the user specified ARFLAGS, force it to be cr
 AC_ARG_VAR(ARFLAGS, [Flags for the archiver, defaults to <cr> if not set])
@@ -589,7 +589,7 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
-  [build xaya-cli xaya-tx xaya-util xaya-wallet (default=yes)])],
+  [build spacexpanse-cli spacexpanse-tx spacexpanse-util spacexpanse-wallet (default=yes)])],
   [build_bitcoin_utils=$withval],
   [build_bitcoin_utils=yes])
 
@@ -625,7 +625,7 @@ AC_ARG_WITH([libs],
 
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
-  [build xaya daemon (default=yes)])],
+  [build spacexpanse daemon (default=yes)])],
   [build_bitcoind=$withval],
   [build_bitcoind=yes])
 
@@ -1573,19 +1573,19 @@ if test x$build_multiprocess != xno; then
   AC_SUBST(MPGEN_PREFIX)
 fi
 
-AC_MSG_CHECKING([whether to build xayad])
+AC_MSG_CHECKING([whether to build spacexpansed])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
 AC_MSG_RESULT($build_bitcoind)
 
-AC_MSG_CHECKING([whether to build xaya-cli])
+AC_MSG_CHECKING([whether to build spacexpanse-cli])
 AM_CONDITIONAL([BUILD_BITCOIN_CLI], [test x$build_bitcoin_cli = xyes])
 AC_MSG_RESULT($build_bitcoin_cli)
 
-AC_MSG_CHECKING([whether to build xaya-tx])
+AC_MSG_CHECKING([whether to build spacexpanse-tx])
 AM_CONDITIONAL([BUILD_BITCOIN_TX], [test x$build_bitcoin_tx = xyes])
 AC_MSG_RESULT($build_bitcoin_tx)
 
-AC_MSG_CHECKING([whether to build xaya-wallet])
+AC_MSG_CHECKING([whether to build spacexpanse-wallet])
 AM_CONDITIONAL([BUILD_BITCOIN_WALLET], [test x$build_bitcoin_wallet = xyes])
 AC_MSG_RESULT($build_bitcoin_wallet)
 

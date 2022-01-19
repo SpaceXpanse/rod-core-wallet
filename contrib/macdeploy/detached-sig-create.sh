@@ -7,7 +7,7 @@ export LC_ALL=C
 set -e
 
 ROOTDIR=dist
-BUNDLE="${ROOTDIR}/Xaya-Qt.app"
+BUNDLE="${ROOTDIR}/SpaceXpanse-Qt.app"
 SIGNAPPLE=signapple
 TEMPDIR=sign.temp
 OUT=signature-osx.tar.gz

@@ -434,7 +434,7 @@ QVariant NameTableModel::headerData(int section, Qt::Orientation orientation, in
         switch(section)
         {
             case Name:
-                return tr("Name registered using Xaya.");
+                return tr("Name registered using SpaceXpanse.");
 
             case Value:
                 return tr("Data associated with the name.");

@@ -488,7 +488,7 @@ name_show ()
 
   if (chainman.ActiveChainstate ().IsInitialBlockDownload ())
     throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                       "Xaya is downloading blocks...");
+                       "SpaceXpanse is downloading blocks...");
 
   UniValue options(UniValue::VOBJ);
   if (request.params.size () >= 2)
@@ -552,7 +552,7 @@ name_history ()
 
   if (chainman.ActiveChainstate ().IsInitialBlockDownload ())
     throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                       "Xaya is downloading blocks...");
+                       "SpaceXpanse is downloading blocks...");
 
   UniValue options(UniValue::VOBJ);
   if (request.params.size () >= 2)
@@ -637,7 +637,7 @@ name_scan ()
 
   if (chainman.ActiveChainstate ().IsInitialBlockDownload ())
     throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
-                       "Xaya is downloading blocks...");
+                       "SpaceXpanse is downloading blocks...");
 
   UniValue options(UniValue::VOBJ);
   if (request.params.size () >= 3)

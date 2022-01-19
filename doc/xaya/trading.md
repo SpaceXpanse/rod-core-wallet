@@ -2,7 +2,7 @@
 
 The ability to **trade in-game assets** (fungible game currencies as well as
 non-fungible items) is an integral part of many blockchain games.  Thus,
-it is important to support such trading also on the Xaya platform.
+it is important to support such trading also on the SpaceXpanse platform.
 Of course, trades can be implemented easily in various ways depending
 on trust:  Seller or buyer can send first and trust that the other party will
 also send, or centralised exchange platforms can be used.  In this document,
@@ -12,7 +12,7 @@ using **atomic transactions** instead.
 ## Overview
 
 The basic setting is as follows:  A *seller* owns some assets in the
-game state of some application on the Xaya platform (or perhaps provides
+game state of some application on the SpaceXpanse platform (or perhaps provides
 services).  A *buyer* wants to buy those assets (or hire services),
 **paying directly in CHI**.  (Trades and payment in currencies or assets
 belonging to the game state itself can be implemented easily simply by designing
@@ -68,7 +68,7 @@ but they are cumbersome.)
 The second type of transaction is an
 [*atomic name trade*](https://wiki.namecoin.info/?title=Atomic_Name-Trading)
 as first described in the context of Namecoin.
-In such a transaction, an **entire Xaya name with all attached assets**
+In such a transaction, an **entire SpaceXpanse name with all attached assets**
 in all games on the platform is sold.
 
 This can be done as follows:  Buyer and seller together construct
@@ -211,7 +211,7 @@ CHI and none can be stolen.
 This transaction by itself does not do much useful.  It can, however, be used
 to ensure **uniqueness of payments of CHI** to the seller (for unique / limited
 items):  Everyone can include the input / output pair in their transaction
-(e.g. when buying an item).  But Xaya's coin tracking rules ensure that the
+(e.g. when buying an item).  But SpaceXpanse's coin tracking rules ensure that the
 sentinel input can be spent by only one transaction at most, so that
 only one such buying transaction can ever be valid.
 This can be used in conjunction with suitable

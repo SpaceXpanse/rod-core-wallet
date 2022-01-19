@@ -97,7 +97,7 @@ class NameRegistrationTest (NameTestFramework):
     self.checkNameHistory (0, "x/test-name",
                            [val ("test-value"), valueOfLength (2048)])
 
-    # In Xaya, we also verify that the value must be valid JSON.
+    # In SpaceXpanse, we also verify that the value must be valid JSON.
     # It is specifically allowed to have JSON objects with duplicated keys.
     # Verify this is true.
     duplicateKeys = '{"x": 1, "x": 2}'

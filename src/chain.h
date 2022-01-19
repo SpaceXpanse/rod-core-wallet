@@ -193,7 +193,7 @@ public:
     uint256 hashMerkleRoot{};
     uint32_t nTime{0};
     /**
-     * In Xaya, nBits of the actual block header is always zero and the real
+     * In SpaceXpanse, nBits of the actual block header is always zero and the real
      * nBits are stored in the PoW data.  Here in CBlockIndex, we store the
      * actual nBits, so that the total work of a chain can be computed from it.
      */

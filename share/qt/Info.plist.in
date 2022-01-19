@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Xaya-Qt</string>
+  <string>SpaceXpanse-Qt</string>
 
   <key>CFBundleName</key>
-  <string>Xaya-Qt</string>
+  <string>SpaceXpanse-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>io.xaya.Xaya-Qt</string>
+  <string>io.spacexpanse.SpaceXpanse-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -46,10 +46,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>io.xaya.XayaPayment</string>
+      <string>io.spacexpanse.SpaceXpansePayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>xaya</string>
+        <string>spacexpanse</string>
       </array>
     </dict>
   </array>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#   Xaya Stats - extract Xaya blockchain statistics
+#   SpaceXpanse Stats - extract SpaceXpanse blockchain statistics
 #   Copyright (C) 2020  The Xaya developers
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# For this script to work, the valueencoding of Xaya Core should
+# For this script to work, the valueencoding of SpaceXpanse Core should
 # be set to "hex".
 
 import jsonrpclib
@@ -30,7 +30,7 @@ import sys
 
 parser = argparse.ArgumentParser ()
 parser.add_argument ("--rpc_url", required=True,
-                     help="JSON-RPC URL for Xaya Core")
+                     help="JSON-RPC URL for SpaceXpanse Core")
 parser.add_argument ("--start", type=int, required=True,
                      help="Starting block height")
 parser.add_argument ("--end", type=int, required=True,
@@ -48,7 +48,7 @@ log = logging.getLogger ()
 
 rpc = jsonrpclib.ServerProxy (args.rpc_url)
 data = rpc.getnetworkinfo ()
-log.info ("Connected to Xaya Core version %d" % data["version"])
+log.info ("Connected to SpaceXpanse Core version %d" % data["version"])
 
 with open (args.csv_out_blocks, "w", newline="") as blocksFile, \
      open (args.csv_out_names, "w", newline="") as namesFile, \

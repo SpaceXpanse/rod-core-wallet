@@ -130,7 +130,7 @@ bool IsStandardTx(const CTransaction& tx, bool permit_bare_multisig, const CFeeR
     }
 
     /* Upstream disallows more than one OP_RETURN output in a single
-       transaction, but Xaya allows this to enable combined moves with burns
+       transaction, but SpaceXpanse allows this to enable combined moves with burns
        for multiple games.  */
 
     return true;

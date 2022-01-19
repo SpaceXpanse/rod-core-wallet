@@ -82,8 +82,8 @@ public:
 };
 
 /**
- * ZMQ publisher that handles the attach/detach messages for the Xaya game
- * interface (see doc/xaya/interface.md).
+ * ZMQ publisher that handles the attach/detach messages for the SpaceXpanse game
+ * interface (see doc/spacexpanse/interface.md).
  */
 class ZMQGameBlocksNotifier : public ZMQGameNotifier
 {

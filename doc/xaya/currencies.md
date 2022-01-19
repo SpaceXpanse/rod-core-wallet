@@ -1,8 +1,8 @@
-# Xaya Currencies
+# SpaceXpanse Currencies
 
-**Currencies** (custom tokens issued on the Xaya blockchain)
+**Currencies** (custom tokens issued on the SpaceXpanse blockchain)
 are a special case of more general games, and can thus be
-implemented and managed through a Xaya [game state](games.md).
+implemented and managed through a SpaceXpanse [game state](games.md).
 
 This document defines a standard for how such "games" may be created
 with certain parameters, what the game rules are for them and what
@@ -152,7 +152,7 @@ defined here in a straight-forward way (i.e. by sending them between trading
 partners in a single transaction).  There are two reasons for this:
 
 1. A transaction as specified here is done through a name update of the
-   *sending name*.  Since each Xaya transaction can contain at most one
+   *sending name*.  Since each SpaceXpanse transaction can contain at most one
    name operation, this means that it is only possible for someone
    to send multiple currencies in a single transaction, but not for *two
    different* people to transfer to each other as required for atomic trading.

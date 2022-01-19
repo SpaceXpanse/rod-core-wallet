@@ -602,7 +602,7 @@ def test_no_more_inputs_fails(self, rbf_node, dest_address):
     rbf_node.generatetoaddress(1, dest_address)
     # spend all funds, no change output
     # In contrast to upstream, we need to do that in multiple transactions
-    # for Xaya.  Otherwise the lower tx size limit is exceeded.
+    # for SpaceXpanse.  Otherwise the lower tx size limit is exceeded.
     num_chunks = 10
     per_chunk = (rbf_node.getbalance() - 1) / num_chunks
     per_chunk = per_chunk.quantize(Decimal('0.00000000'))

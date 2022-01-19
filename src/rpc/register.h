@@ -23,7 +23,7 @@ void RegisterRawTransactionRPCCommands(CRPCTable &tableRPC);
 void RegisterSignerRPCCommands(CRPCTable &tableRPC);
 /** Register Namecoin RPC commands */
 void RegisterNameRPCCommands(CRPCTable &tableRPC);
-/** Register Xaya game RPC commands */
+/** Register SpaceXpanse game RPC commands */
 void RegisterGameRPCCommands(CRPCTable &tableRPC);
 
 static inline void RegisterAllCoreRPCCommands(CRPCTable &t)

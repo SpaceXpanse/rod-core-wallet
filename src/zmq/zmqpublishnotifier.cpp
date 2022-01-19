@@ -32,7 +32,7 @@ static const char *MSG_RAWTX     = "rawtx";
 static const char *MSG_SEQUENCE  = "sequence";
 
 /**
- * Lock protecting any ZMQ publications.  This is necessary in Xaya, since
+ * Lock protecting any ZMQ publications.  This is necessary in SpaceXpanse, since
  * game_sendupdates may send notifications from additional threads.  Since
  * sockets can be reused (if on the same address), we have to lock all
  * sends (also for non-game-blocks) to be sure that the socket is not

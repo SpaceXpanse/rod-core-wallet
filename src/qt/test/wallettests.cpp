@@ -147,7 +147,7 @@ void TestGUI(interfaces::Node& node)
         wallet->SetAddressBook(GetDestinationForKey(test.coinbaseKey.GetPubKey(), wallet->m_default_address_type), "", "receive");
         spk_man->AddKeyPubKey(test.coinbaseKey, test.coinbaseKey.GetPubKey());
         wallet->SetLastBlockProcessed(105, node.context()->chainman->ActiveChain().Tip()->GetBlockHash());
-        /* In Xaya, the minimum / default wallet version already supports HD,
+        /* In SpaceXpanse, the minimum / default wallet version already supports HD,
            unlike upstream Bitcoin/Namecoin.  Thus we have to set an HD seed
            as well, otherwise the wallet won't generate keys.  */
         spk_man->SetHDSeed(spk_man->GenerateNewSeed());
@@ -237,7 +237,7 @@ void TestGUI(interfaces::Node& node)
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("payment_header")->text(), QString("Payment information"));
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("uri_tag")->text(), QString("URI:"));
             QString uri = receiveRequestDialog->QObject::findChild<QLabel*>("uri_content")->text();
-            QCOMPARE(uri.count("xaya:"), 2);
+            QCOMPARE(uri.count("spacexpanse:"), 2);
             QCOMPARE(receiveRequestDialog->QObject::findChild<QLabel*>("address_tag")->text(), QString("Address:"));
             QVERIFY(address.isEmpty());
             address = receiveRequestDialog->QObject::findChild<QLabel*>("address_content")->text();

@@ -40,7 +40,7 @@ class UTXOSetHashTest(BitcoinTestFramework):
         tx_block = node.generateblock(output=wallet.get_address(), transactions=[txid])
         blocks.append(from_hex(CBlock(), node.getblock(tx_block['hash'], False)))
 
-        # Unlike upstream, Xaya allows spending the genesis block's coinbase,
+        # Unlike upstream, SpaceXpanse allows spending the genesis block's coinbase,
         # so we have to include that into the UTXO set.
         genesis = from_hex(CBlock(), node.getblock(node.getblockhash(0), False))
         blocks = [genesis] + blocks
@@ -73,7 +73,7 @@ class UTXOSetHashTest(BitcoinTestFramework):
 
         assert_equal(finalized[::-1].hex(), node_muhash)
 
-        # The values differ from upstream since in Xaya the genesis block's coinbase
+        # The values differ from upstream since in SpaceXpanse the genesis block's coinbase
         # is part of the UTXO set.
         self.log.info("Test deterministic UTXO set hash results")
         assert_equal(node.gettxoutsetinfo()['hash_serialized_2'], "450cb0874edb935d7243d3e83ea2dfe463729a7f08bbe701ab830f3927ce88da")

@@ -315,7 +315,7 @@ class MempoolAcceptanceTest(BitcoinTestFramework):
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': 'dust'}],
             rawtxs=[tx.serialize().hex()],
         )
-        # Unlike upstream, Xaya allows multiple OP_RETURN outputs.  So no test for this.
+        # Unlike upstream, SpaceXpanse allows multiple OP_RETURN outputs.  So no test for this.
 
         self.log.info('A timelocked transaction')
         tx = tx_from_hex(raw_tx_reference)

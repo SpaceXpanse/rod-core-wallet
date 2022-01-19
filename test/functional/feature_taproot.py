@@ -1468,7 +1468,7 @@ class TaprootTest(BitcoinTestFramework):
 
         # Upstream Bitcoin explicitly sends funds from node 1 to node 0 here,
         # instead of mining them also with node 0 above.  But this fails with
-        # Xaya's stricter tx size limit.
+        # SpaceXpanse's stricter tx size limit.
 
         # Pre-taproot activation tests.
         self.log.info("Pre-activation tests...")

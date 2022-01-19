@@ -23,7 +23,7 @@ static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
     BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy * 2);
     for (int nHalvings = 0; nHalvings < maxHalvings; nHalvings++) {
         int nHeight = nHalvings * consensusParams.nSubsidyHalvingInterval;
-        /* In Xaya, we have the special rule that the block reward was set
+        /* In SpaceXpanse, we have the special rule that the block reward was set
            to 1 CHI at the beginning of the first halving period (before the
            POST_ICO fork).  Thus we use the *end* of the halving period
            for the purpose of this test.  */

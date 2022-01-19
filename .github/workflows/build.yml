@@ -30,7 +30,7 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_SIZE: 500M
       CCACHE_COMPRESS: 1
-      PARAMS_DIR: ${{ github.workspace }}/.xaya-params
+      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
     defaults:
       run:
         shell: bash
@@ -42,7 +42,7 @@ jobs:
       with:
         path: |
           .ccache
-          .xaya-params
+          .spacexpanse-params
         key: x86_64-unknown-linux-gnu-ccache-${{ env.NOW }} 
         restore-keys: |
             x86_64-unknown-linux-gnu-ccache-
@@ -77,10 +77,10 @@ jobs:
       run: |
         mkdir -p deploy
         ls -lh
-        cp $GITHUB_WORKSPACE/src/xayad $GITHUB_WORKSPACE/src/xaya-cli $GITHUB_WORKSPACE/src/xaya-tx $GITHUB_WORKSPACE/src/xaya-wallet $GITHUB_WORKSPACE/src/xaya-util $GITHUB_WORKSPACE/src/qt/xaya-qt $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
-        zip --junk-paths xaya-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
+        zip --junk-paths spacexpanse-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -88,7 +88,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.a
-        release_name: Xaya Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: SpaceXpanse Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -98,8 +98,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./xaya-bin-${{ github.job }}.zip
-        asset_name: xaya-bin-${{ github.job }}.zip
+        asset_path: ./spacexpanse-bin-${{ github.job }}.zip
+        asset_name: spacexpanse-bin-${{ github.job }}.zip
         asset_content_type: application/zip
 
   win64:
@@ -110,7 +110,7 @@ jobs:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_SIZE: 500M
       CCACHE_COMPRESS: 1
-      PARAMS_DIR: ${{ github.workspace }}/.xaya-params
+      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
     defaults:
       run:
         shell: bash
@@ -121,7 +121,7 @@ jobs:
       with:
         path: |
           .ccache
-          .xaya-params
+          .spacexpanse-params
         key: x86_64-w64-mingw32-ccache-${{ env.NOW }} 
         restore-keys: |
             x86_64-w64-mingw32-ccache-
@@ -166,10 +166,10 @@ jobs:
       run: |
         mkdir -p deploy
         ls -lh
-        cp $GITHUB_WORKSPACE/src/xayad.exe $GITHUB_WORKSPACE/src/xaya-cli.exe $GITHUB_WORKSPACE/src/xaya-tx.exe $GITHUB_WORKSPACE/src/xaya-wallet.exe $GITHUB_WORKSPACE/src/xaya-util.exe $GITHUB_WORKSPACE/src/qt/xaya-qt.exe $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
-        zip --junk-paths xaya-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
+        zip --junk-paths spacexpanse-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -177,7 +177,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.a
-        release_name: Xaya Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: SpaceXpanse Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -187,6 +187,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./xaya-bin-${{ github.job }}.zip
-        asset_name: xaya-bin-${{ github.job }}.zip
+        asset_path: ./spacexpanse-bin-${{ github.job }}.zip
+        asset_name: spacexpanse-bin-${{ github.job }}.zip
         asset_content_type: application/zip
