@@ -222,8 +222,8 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("e5062d76e5f50c42f493826ac9920b63a8def2626fd70a5cec707ec47a4c4651"));
         assert(genesis.hashMerkleRoot == uint256S("0827901b75ab43978c3cf20a78baf040faeb0e2eeff3a2c58ab6521a6d46f8fd"));
 
-        vSeeds.emplace_back("seed.spacexpanse.io");
-        vSeeds.emplace_back("seed.spacexpanse.domob.eu");
+        vSeeds.emplace_back("seed1.spacexpanse.net");
+        vSeeds.emplace_back("seed2.spacexpanse.net");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,28);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,30);
@@ -329,8 +329,8 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.emplace_back("seed.testnet.spacexpanse.io");
-        vSeeds.emplace_back("seed.testnet.spacexpanse.domob.eu");
+        vSeeds.emplace_back("seed1.testnet.spacexpanse.net");
+        vSeeds.emplace_back("seed2.testnet.spacexpanse.net");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,88);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,90);

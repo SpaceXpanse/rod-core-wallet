@@ -3,7 +3,7 @@ SPACEXPANSE
 
 Setup
 ---------------------
-[SpaceXpanse](https://spacexpanse.io/) provides the official SpaceXpanse client and it builds the backbone of the network. However, it downloads and stores the entire history of SpaceXpanse transactions; depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+[SpaceXpanse](https://spacexpanse.org/) provides the official SpaceXpanse client and it builds the backbone of the network. However, it downloads and stores the entire history of SpaceXpanse transactions; depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
 To download Namecoin Core, visit [namecoin.org](https://namecoin.org/download/).
 
@@ -28,7 +28,7 @@ Drag SpaceXpanse-Qt to your applications folder, and then run SpaceXpanse-Qt.
 
 ### Need Help?
 
-* See the documentation at the [SpaceXpanse Site](https://spacexpanse.io)
+* See the documentation at the [SpaceXpanse Site](https://spacexpanse.org)
 for help and more information.
 
 Building
@@ -47,7 +47,7 @@ The following are developer notes on how to build Bitcoin Core on your native pl
 
 Development
 ---------------------
-The SpaceXpanse repo's [root README](https://github.com/spacexpanse/spacexpanse/blob/master/README.md) contains relevant information on the development process and automated testing.
+The SpaceXpanse repo's [root README](https://github.com/spacexpanse/rod-core-wallet/blob/master/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Productivity Notes](productivity.md)

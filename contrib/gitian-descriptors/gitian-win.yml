@@ -24,7 +24,7 @@ packages:
 - "python3"
 - "python3-pip"
 remotes:
-- "url": "https://github.com/spacexpanse/spacexpanse.git"
+- "url": "https://github.com/spacexpanse/rod-core-wallet.git"
   "dir": "spacexpanse"
 files: []
 script: |

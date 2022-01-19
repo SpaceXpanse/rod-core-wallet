@@ -11,7 +11,7 @@
 
 [Unit]
 Description=SpaceXpanse Core daemon
-Documentation=https://github.com/spacexpanse/spacexpanse/blob/master/doc/init.md
+Documentation=https://github.com/spacexpanse/rod-core-wallet/blob/master/doc/init.md
 
 # https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget/
 After=network-online.target

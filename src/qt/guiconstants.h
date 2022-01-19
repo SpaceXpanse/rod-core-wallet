@@ -43,7 +43,7 @@ static const int TOOLTIP_WRAP_THRESHOLD = 80;
 #define SPINNER_FRAMES 36
 
 #define QAPP_ORG_NAME "SpaceXpanse"
-#define QAPP_ORG_DOMAIN "spacexpanse.io"
+#define QAPP_ORG_DOMAIN "spacexpanse.org"
 #define QAPP_APP_NAME_DEFAULT "SpaceXpanse-Qt"
 #define QAPP_APP_NAME_TESTNET "SpaceXpanse-Qt-testnet"
 #define QAPP_APP_NAME_SIGNET "SpaceXpanse-Qt-signet"

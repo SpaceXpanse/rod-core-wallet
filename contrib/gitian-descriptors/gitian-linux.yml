@@ -41,7 +41,7 @@ packages:
 - "binutils-riscv64-linux-gnu"
 - "g++-8-riscv64-linux-gnu"
 remotes:
-- "url": "https://github.com/spacexpanse/spacexpanse.git"
+- "url": "https://github.com/spacexpanse/rod-core-wallet.git"
   "dir": "spacexpanse"
 files: []
 script: |

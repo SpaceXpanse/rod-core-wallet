@@ -92,7 +92,7 @@ Now that all the required dependencies are installed, let's clone the SpaceXpans
 All build scripts and commands will run from this directory.
 
 ``` bash
-git clone https://github.com/spacexpanse/spacexpanse.git
+git clone https://github.com/spacexpanse/rod-core-wallet.git
 ```
 
 ### 5. Install Optional Dependencies
@@ -101,7 +101,7 @@ git clone https://github.com/spacexpanse/spacexpanse.git
 
 It is not necessary to build wallet functionality to run `spacexpansed` or  `spacexpanse-qt`.
 To enable legacy wallets, you must install `berkeley-db@4`.
-To enable [descriptor wallets](https://github.com/spacexpanse/spacexpanse/blob/master/doc/descriptors.md), `sqlite` is required.
+To enable [descriptor wallets](https://github.com/spacexpanse/rod-core-wallet/blob/master/doc/descriptors.md), `sqlite` is required.
 Skip `berkeley-db@4` if you intend to *exclusively* use descriptor wallets.
 
 ###### Legacy Wallet Support
@@ -230,7 +230,7 @@ pip3 install ds_store mac_alias
 
 1. Clone the SpaceXpanse source code:
     ```shell
-    git clone https://github.com/spacexpanse/spacexpanse.git
+    git clone https://github.com/spacexpanse/rod-core-wallet.git
     cd spacexpanse
     ```
 
