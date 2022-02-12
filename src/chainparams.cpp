@@ -25,8 +25,8 @@ namespace
 
 constexpr const char pszTimestampTestnet[] = "SpaceXpance Testnet";
 constexpr const char pszTimestampMainnet[]
-    = "HUC #2,351,800: "
-      "8730ea650d24cd01692a5adb943e7b8720b0ba8a4c64ffcdf5a95d9b3fb57b7f";
+    = "Forbes, 16.01.2022 10:59am EST: "
+      "Amazon\'s The Expanse Finale Packed 30 Easter Eggs Into One Shot";
 
 /* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
    coins needed in case everything is sold in the ICO.  If this is not the case
@@ -53,7 +53,7 @@ final premine script will be:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressRegtest[]
-    = "2b6defe41aa3aa47795b702c893c73e716d485ab";
+    = "a25f20bd7dd2d450b5475dc0f27115ce3143427b";
 
 /*
 The premine on testnet and mainnet is sent to a 2-of-4 multisig address.  The
@@ -67,7 +67,7 @@ premine script is:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressMainnet[]
-    = "8cb1c236d34c74221fe4163bbba739b52e95f484";
+    = "fe546eafc3574b33f1c9e20a4d44680c4e54074d";
 
 CBlock CreateGenesisBlock(const CScript& genesisInputScript, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -161,13 +161,13 @@ public:
         strNetworkID = CBaseChainParams::MAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 4200000;
+        consensus.nSubsidyHalvingInterval = 4216320;
         /* The value of ~3.8 ROD is calculated to yield the desired total
            PoW coin supply.  For the calculation, see here:
 
            https://github.com/spacexpanse/rod-core-wallet/issues/70#issuecomment-441292533
         */
-        consensus.initialSubsidy = 382934346;
+        consensus.initialSubsidy = 10000000000;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -194,8 +194,8 @@ public:
         // The value is the chain work of the SpaceXpanse mainnet chain at height
         // 3'000'000, with best block hash:
         // d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000002451b0dad53d538c2c52163");
-        consensus.defaultAssumeValid = uint256S("0xd572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e"); // 3'000'000
+        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.defaultAssumeValid = uint256S("0x00"); // 3'000'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -206,11 +206,11 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xcc;
-        pchMessageStart[1] = 0xbe;
-        pchMessageStart[2] = 0xb4;
-        pchMessageStart[3] = 0xfe;
-        nDefaultPort = 8394;
+        pchMessageStart[0] = 0xa2;
+        pchMessageStart[1] = 0xf2;
+        pchMessageStart[2] = 0xf6;
+        pchMessageStart[3] = 0x93;
+        nDefaultPort = 11998;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 5;
         m_assumed_chain_state_size = 1;
@@ -219,18 +219,18 @@ public:
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("e5062d76e5f50c42f493826ac9920b63a8def2626fd70a5cec707ec47a4c4651"));
-        assert(genesis.hashMerkleRoot == uint256S("0827901b75ab43978c3cf20a78baf040faeb0e2eeff3a2c58ab6521a6d46f8fd"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,28);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,30);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,130);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         /* FIXME: Update these below.  */
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
-        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0x1E, 0xB2};
 
         bech32_hrp = "rod";
 
@@ -242,11 +242,11 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {
+/*            {
                 {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
                 { 340000, uint256S("e685ccaa62025c5c5075cfee80e498589bd4788614dcbe397e12bf2b8e887e47")},
                 {1234000, uint256S("a853c0581c3637726a769b77cadf185e09666742757ef2df00058e876cf25897")},
-            }   
+            } */  
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -255,9 +255,9 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 1626099379,
-            /* nTxCount */ 4457837,
-            /* dTxRate  */ 0.034450420845411,
+            /* nTime    */ 0, // 1626099379,
+            /* nTxCount */ 0, // 4457837,
+            /* dTxRate  */ 0, // 0.034450420845411,
         };
     }
 
@@ -276,8 +276,8 @@ public:
         strNetworkID = CBaseChainParams::TESTNET;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 4200000;
-        consensus.initialSubsidy = 10 * COIN;
+        consensus.nSubsidyHalvingInterval = 2880;
+        consensus.initialSubsidy = 1000000000; // 10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -304,18 +304,18 @@ public:
         // The value is the chain work of the SpaceXpanse testnet chain at height
         // 110'000 with best block hash:
         // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000e59eda1191b9");
-        consensus.defaultAssumeValid = uint256S("0x01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f"); // 110'000
+        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.defaultAssumeValid = uint256S("0x00"); // 110'000
 
         consensus.nAuxpowChainId = 1829;
 
         consensus.rules.reset(new Consensus::TestNetConsensus());
 
-        pchMessageStart[0] = 0xcc;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xfe;
-        nDefaultPort = 18394;
+        pchMessageStart[0] = 0xc8;
+        pchMessageStart[1] = 0xc3;
+        pchMessageStart[2] = 0x95;
+        pchMessageStart[3] = 0x87;
+        nDefaultPort = 18398;
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
@@ -324,20 +324,20 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("5195fc01d0e23d70d1f929f21ec55f47e1c6ea1e66fae98ee44cbbc994509bba"));
-        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear();
         vSeeds.clear();
         vSeeds.emplace_back("seed1.testnet.spacexpanse.net");
         vSeeds.emplace_back("seed2.testnet.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,88);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,90);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,230);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         /* FIXME: Update these below.  */
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
-        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0x1E, 0xB2};
 
         bech32_hrp = "rodtn";
 
@@ -353,10 +353,10 @@ public:
 
         checkpointData = {
             {
-                {     0, uint256S("3bcc29e821e7fbd374c7460306eb893725d69dbee87c4774cdcd618059b6a578")},
+/*                {     0, uint256S("3bcc29e821e7fbd374c7460306eb893725d69dbee87c4774cdcd618059b6a578")},
                 { 11000, uint256S("57670b799b6645c7776e9fdbd6abff510aaed9790625dd28072d0e87a7fafcf4")},
                 { 70000, uint256S("e2c154dc8e223cef271b54174c9d66eaf718378b30977c3df115ded629f3edb1")},
-            } 
+            } */
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -365,9 +365,9 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 1586091497,
-            /* nTxCount */ 113579,
-            /* dTxRate  */ 0.002815363095612851,
+            /* nTime    */ 0, // 1586091497,
+            /* nTxCount */ 0, // 113579,
+            /* dTxRate  */ 0, // 0.002815363095612851,
         };
     }
 
@@ -392,15 +392,15 @@ public:
             bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
             //vSeeds.emplace_back("178.128.221.177");
 
-            consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000008546553c03");
-            consensus.defaultAssumeValid = uint256S("0x000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54"); // 47200
+            consensus.nMinimumChainWork = uint256S("0x00");
+            consensus.defaultAssumeValid = uint256S("0x00"); // 47200
             m_assumed_blockchain_size = 1;
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
                 // Data from RPC: getchaintxstats 4096 000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54
-                /* nTime    */ 1626696658,
-                /* nTxCount */ 387761,
-                /* dTxRate  */ 0.04035946932424404,
+                /* nTime    */ 0, // 1626696658,
+                /* nTxCount */ 0, // 387761,
+                /* dTxRate  */ 0, // 0.04035946932424404,
             };
         } else {
             const auto signet_challenge = args.GetArgs("-signetchallenge");
@@ -428,7 +428,7 @@ public:
         strNetworkID = CBaseChainParams::SIGNET;
         consensus.signet_blocks = true;
         consensus.signet_challenge.assign(bin.begin(), bin.end());
-        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nSubsidyHalvingInterval = 2880;
         consensus.BIP16Height = 1;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 1;
@@ -461,15 +461,15 @@ public:
         uint256 hash = h.GetHash();
         memcpy(pchMessageStart, hash.begin(), 4);
 
-        nDefaultPort = 38394;
+        nDefaultPort = 38398;
         nPruneAfterHeight = 1000;
 
         genesis = CreateGenesisBlock (1601286749, 534547, 0x1e0ffff0,
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x8d5223e215a03970bb3d3bc511a0d9a003e03cbc973289611ca6e0e617f57ccf"));
-        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear();
 
@@ -479,7 +479,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tb";
+        bech32_hrp = "rottb";
 
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
@@ -506,7 +506,7 @@ public:
         consensus.nSubsidyHalvingInterval = 150;
         // The subsidy for regtest net is kept same as upstream Bitcoin, so
         // that we don't have to update many of the tests unnecessarily.
-        consensus.initialSubsidy = 50 * COIN;
+        consensus.initialSubsidy = 1000000000; // 50 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 500; // BIP34 activated on regtest (Used in functional tests)
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in functional tests)
@@ -536,11 +536,11 @@ public:
 
         consensus.rules.reset(new Consensus::RegTestConsensus());
 
-        pchMessageStart[0] = 0xcc;
-        pchMessageStart[1] = 0xbf;
-        pchMessageStart[2] = 0xb5;
-        pchMessageStart[3] = 0xda;
-        nDefaultPort = 18495;
+        pchMessageStart[0] = 0xce;
+        pchMessageStart[1] = 0xb3;
+        pchMessageStart[2] = 0xbb;
+        pchMessageStart[3] = 0xd4;
+        nDefaultPort = 18498;
         nPruneAfterHeight = args.GetBoolArg("-fastprune", false) ? 100 : 1000;
         m_assumed_blockchain_size = 0;
         m_assumed_chain_state_size = 0;
@@ -551,8 +551,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("6f750b36d22f1dc3d0a6e483af45301022646dfc3b3ba2187865f5a7d6d83ab1"));
-        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -563,20 +563,20 @@ public:
         m_is_mockable_chain = true;
 
         checkpointData = {
-            {
+/*            {
                 {0, uint256S("18042820e8a9f538e77e93c500768e5be76720383cd17e9b419916d8f356c619")},
-            }
+            } */
         };
 
         m_assumeutxo_data = MapAssumeutxo{
-            {
+/*            {
                 110,
                 {AssumeutxoHash{uint256S("0xdc81af66a58085fe977c6aab56b49630d87b84521fc5a8a5c53f2f4b23c8d6d5")}, 110},
             },
             {
                 200,
                 {AssumeutxoHash{uint256S("0x51c8d11d8b5c1de51543c579736e786aa2736206d1e11e627568029ce092cf62")}, 200},
-            },
+            }, */
         };
 
         chainTxData = ChainTxData{
@@ -585,9 +585,9 @@ public:
             0
         };
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,88);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,90);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,230);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142;
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
