@@ -41,7 +41,7 @@ SPACEXPANSE Core includes the base elements required for Experienced users, Mine
 You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
 Several tutorials and more information are here:
-https://github.com/spacexpanse/rod-core-wallet_tutorials/wiki
+https://github.com/spacexpanse/spacexpanse_tutorials/wiki
 
 For compiling on Ubuntu you can use this guide:
 https://forum.spacexpanse.org/topic/59-guide-building-spacexpanse-on-ubuntu/

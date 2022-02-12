@@ -14,7 +14,7 @@ typedef int64_t CAmount;
 static const CAmount COIN = 100000000;
 
 /** No amount larger than this (in satoshi) is valid.  */
-static const CAmount MAX_MONEY = 560000000 * COIN;
+static const CAmount MAX_MONEY = 1050000000 * COIN;
 inline bool MoneyRange(const CAmount& nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 
 #endif //  BITCOIN_AMOUNT_H

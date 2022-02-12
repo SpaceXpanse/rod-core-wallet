@@ -57,7 +57,7 @@ The current parameters for `mainnet` are:
 
 * PoW mining is done based on [**triple-purpose mining**](mining.md).
 * The difficulty is updated for each block using the [**Dark Gravity Wave
-  (DGW)**](https://github.com/spacexpanseplatform/spacexpanse/blob/a4ebc9b0daf72c79d3997901aadef0ca6bd01085/src/test/dualalgo_tests.cpp#L29)
+  (DGW)**](https://github.com/spacexpanse/rod-core-wallet/blob/a4ebc9b0daf72c79d3997901aadef0ca6bd01085/src/test/dualalgo_tests.cpp#L29)
   formula.
 * Blocks are scheduled to be produced, on average, every **30 seconds**
   instead of every 10 minutes.  Difficulty retargets independently for
