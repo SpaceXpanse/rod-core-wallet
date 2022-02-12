@@ -219,6 +219,29 @@ public:
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
+//        
+        consensus.hashGenesisBlock = uint256S("0x");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
+        std::cout << "Mining Mainnet genesis block..." << std::endl;
+
+        genesis.nTime = GetTime ();
+
+        auto& fakeHeader = genesis.pow.initFakeHeader (genesis);
+        while (!genesis.pow.checkProofOfWork (fakeHeader, consensus))
+          {
+            assert (fakeHeader.nNonce < std::numeric_limits<uint32_t>::max ());
+            ++fakeHeader.nNonce;
+            if (fakeHeader.nNonce % 1000 == 0)
+              std::cout << "  nNonce = " << fakeHeader.nNonce << "..." << std::endl;
+          }
+
+        std::cout << "Found nonce: " << fakeHeader.nNonce << std::endl;
+        std::cout << "nTime: " << genesis.nTime << std::endl;
+        std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
+        std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
+        }
+        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        
 //        assert(consensus.hashGenesisBlock == uint256S("e5062d76e5f50c42f493826ac9920b63a8def2626fd70a5cec707ec47a4c4651"));
 //        assert(genesis.hashMerkleRoot == uint256S("0827901b75ab43978c3cf20a78baf040faeb0e2eeff3a2c58ab6521a6d46f8fd"));
 
@@ -324,6 +347,29 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
+//        
+        consensus.hashGenesisBlock = uint256S("0x");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
+        std::cout << "Mining Mainnet genesis block..." << std::endl;
+
+        genesis.nTime = GetTime ();
+
+        auto& fakeHeader = genesis.pow.initFakeHeader (genesis);
+        while (!genesis.pow.checkProofOfWork (fakeHeader, consensus))
+          {
+            assert (fakeHeader.nNonce < std::numeric_limits<uint32_t>::max ());
+            ++fakeHeader.nNonce;
+            if (fakeHeader.nNonce % 1000 == 0)
+              std::cout << "  nNonce = " << fakeHeader.nNonce << "..." << std::endl;
+          }
+
+        std::cout << "Found nonce: " << fakeHeader.nNonce << std::endl;
+        std::cout << "nTime: " << genesis.nTime << std::endl;
+        std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
+        std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
+        }
+        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        
 //        assert(consensus.hashGenesisBlock == uint256S("5195fc01d0e23d70d1f929f21ec55f47e1c6ea1e66fae98ee44cbbc994509bba"));
 //        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
@@ -468,6 +514,29 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
+//        
+        consensus.hashGenesisBlock = uint256S("0x");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
+        std::cout << "Mining Mainnet genesis block..." << std::endl;
+
+        genesis.nTime = GetTime ();
+
+        auto& fakeHeader = genesis.pow.initFakeHeader (genesis);
+        while (!genesis.pow.checkProofOfWork (fakeHeader, consensus))
+          {
+            assert (fakeHeader.nNonce < std::numeric_limits<uint32_t>::max ());
+            ++fakeHeader.nNonce;
+            if (fakeHeader.nNonce % 1000 == 0)
+              std::cout << "  nNonce = " << fakeHeader.nNonce << "..." << std::endl;
+          }
+
+        std::cout << "Found nonce: " << fakeHeader.nNonce << std::endl;
+        std::cout << "nTime: " << genesis.nTime << std::endl;
+        std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
+        std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
+        }
+        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        
 //        assert(consensus.hashGenesisBlock == uint256S("0x8d5223e215a03970bb3d3bc511a0d9a003e03cbc973289611ca6e0e617f57ccf"));
 //        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
@@ -551,6 +620,29 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
+//        
+        consensus.hashGenesisBlock = uint256S("0x");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
+        std::cout << "Mining Mainnet genesis block..." << std::endl;
+
+        genesis.nTime = GetTime ();
+
+        auto& fakeHeader = genesis.pow.initFakeHeader (genesis);
+        while (!genesis.pow.checkProofOfWork (fakeHeader, consensus))
+          {
+            assert (fakeHeader.nNonce < std::numeric_limits<uint32_t>::max ());
+            ++fakeHeader.nNonce;
+            if (fakeHeader.nNonce % 1000 == 0)
+              std::cout << "  nNonce = " << fakeHeader.nNonce << "..." << std::endl;
+          }
+
+        std::cout << "Found nonce: " << fakeHeader.nNonce << std::endl;
+        std::cout << "nTime: " << genesis.nTime << std::endl;
+        std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
+        std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
+        }
+        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        
 //        assert(consensus.hashGenesisBlock == uint256S("6f750b36d22f1dc3d0a6e483af45301022646dfc3b3ba2187865f5a7d6d83ab1"));
 //        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
 
