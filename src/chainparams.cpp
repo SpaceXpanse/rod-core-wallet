@@ -129,8 +129,6 @@ CreateGenesisBlock (const uint32_t nTime, const uint32_t nNonce,
  * prints the found nonce and block hash and exits.
  */
 void MineGenesisBlock (CBlock& block, const Consensus::Params& consensus)
-// consensus.hashGenesisBlock = uint256("0x01");
-//  if (true && genesis.GetHash() != hashGenesisBlock)
 {
   std::cout << "Mining genesis block..." << std::endl;
 
@@ -280,7 +278,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 2880;
-        consensus.initialSubsidy = 1000000000 //10 * COIN;
+        consensus.initialSubsidy = 1000000000; //10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
