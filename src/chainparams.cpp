@@ -345,7 +345,7 @@ public:
 
         genesis = CreateGenesisBlock (1644703147, 234426, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressMainnet));
+                                      uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
 /*        
         consensus.hashGenesisBlock = uint256S("0x");
@@ -512,7 +512,7 @@ public:
 
         genesis = CreateGenesisBlock (1644703247, 922588, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressMainnet));
+                                      uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
 /*        
         consensus.hashGenesisBlock = uint256S("0x");
@@ -654,7 +654,7 @@ public:
         m_is_test_chain = true;
         m_is_mockable_chain = true;
 
-        checkpointData = {
+        checkpointData =  {
 /*            {
                 {0, uint256S("18042820e8a9f538e77e93c500768e5be76720383cd17e9b419916d8f356c619")},
             } */
