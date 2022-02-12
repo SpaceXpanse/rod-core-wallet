@@ -368,7 +368,7 @@ public:
         std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
-        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
         
 //        assert(consensus.hashGenesisBlock == uint256S("5195fc01d0e23d70d1f929f21ec55f47e1c6ea1e66fae98ee44cbbc994509bba"));
 //        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
@@ -535,7 +535,7 @@ public:
         std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
-        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
         
 //        assert(consensus.hashGenesisBlock == uint256S("0x8d5223e215a03970bb3d3bc511a0d9a003e03cbc973289611ca6e0e617f57ccf"));
 //        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
@@ -641,7 +641,7 @@ public:
         std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
-        std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
+        std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
         
 //        assert(consensus.hashGenesisBlock == uint256S("6f750b36d22f1dc3d0a6e483af45301022646dfc3b3ba2187865f5a7d6d83ab1"));
 //        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
@@ -678,7 +678,7 @@ public:
         };
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142;
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142;)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
