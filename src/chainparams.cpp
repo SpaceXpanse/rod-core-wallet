@@ -304,8 +304,8 @@ public:
         // The value is the chain work of the SpaceXpanse testnet chain at height
         // 110'000 with best block hash:
         // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000e59eda1191b9");
-        consensus.defaultAssumeValid = uint256S("0x01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f"); // 110'000
+        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.defaultAssumeValid = uint256S("0x00"); // 110'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -324,8 +324,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("5195fc01d0e23d70d1f929f21ec55f47e1c6ea1e66fae98ee44cbbc994509bba"));
-        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+//        assert(consensus.hashGenesisBlock == uint256S("5195fc01d0e23d70d1f929f21ec55f47e1c6ea1e66fae98ee44cbbc994509bba"));
+//        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -392,8 +392,8 @@ public:
             bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
             //vSeeds.emplace_back("178.128.221.177");
 
-            consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000008546553c03");
-            consensus.defaultAssumeValid = uint256S("0x000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54"); // 47200
+            consensus.nMinimumChainWork = uint256S("0x00");
+            consensus.defaultAssumeValid = uint256S("0x00"); // 47200
             m_assumed_blockchain_size = 1;
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
@@ -468,8 +468,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x8d5223e215a03970bb3d3bc511a0d9a003e03cbc973289611ca6e0e617f57ccf"));
-        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+//        assert(consensus.hashGenesisBlock == uint256S("0x8d5223e215a03970bb3d3bc511a0d9a003e03cbc973289611ca6e0e617f57ccf"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
         vFixedSeeds.clear();
 
@@ -551,8 +551,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("6f750b36d22f1dc3d0a6e483af45301022646dfc3b3ba2187865f5a7d6d83ab1"));
-        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
+//        assert(consensus.hashGenesisBlock == uint256S("6f750b36d22f1dc3d0a6e483af45301022646dfc3b3ba2187865f5a7d6d83ab1"));
+//        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
