@@ -305,8 +305,8 @@ public:
         // The value is the chain work of the SpaceXpanse testnet chain at height
         // 110'000 with best block hash:
         // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-        consensus.nMinimumChainWork = uint256S("");
-        consensus.defaultAssumeValid = uint256S(""); // 110'000
+        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.defaultAssumeValid = uint256S("0x00"); // 110'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -325,8 +325,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x01"));
-        assert(genesis.hashMerkleRoot == uint256S("0x01"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -394,8 +394,8 @@ public:
             bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
             //vSeeds.emplace_back("178.128.221.177");
 
-            consensus.nMinimumChainWork = uint256S("");
-            consensus.defaultAssumeValid = uint256S(""); // 47200
+            consensus.nMinimumChainWork = uint256S("0x00");
+            consensus.defaultAssumeValid = uint256S("0x00"); // 47200
             m_assumed_blockchain_size = 1;
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
@@ -470,8 +470,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x01"));
-        assert(genesis.hashMerkleRoot == uint256S("0x01"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear();
 
@@ -553,8 +553,8 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x01"));
-        assert(genesis.hashMerkleRoot == uint256S("0x01"));
+        assert(consensus.hashGenesisBlock == uint256S(""));
+        assert(genesis.hashMerkleRoot == uint256S(""));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
