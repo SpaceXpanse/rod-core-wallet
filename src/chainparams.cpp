@@ -53,7 +53,7 @@ final premine script will be:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressRegtest[]
-    = "72240bdb175944ac843ab2c64ea6fb0371323168";
+    = "a25f20bd7dd2d450b5475dc0f27115ce3143427b";
 
 /*
 The premine on testnet and mainnet is sent to a 2-of-4 multisig address.  The
@@ -67,7 +67,7 @@ premine script is:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressMainnet[]
-    = "72240bdb175944ac843ab2c64ea6fb0371323168";
+    = "fe546eafc3574b33f1c9e20a4d44680c4e54074d";
 
 CBlock CreateGenesisBlock(const CScript& genesisInputScript, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -128,9 +128,9 @@ CreateGenesisBlock (const uint32_t nTime, const uint32_t nNonce,
  * Mines the genesis block (by finding a suitable nonce only).  When done, it
  * prints the found nonce and block hash and exits.
  */
-// void MineGenesisBlock (CBlock& block, const Consensus::Params& consensus)
-  consensus.hashGenesisBlock = uint256("0x01");
-  if (true && genesis.GetHash() != hashGenesisBlock)
+void MineGenesisBlock (CBlock& block, const Consensus::Params& consensus)
+// consensus.hashGenesisBlock = uint256("0x01");
+//  if (true && genesis.GetHash() != hashGenesisBlock)
 {
   std::cout << "Mining genesis block..." << std::endl;
 
@@ -196,8 +196,8 @@ public:
         // The value is the chain work of the SpaceXpanse mainnet chain at height
         // 3'000'000, with best block hash:
         // d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-        consensus.nMinimumChainWork = uint256S("");
-        consensus.defaultAssumeValid = uint256S(""); // 3'000'000
+        consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.defaultAssumeValid = uint256S("0x00"); // 3'000'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -217,7 +217,7 @@ public:
         m_assumed_blockchain_size = 5;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock (1642373999, 482087, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1642373999, 634830, 0x1e0ffff0,
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -231,8 +231,8 @@ public:
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         /* FIXME: Update these below.  */
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
-        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0x1E, 0xB2};
 
         bech32_hrp = "rod";
 
@@ -244,8 +244,8 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {
-/*                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
+/*            {
+                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
                 { 340000, uint256S("e685ccaa62025c5c5075cfee80e498589bd4788614dcbe397e12bf2b8e887e47")},
                 {1234000, uint256S("a853c0581c3637726a769b77cadf185e09666742757ef2df00058e876cf25897")},
             }
@@ -279,8 +279,8 @@ public:
         strNetworkID = CBaseChainParams::TESTNET;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 4200000;
-        consensus.initialSubsidy = 10 * COIN;
+        consensus.nSubsidyHalvingInterval = 2880;
+        consensus.initialSubsidy = 1000000000 //10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -323,7 +323,7 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock (1642373999, 343829, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1642373999, 557546, 0x1e0ffff0,
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -337,7 +337,7 @@ public:
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,230);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
@@ -589,9 +589,9 @@ public:
             0
         };
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,88);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,90);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,230);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142;
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
