@@ -423,7 +423,144 @@ public:
     }
 };
 
+/**
+ * Signet: test network with an additional consensus parameter (see BIP325).
+ */
+class SigNetParams : public CChainParams {
+public:
+    explicit SigNetParams(const ArgsManager& args) {
+        std::vector<uint8_t> bin;
+        vSeeds.clear();
 
+        if (!args.IsArgSet("-signetchallenge")) {
+            /* FIXME: Adjust the default signet challenge to something else if
+               we want to use signet for Namecoin.  */
+            bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
+            //vSeeds.emplace_back("178.128.221.177");
+
+            consensus.nMinimumChainWork = uint256S("0x00");
+            consensus.defaultAssumeValid = uint256S("0x00"); // 47200
+            m_assumed_blockchain_size = 1;
+            m_assumed_chain_state_size = 0;
+            chainTxData = ChainTxData{
+                // Data from RPC: getchaintxstats 4096 000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54
+                /* nTime    */ 0, // 1626696658,
+                /* nTxCount */ 0, // 387761,
+                /* dTxRate  */ 0, // 0.04035946932424404,
+            };
+        } else {
+            const auto signet_challenge = args.GetArgs("-signetchallenge");
+            if (signet_challenge.size() != 1) {
+                throw std::runtime_error(strprintf("%s: -signetchallenge cannot be multiple values.", __func__));
+            }
+            bin = ParseHex(signet_challenge[0]);
+
+            consensus.nMinimumChainWork = uint256{};
+            consensus.defaultAssumeValid = uint256{};
+            m_assumed_blockchain_size = 0;
+            m_assumed_chain_state_size = 0;
+            chainTxData = ChainTxData{
+                0,
+                0,
+                0,
+            };
+            LogPrintf("Signet with challenge %s\n", signet_challenge[0]);
+        }
+
+        if (args.IsArgSet("-signetseednode")) {
+            vSeeds = args.GetArgs("-signetseednode");
+        }
+
+        strNetworkID = CBaseChainParams::SIGNET;
+        consensus.signet_blocks = true;
+        consensus.signet_challenge.assign(bin.begin(), bin.end());
+        consensus.nSubsidyHalvingInterval = 2880;
+        consensus.BIP16Height = 1;
+        consensus.BIP34Height = 1;
+        consensus.BIP65Height = 1;
+        consensus.BIP66Height = 1;
+        consensus.CSVHeight = 1;
+        consensus.SegwitHeight = 1;
+        consensus.fPowNoRetargeting = false;
+        consensus.nRuleChangeActivationThreshold = 1815; // 90% of 2016
+        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.MinBIP9WarningHeight = 0;
+        consensus.powLimitNeoscrypt = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
+
+        // Activation of Taproot (BIPs 340-342)
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::ALWAYS_ACTIVE;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
+
+        consensus.nAuxpowChainId = 1829;
+
+        consensus.rules.reset(new Consensus::TestNetConsensus());
+
+        // message start is defined as the first 4 bytes of the sha256d of the block script
+        CHashWriter h(SER_DISK, 0);
+        h << consensus.signet_challenge;
+        uint256 hash = h.GetHash();
+        memcpy(pchMessageStart, hash.begin(), 4);
+
+        nDefaultPort = 38398;
+        nPruneAfterHeight = 1000;
+
+        genesis = CreateGenesisBlock (1644761470, 164627, 0x1e0ffff0,
+                                      pszTimestampTestnet,
+                                      uint160S (hexPremineAddressRegtest));
+        consensus.hashGenesisBlock = genesis.GetHash();
+/*        
+        consensus.hashGenesisBlock = uint256S("0x");
+        if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
+        std::cout << "Mining Signet genesis block..." << std::endl;
+
+        genesis.nTime = GetTime ();
+
+        auto& fakeHeader = genesis.pow.initFakeHeader (genesis);
+        while (!genesis.pow.checkProofOfWork (fakeHeader, consensus))
+          {
+            assert (fakeHeader.nNonce < std::numeric_limits<uint32_t>::max ());
+            ++fakeHeader.nNonce;
+            if (fakeHeader.nNonce % 1000 == 0)
+              std::cout << "  nNonce = " << fakeHeader.nNonce << "..." << std::endl;
+          }
+
+        std::cout << "Found nonce: " << fakeHeader.nNonce << std::endl;
+        std::cout << "nTime: " << genesis.nTime << std::endl;
+        std::cout << "Block hash: " << genesis.GetHash ().GetHex () << std::endl;
+        std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
+        }
+        std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
+*/        
+        assert(consensus.hashGenesisBlock == uint256S("daa4139ea839591a98b5557e1898a147f55ee193c56647fda592dd58475c66cc"));
+        assert(genesis.hashMerkleRoot == uint256S("9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+
+        vFixedSeeds.clear();
+
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
+
+        bech32_hrp = "rodtb";
+
+        fDefaultConsistencyChecks = false;
+        fRequireStandard = true;
+        m_is_test_chain = true;
+        m_is_mockable_chain = false;
+    }
+
+    int DefaultCheckNameDB () const override
+    {
+        return -1;
+    }
+};
 
 /**
  * Regression test: intended for private networks only. Has minimal difficulty to ensure that
@@ -636,8 +773,8 @@ std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, c
         return std::unique_ptr<CChainParams>(new CMainParams());
     } else if (chain == CBaseChainParams::TESTNET) {
         return std::unique_ptr<CChainParams>(new CTestNetParams());
-//    } else if (chain == CBaseChainParams::SIGNET) {
-//        return std::unique_ptr<CChainParams>(new SigNetParams(args));
+    } else if (chain == CBaseChainParams::SIGNET) {
+        return std::unique_ptr<CChainParams>(new SigNetParams(args));
     } else if (chain == CBaseChainParams::REGTEST) {
         return std::unique_ptr<CChainParams>(new CRegTestParams(args));
     }
