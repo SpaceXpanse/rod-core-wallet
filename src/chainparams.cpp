@@ -370,8 +370,8 @@ public:
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0x90c484d1d9d870b163e9e153ac4458bba75fc532370e2058de9ac3ec50926c7c"));
-        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+        assert(consensus.hashGenesisBlock == uint256S("90c484d1d9d870b163e9e153ac4458bba75fc532370e2058de9ac3ec50926c7c"));
+        assert(genesis.hashMerkleRoot == uint256S("9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -537,8 +537,8 @@ public:
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0xdaa4139ea839591a98b5557e1898a147f55ee193c56647fda592dd58475c66cc"));
-        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+        assert(consensus.hashGenesisBlock == uint256S("daa4139ea839591a98b5557e1898a147f55ee193c56647fda592dd58475c66cc"));
+        assert(genesis.hashMerkleRoot == uint256S("9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear();
 
