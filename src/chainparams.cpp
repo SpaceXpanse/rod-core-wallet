@@ -265,7 +265,7 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            { 0, uint256S("0x0")}; 
+            { 0, uint256S("0x0")}, 
 /*                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
                 { 340000, uint256S("e685ccaa62025c5c5075cfee80e498589bd4788614dcbe397e12bf2b8e887e47")},
                 {1234000, uint256S("a853c0581c3637726a769b77cadf185e09666742757ef2df00058e876cf25897")},
