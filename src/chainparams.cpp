@@ -194,8 +194,8 @@ public:
         // The value is the chain work of the SpaceXpanse mainnet chain at height
         // 3'000'000, with best block hash:
         // d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-        consensus.nMinimumChainWork = uint256S("0x00");
-        consensus.defaultAssumeValid = uint256S("0x00"); // 3'000'000
+        consensus.nMinimumChainWork = uint256S("0x0");
+        consensus.defaultAssumeValid = uint256S("0x0"); // 3'000'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -265,11 +265,11 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-/*            {
-                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
+            { 0, uint256S("0x0")}; 
+/*                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
                 { 340000, uint256S("e685ccaa62025c5c5075cfee80e498589bd4788614dcbe397e12bf2b8e887e47")},
                 {1234000, uint256S("a853c0581c3637726a769b77cadf185e09666742757ef2df00058e876cf25897")},
-            }  */ 
+*/              
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -327,8 +327,8 @@ public:
         // The value is the chain work of the SpaceXpanse testnet chain at height
         // 110'000 with best block hash:
         // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-        consensus.nMinimumChainWork = uint256S("0x00");
-        consensus.defaultAssumeValid = uint256S("0x00"); // 110'000
+        consensus.nMinimumChainWork = uint256S("0x0");
+        consensus.defaultAssumeValid = uint256S("0x0"); // 110'000
 
         consensus.nAuxpowChainId = 1829;
 
@@ -438,8 +438,8 @@ public:
             bin = ParseHex("512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be430210359ef5021964fe22d6f8e05b2463c9540ce96883fe3b278760f048f5189f2e6c452ae");
             //vSeeds.emplace_back("178.128.221.177");
 
-            consensus.nMinimumChainWork = uint256S("0x00");
-            consensus.defaultAssumeValid = uint256S("0x00"); // 47200
+            consensus.nMinimumChainWork = uint256S("0x0");
+            consensus.defaultAssumeValid = uint256S("0x0"); // 47200
             m_assumed_blockchain_size = 1;
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
