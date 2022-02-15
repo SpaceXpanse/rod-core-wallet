@@ -265,11 +265,10 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}}, 
-/*                {      0, uint256S("ce46f5f898b38e9c8c5e9ae4047ef5bccc42ec8eca0142202813a625e6dc2656")},
-                { 340000, uint256S("e685ccaa62025c5c5075cfee80e498589bd4788614dcbe397e12bf2b8e887e47")},
-                {1234000, uint256S("a853c0581c3637726a769b77cadf185e09666742757ef2df00058e876cf25897")},
-*/              
+//            {{ 0, uint256S("0x0")}}, 
+            {
+                {0, uint256S("d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389")},   
+            }          
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -398,12 +397,10 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}}, 
-/*            {
-                {     0, uint256S("3bcc29e821e7fbd374c7460306eb893725d69dbee87c4774cdcd618059b6a578")},
-                { 11000, uint256S("57670b799b6645c7776e9fdbd6abff510aaed9790625dd28072d0e87a7fafcf4")},
-                { 70000, uint256S("e2c154dc8e223cef271b54174c9d66eaf718378b30977c3df115ded629f3edb1")},
-            } */
+//            {{ 0, uint256S("0x0")}}, 
+            {
+                {0, uint256S("61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71")},
+            } 
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -656,10 +653,10 @@ public:
         m_is_mockable_chain = true;
 
         checkpointData =  {
-            {{ 0, uint256S("0x0")}}, 
-/*            {
-                {0, uint256S("18042820e8a9f538e77e93c500768e5be76720383cd17e9b419916d8f356c619")},
-            } */
+//            {{ 0, uint256S("0x0")}}, 
+            {
+                {0, uint256S("fa37a72ecf6241368fafcb4a4c49abe2ba06614f9bd06cb62fa05a5975303765")},
+            } 
         };
 
         m_assumeutxo_data = MapAssumeutxo{
