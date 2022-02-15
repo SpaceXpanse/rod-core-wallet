@@ -242,8 +242,8 @@ public:
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("83b7d8b4f0cf60b2e1b6cfff6732045bd4f30a1f86d8d50ce1b3c4eb64c79a0a"));
-        assert(genesis.hashMerkleRoot == uint256S("ad16aeca130042a84778962d32abbd35ac5d4747413631d6e0e7e5fcb37f1cf1"));
+        assert(consensus.hashGenesisBlock == uint256S("0x83b7d8b4f0cf60b2e1b6cfff6732045bd4f30a1f86d8d50ce1b3c4eb64c79a0a"));
+        assert(genesis.hashMerkleRoot == uint256S("0xad16aeca130042a84778962d32abbd35ac5d4747413631d6e0e7e5fcb37f1cf1"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
@@ -370,8 +370,8 @@ public:
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("742f607f632e7843243420b198dbdf2154aa795d1c9b6f60dc7560e974c1b881"));
-        assert(genesis.hashMerkleRoot == uint256S("95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
+        assert(consensus.hashGenesisBlock == uint256S("0x742f607f632e7843243420b198dbdf2154aa795d1c9b6f60dc7560e974c1b881"));
+        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -643,8 +643,8 @@ public:
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("08601bb356c19063840030e5e70b02bc768975435c77cf0ac76f25be050f340a"));
-        assert(genesis.hashMerkleRoot == uint256S("9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+        assert(consensus.hashGenesisBlock == uint256S("0x08601bb356c19063840030e5e70b02bc768975435c77cf0ac76f25be050f340a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
