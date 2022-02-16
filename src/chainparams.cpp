@@ -162,11 +162,6 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 1054080; // 4216320;
-        /* The value of ~3.8 ROD is calculated to yield the desired total
-           PoW coin supply.  For the calculation, see here:
-
-           https://github.com/spacexpanse/rod-core-wallet/issues/70#issuecomment-441292533
-        */
         consensus.initialSubsidy = 8000000000;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
