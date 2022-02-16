@@ -161,13 +161,13 @@ public:
         strNetworkID = CBaseChainParams::MAIN;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 4216320;
+        consensus.nSubsidyHalvingInterval = 1054080; // 4216320;
         /* The value of ~3.8 ROD is calculated to yield the desired total
            PoW coin supply.  For the calculation, see here:
 
            https://github.com/spacexpanse/rod-core-wallet/issues/70#issuecomment-441292533
         */
-        consensus.initialSubsidy = 10000000000;
+        consensus.initialSubsidy = 8000000000;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -298,8 +298,8 @@ public:
         strNetworkID = CBaseChainParams::TESTNET;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 2880;
-        consensus.initialSubsidy = 1000000000; //10 * COIN;
+        consensus.nSubsidyHalvingInterval = 1054080; // 2880;
+        consensus.initialSubsidy = 8000000000; //10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -472,7 +472,7 @@ public:
         strNetworkID = CBaseChainParams::SIGNET;
         consensus.signet_blocks = true;
         consensus.signet_challenge.assign(bin.begin(), bin.end());
-        consensus.nSubsidyHalvingInterval = 2880;
+        consensus.nSubsidyHalvingInterval = 1054080; // 2880;
         consensus.BIP16Height = 1;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 1;
@@ -570,10 +570,10 @@ public:
         strNetworkID =  CBaseChainParams::REGTEST;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 150;
+        consensus.nSubsidyHalvingInterval = 2280; // 150;
         // The subsidy for regtest net is kept same as upstream Bitcoin, so
         // that we don't have to update many of the tests unnecessarily.
-        consensus.initialSubsidy = 1000000000; //50 * COIN;
+        consensus.initialSubsidy = 800000000; //50 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 500; // BIP34 activated on regtest (Used in functional tests)
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in functional tests)
