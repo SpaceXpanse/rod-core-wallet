@@ -245,7 +245,7 @@ public:
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,78);
         /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0x1E, 0xB2};
@@ -272,7 +272,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 0, // 1626099379,
+            /* nTime    */ 1644862766, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -404,7 +404,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 0, // 1586091497,
+            /* nTime    */ 1644863012, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -535,9 +535,9 @@ public:
 
         vFixedSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
