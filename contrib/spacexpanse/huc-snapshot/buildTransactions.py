@@ -15,7 +15,7 @@
 # passed as CLI argument (including the credentials and wallet name
 # if applicable), e.g.
 #
-#   http://user:password@localhost:8396/wallet/walletname
+#   http://user:password@localhost:11998/wallet/walletname
 
 from decimal import Decimal
 import glob

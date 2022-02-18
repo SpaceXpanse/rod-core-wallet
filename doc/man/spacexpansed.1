@@ -32,11 +32,11 @@ long fork (%s in cmd is replaced by message)
 If this block is in the chain assume that it and its ancestors are valid
 and potentially skip their script verification (0 to verify all,
 default:
-d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e,
+d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389,
 testnet:
-01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f,
+61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71,
 signet:
-000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54)
+fa37a72ecf6241368fafcb4a4c49abe2ba06614f9bd06cb62fa05a5975303765)
 .HP
 \fB\-blockfilterindex=\fR<type>
 .IP
@@ -218,8 +218,8 @@ Default duration (in seconds) of manually configured bans (default:
 Bind to given address and always listen on it (default: 0.0.0.0). Use
 [host]:port notation for IPv6. Append =onion to tag any incoming
 connections to that address and port as incoming Tor connections
-(default: 127.0.0.1:8394=onion, testnet: 127.0.0.1:18394=onion,
-signet: 127.0.0.1:38394=onion, regtest: 127.0.0.1:18495=onion)
+(default: 127.0.0.1:11998=onion, testnet: 127.0.0.1:18398=onion,
+signet: 127.0.0.1:38398=onion, regtest: 127.0.0.1:18498=onion)
 .HP
 \fB\-connect=\fR<ip>
 .IP
@@ -338,7 +338,7 @@ Relay non\-P2SH multisig (default: 1)
 \fB\-port=\fR<port>
 .IP
 Listen for connections on <port>. Nodes not using the default ports
-(default: 8394, testnet: 18394, signet: 38394, regtest: 18495)
+(default: 11998, testnet: 18398, signet: 38398, regtest: 18498)
 are unlikely to get incoming connections. Not relevant for I2P
 (see doc/i2p.md).
 .HP
@@ -758,8 +758,8 @@ Password for JSON\-RPC connections
 .HP
 \fB\-rpcport=\fR<port>
 .IP
-Listen for JSON\-RPC connections on <port> (default: 8396, testnet:
-18396, signet: 38396, regtest: 18493)
+Connect to JSON\-RPC on <port> (default: 11998, testnet: 18398, signet:
+38398, regtest: 18498)
 .HP
 \fB\-rpcserialversion\fR
 .IP

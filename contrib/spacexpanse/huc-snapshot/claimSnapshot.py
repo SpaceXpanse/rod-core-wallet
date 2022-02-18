@@ -19,7 +19,7 @@
 # applicable, e.g.
 #
 #   http://huc:password@localhost:8399
-#   http://spacexpanse:password@localhost:8396/wallet/walletname
+#   http://spacexpanse:password@localhost:11998/wallet/walletname
 
 from decimal import Decimal
 import json
