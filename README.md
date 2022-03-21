@@ -23,7 +23,7 @@ What does SpaceXpanse Core do?
 What can SpaceXpanse be used for?
 --------------------------
 
-* Along with some of Namecoin's uses cases, it is designed especially with gaming and complex decentralised applications in mind.
+* It is designed especially with gaming and complex decentralised applications in mind.
 * Allow creation of trustless accounts.
 * Create Virtual Currencies.
 * Asset Storage, Ownership and Management.
