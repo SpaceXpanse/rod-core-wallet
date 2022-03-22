@@ -88,7 +88,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
-        release_name: SpaceXpanse Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: ROD Core Wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -177,7 +177,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
-        release_name: SpaceXpanse Core ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: ROD Core Wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
