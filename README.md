@@ -34,7 +34,7 @@ What can SpaceXpanse be used for?
 More Information
 ----------------
 
-XAYA Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
+SpaceXpanse Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
 You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
@@ -51,6 +51,6 @@ https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md
 https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md
 
 
-Standard users should use the XAYA Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
+Standard users should use the SpaceXpanse Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
 
-for issues with XAYA Core you can create an issue in Github or ask on the forum https://forum.spacexpanse.org
+for issues with SpaceXpanse Core you can create an issue in Github or ask on the forum https://forum.spacexpanse.org
