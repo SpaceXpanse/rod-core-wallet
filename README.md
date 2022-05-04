@@ -41,11 +41,7 @@ SPACEXPANSE ROD Core includes the base elements required for Experienced users, 
 You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
 Several tutorials and more information are here:
-https://github.com/spacexpanse/spacexpanse_tutorials/wiki
-
-For compiling on Ubuntu you can use this guide:
-https://forum.spacexpanse.org/topic/59-guide-building-spacexpanse-on-ubuntu/
-
+https://github.com/SpaceXpanse/Documentation/wiki
 
 you can also follow any Bitcoin guide, just replace the repo with SPACEXPANSE's:
 https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md
@@ -55,4 +51,4 @@ https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md
 
 Standard users should use the SPACEXPANSE Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
 
-for issues with SPACEXPANSE Core you can create an issue in Github or ask on the forum https://forum.spacexpanse.org
+for issues with SPACEXPANSE Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
