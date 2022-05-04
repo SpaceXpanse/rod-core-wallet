@@ -1,17 +1,17 @@
 [![Build CI](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml/badge.svg?branch=0.6.1)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml)
 
-SpaceXpanse Core
+SpaceXpanse ROD Core
 =========
 
-https://spacexpanse.org
+https://rod.spacexpanse.org
 
-What is SpaceXpanse?
+What is SpaceXpanse ROD Core?
 -------------
 
-SpaceXpanse Core is a decentralized open source information registration and transfer system based on the Namecoin cryptocurrency. It is primarily aimed at decentralised blockchain worlds creation. 
+SpaceXpanse ROD Core is a decentralized open source information registration and transfer system based on the Namecoin cryptocurrency. It is primarily aimed at decentralised blockchain worlds creation. 
 This is the first layer of the SpaceXpanse Platform.
 
-What does SpaceXpanse Core do?
+What does SpaceXpanse ROD Core do?
 ----------------     
 
 * Securely record and transfer arbitrary names (keys).
@@ -36,7 +36,7 @@ What can SpaceXpanse be used for?
 More Information
 ----------------
 
-SPACEXPANSE Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
+SPACEXPANSE ROD Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
 You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
