@@ -43,12 +43,12 @@ You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spa
 Several tutorials and more information are here:
 https://github.com/SpaceXpanse/Documentation/wiki
 
-you can also follow any Bitcoin guide, just replace the repo with SPACEXPANSE's:
+You can also follow any Bitcoin guide, just replace the repo with SpaceXpanse's:
 https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md
 https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md
 https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md
 
 
-Standard users should use the SPACEXPANSE Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
+Standard users should use the SpaceXpanse ROD Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
 
-for issues with SPACEXPANSE Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
+For issues with SPACEXPANSE Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
