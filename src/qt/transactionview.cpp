@@ -19,6 +19,7 @@
 
 #include <node/ui_interface.h>
 
+#include <chrono>
 #include <optional>
 
 #include <QApplication>
@@ -117,8 +118,8 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     amountWidget->setValidator(amountValidator);
     hlayout->addWidget(amountWidget);
 
-    // Delay before filtering transactions in ms
-    static const int input_filter_delay = 200;
+    // Delay before filtering transactions
+    static constexpr auto input_filter_delay{200ms};
 
     QTimer* amount_typing_delay = new QTimer(this);
     amount_typing_delay->setSingleShot(true);
@@ -513,7 +514,7 @@ void TransactionView::editLabel()
                 : EditAddressDialog::EditSendingAddress, this);
             dlg->setModel(addressBook);
             dlg->loadRow(idx);
-            GUIUtil::ShowModalDialogAndDeleteOnClose(dlg);
+            GUIUtil::ShowModalDialogAsynchronously(dlg);
         }
         else
         {
@@ -522,7 +523,7 @@ void TransactionView::editLabel()
                 this);
             dlg->setModel(addressBook);
             dlg->setAddress(address);
-            GUIUtil::ShowModalDialogAndDeleteOnClose(dlg);
+            GUIUtil::ShowModalDialogAsynchronously(dlg);
         }
     }
 }
@@ -552,7 +553,7 @@ void TransactionView::openThirdPartyTxUrl(QString url)
 QWidget *TransactionView::createDateRangeWidget()
 {
     dateRangeWidget = new QFrame();
-    dateRangeWidget->setFrameStyle(QFrame::Panel | QFrame::Raised);
+    dateRangeWidget->setFrameStyle(static_cast<int>(QFrame::Panel) | static_cast<int>(QFrame::Raised));
     dateRangeWidget->setContentsMargins(1,1,1,1);
     QHBoxLayout *layout = new QHBoxLayout(dateRangeWidget);
     layout->setContentsMargins(0,0,0,0);

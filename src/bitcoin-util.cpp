@@ -22,8 +22,6 @@
 #include <memory>
 #include <thread>
 
-#include <boost/algorithm/string.hpp>
-
 static const int CONTINUE_EXECUTION=-1;
 
 const std::function<std::string(const char*)> G_TRANSLATION_FUN = nullptr;
@@ -34,7 +32,7 @@ static void SetupBitcoinUtilArgs(ArgsManager &argsman)
 
     argsman.AddArg("-version", "Print version and exit", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 
-    argsman.AddCommand("grind", "Perform proof of work on hex header string");
+    argsman.AddCommand("grind", "Perform proof of work (with SHA-256d) on hex header string");
 
     SetupChainParamsBaseOptions(argsman);
 }
@@ -53,7 +51,10 @@ static int AppInitUtil(ArgsManager& args, int argc, char* argv[])
     if (HelpRequested(args) || args.IsArgSet("-version")) {
         // First part of help message is specific to this utility
         std::string strUsage = PACKAGE_NAME " bitcoin-util utility version " + FormatFullVersion() + "\n";
-        if (!args.IsArgSet("-version")) {
+
+        if (args.IsArgSet("-version")) {
+            strUsage += FormatParagraph(LicenseInfo());
+        } else {
             strUsage += "\n"
                 "Usage:  bitcoin-util [options] [commands]  Do stuff\n";
             strUsage += "\n" + args.GetHelpMessage();
@@ -79,13 +80,13 @@ static int AppInitUtil(ArgsManager& args, int argc, char* argv[])
     return CONTINUE_EXECUTION;
 }
 
-static void grind_task(uint32_t nBits, CBlockHeader& header_orig, uint32_t offset, uint32_t step, std::atomic<bool>& found)
+static void grind_task(uint32_t nBits, CPureBlockHeader& header_orig, uint32_t offset, uint32_t step, std::atomic<bool>& found)
 {
     arith_uint256 target;
     bool neg, over;
     target.SetCompact(nBits, &neg, &over);
     if (target == 0 || neg || over) return;
-    CBlockHeader header = header_orig; // working copy
+    CPureBlockHeader header = header_orig; // working copy
     header.nNonce = offset;
 
     uint32_t finish = std::numeric_limits<uint32_t>::max() - step;
@@ -94,7 +95,7 @@ static void grind_task(uint32_t nBits, CBlockHeader& header_orig, uint32_t offse
     while (!found && header.nNonce < finish) {
         const uint32_t next = (finish - header.nNonce < 5000*step) ? finish : header.nNonce + 5000*step;
         do {
-            if (UintToArith256(header.GetHash()) <= target) {
+            if (UintToArith256(header.GetPowHash(PowAlgo::SHA256D)) <= target) {
                 if (!found.exchange(true)) {
                     header_orig.nNonce = header.nNonce;
                 }
@@ -112,8 +113,8 @@ static int Grind(const std::vector<std::string>& args, std::string& strPrint)
         return EXIT_FAILURE;
     }
 
-    CBlockHeader header;
-    if (!DecodeHexBlockHeader(header, args[0])) {
+    CPureBlockHeader header;
+    if (!DecodeHexPureHeader(header, args[0])) {
         strPrint = "Could not decode block header";
         return EXIT_FAILURE;
     }

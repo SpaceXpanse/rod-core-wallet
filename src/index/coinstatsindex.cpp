@@ -12,6 +12,12 @@
 #include <undo.h>
 #include <validation.h>
 
+using node::CCoinsStats;
+using node::GetBogoSize;
+using node::ReadBlockFromDisk;
+using node::TxOutSer;
+using node::UndoReadFromDisk;
+
 static constexpr uint8_t DB_BLOCK_HASH{'s'};
 static constexpr uint8_t DB_BLOCK_HEIGHT{'t'};
 static constexpr uint8_t DB_MUHASH{'M'};
@@ -99,7 +105,7 @@ void AddCoinValueToTotals (const Coin& coin, const int sign,
 {
   std::optional<CAmount> coins(totalCoins);
   std::optional<CAmount> names(totalNames);
-  AddCoinValueToTotals (coin, sign, coins, names);
+  node::AddCoinValueToTotals (coin, sign, coins, names);
   assert (coins.has_value () && names.has_value ());
   totalCoins = *coins;
   totalNames = *names;
@@ -241,10 +247,9 @@ bool CoinStatsIndex::WriteBlock(const CBlock& block, const CBlockIndex* pindex)
     m_muhash.Finalize(out);
     value.second.muhash = out;
 
-    CDBBatch batch(*m_db);
-    batch.Write(DBHeightKey(pindex->nHeight), value);
-    batch.Write(DB_MUHASH, m_muhash);
-    return m_db->WriteBatch(batch);
+    // Intentionally do not update DB_MUHASH here so it stays in sync with
+    // DB_BEST_BLOCK, and the index is not corrupted if there is an unclean shutdown.
+    return m_db->Write(DBHeightKey(pindex->nHeight), value);
 }
 
 static bool CopyHeightIndexToHashIndex(CDBIterator& db_it, CDBBatch& batch,
@@ -291,7 +296,7 @@ bool CoinStatsIndex::Rewind(const CBlockIndex* current_tip, const CBlockIndex* n
 
     {
         LOCK(cs_main);
-        CBlockIndex* iter_tip{m_chainstate->m_blockman.LookupBlockIndex(current_tip->GetBlockHash())};
+        const CBlockIndex* iter_tip{m_chainstate->m_blockman.LookupBlockIndex(current_tip->GetBlockHash())};
         const auto& consensus_params{Params().GetConsensus()};
 
         do {
@@ -374,7 +379,15 @@ bool CoinStatsIndex::Init()
     if (pindex) {
         DBVal entry;
         if (!LookUpOne(*m_db, pindex, entry)) {
-            return false;
+            return error("%s: Cannot read current %s state; index may be corrupted",
+                         __func__, GetName());
+        }
+
+        uint256 out;
+        m_muhash.Finalize(out);
+        if (entry.muhash != out) {
+            return error("%s: Cannot read current %s state; index may be corrupted",
+                         __func__, GetName());
         }
 
         m_transaction_output_count = entry.transaction_output_count;
@@ -393,6 +406,14 @@ bool CoinStatsIndex::Init()
     }
 
     return true;
+}
+
+bool CoinStatsIndex::CommitInternal(CDBBatch& batch)
+{
+    // DB_MUHASH should always be committed in a batch together with DB_BEST_BLOCK
+    // to prevent an inconsistent state of the DB.
+    batch.Write(DB_MUHASH, m_muhash);
+    return BaseIndex::CommitInternal(batch);
 }
 
 // Reverse a single block as part of a reorg
@@ -499,5 +520,5 @@ bool CoinStatsIndex::ReverseBlock(const CBlock& block, const CBlockIndex* pindex
     Assert(m_total_unspendables_scripts == read_out.second.total_unspendables_scripts);
     Assert(m_total_unspendables_unclaimed_rewards == read_out.second.total_unspendables_unclaimed_rewards);
 
-    return m_db->Write(DB_MUHASH, m_muhash);
+    return true;
 }

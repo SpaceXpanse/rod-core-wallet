@@ -130,6 +130,7 @@ chain for " target " development."))
       (license (package-license xgcc)))))
 
 (define base-gcc gcc-10)
+(define base-linux-kernel-headers linux-libre-headers-5.15)
 
 ;; Building glibc with stack smashing protector first landed in glibc 2.25, use
 ;; this function to disable for older glibcs
@@ -148,7 +149,7 @@ chain for " target " development."))
 (define* (make-bitcoin-cross-toolchain target
                                        #:key
                                        (base-gcc-for-libc gcc-7)
-                                       (base-kernel-headers linux-libre-headers-4.9)
+                                       (base-kernel-headers base-linux-kernel-headers)
                                        (base-libc (make-glibc-without-ssp glibc-2.24))
                                        (base-gcc (make-gcc-rpath-link base-gcc)))
   "Convenience wrapper around MAKE-CROSS-TOOLCHAIN with default values
@@ -162,13 +163,18 @@ desirable for building Bitcoin Core release binaries."
 (define (make-gcc-with-pthreads gcc)
   (package-with-extra-configure-variable gcc "--enable-threads" "posix"))
 
+(define (make-mingw-w64-cross-gcc cross-gcc)
+  (package-with-extra-patches cross-gcc
+    (search-our-patches "vmov-alignment.patch"
+                        "gcc-broken-longjmp.patch")))
+
 (define (make-mingw-pthreads-cross-toolchain target)
   "Create a cross-compilation toolchain package for TARGET"
   (let* ((xbinutils (cross-binutils target))
          (pthreads-xlibc mingw-w64-x86_64-winpthreads)
          (pthreads-xgcc (make-gcc-with-pthreads
                          (cross-gcc target
-                                    #:xgcc (make-ssp-fixed-gcc base-gcc)
+                                    #:xgcc (make-ssp-fixed-gcc (make-mingw-w64-cross-gcc base-gcc))
                                     #:xbinutils xbinutils
                                     #:libc pthreads-xlibc))))
     ;; Define a meta-package that propagates the resulting XBINUTILS, XLIBC, and
@@ -197,7 +203,7 @@ chain for " target " development."))
 (define-public lief
   (package
    (name "python-lief")
-   (version "0.11.5")
+   (version "0.12.0")
    (source
     (origin
      (method git-fetch)
@@ -207,7 +213,7 @@ chain for " target " development."))
      (file-name (git-file-name name version))
      (sha256
       (base32
-       "0qahjfg1n0x76ps2mbyljvws1l3qhkqvmxqbahps4qgywl2hbdkj"))))
+       "026jchj56q25v6gc0754dj9cj5hz5zaza8ij93y5ga94w20kzm9q"))))
    (build-system python-build-system)
    (native-inputs
     `(("cmake" ,cmake)))
@@ -348,7 +354,7 @@ thus should be able to compile on most platforms where these exist.")
              #t)))))))
 
 (define-public python-certvalidator
-  (let ((commit "e5bdb4bfcaa09fa0af355eb8867d00dfeecba08c"))
+  (let ((commit "a145bf25eb75a9f014b3e7678826132efbba6213"))
     (package
       (name "python-certvalidator")
       (version (git-version "0.1" "1" commit))
@@ -361,7 +367,7 @@ thus should be able to compile on most platforms where these exist.")
          (file-name (git-file-name name commit))
          (sha256
           (base32
-           "18pvxkvpkfkzgvfylv0kx65pmxfcv1hpsg03cip93krfvrrl4c75"))))
+           "1qw2k7xis53179lpqdqyylbcmp76lj7sagp883wmxg5i7chhc96k"))))
       (build-system python-build-system)
       (propagated-inputs
        `(("python-asn1crypto" ,python-asn1crypto)
@@ -481,7 +487,7 @@ and endian independent.")
     (license license:expat)))
 
 (define-public python-signapple
-  (let ((commit "b084cbbf44d5330448ffce0c7d118f75781b64bd"))
+  (let ((commit "8a945a2e7583be2665cf3a6a89d665b70ecd1ab6"))
     (package
       (name "python-signapple")
       (version (git-version "0.1" "1" commit))
@@ -494,7 +500,7 @@ and endian independent.")
          (file-name (git-file-name name commit))
          (sha256
           (base32
-           "0k7inccl2mzac3wq4asbr0kl8s4cghm8982z54kfascqg45shv01"))))
+           "0fr1hangvfyiwflca6jg5g8zvg3jc9qr7vd2c12ff89pznf38dlg"))))
       (build-system python-build-system)
       (propagated-inputs
        `(("python-asn1crypto" ,python-asn1crypto)
@@ -502,8 +508,7 @@ and endian independent.")
          ("python-certvalidator" ,python-certvalidator)
          ("python-elfesteem" ,python-elfesteem)
          ("python-requests" ,python-requests)
-         ("python-macholib" ,python-macholib)
-         ("libcrypto" ,openssl)))
+         ("python-macholib" ,python-macholib)))
       ;; There are no tests, but attempting to run python setup.py test leads to
       ;; problems, just disable the test
       (arguments '(#:tests? #f))
@@ -569,12 +574,10 @@ inspecting signatures in Mach-O binaries.")
         bzip2
         gzip
         xz
-        zlib
-        (list zlib "static")
         ;; Build tools
         gnu-make
         libtool
-        autoconf
+        autoconf-2.71
         automake
         pkg-config
         bison
@@ -584,24 +587,30 @@ inspecting signatures in Mach-O binaries.")
         ;; Git
         git
         ;; Tests
-        lief
-        ;; Native gcc 7 toolchain
-        gcc-toolchain-7
-        (list gcc-toolchain-7 "static"))
+        lief)
   (let ((target (getenv "HOST")))
     (cond ((string-suffix? "-mingw32" target)
            ;; Windows
-           (list zip
+           (list ;; Native GCC 10 toolchain
+                 gcc-toolchain-10
+                 (list gcc-toolchain-10 "static")
+                 zip
                  (make-mingw-pthreads-cross-toolchain "x86_64-w64-mingw32")
                  (make-nsis-for-gcc-10 nsis-x86_64)
                  osslsigncode))
           ((string-contains target "-linux-")
-           (list (cond ((string-contains target "riscv64-")
+           (list ;; Native GCC 7 toolchain
+                 gcc-toolchain-7
+                 (list gcc-toolchain-7 "static")
+                 (cond ((string-contains target "riscv64-")
                         (make-bitcoin-cross-toolchain target
                                                       #:base-libc glibc-2.27/bitcoin-patched
-                                                      #:base-kernel-headers linux-libre-headers-4.19))
+                                                      #:base-kernel-headers base-linux-kernel-headers))
                        (else
                         (make-bitcoin-cross-toolchain target)))))
           ((string-contains target "darwin")
-           (list clang-toolchain-10 binutils cmake xorriso python-signapple))
+           (list ;; Native GCC 10 toolchain
+                 gcc-toolchain-10
+                 (list gcc-toolchain-10 "static")
+                 clang-toolchain-10 binutils cmake xorriso python-signapple))
           (else '())))))

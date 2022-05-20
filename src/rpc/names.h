@@ -30,9 +30,11 @@ void addHeightInfo (int height, UniValue& data);
 Span<const CRPCCommand> GetNameRPCCommands ();
 
 #ifdef ENABLE_WALLET
+namespace wallet {
 class CWallet;
+} // namespace wallet
 void addOwnershipInfo (const CScript& addr,
-                       const CWallet* pwallet,
+                       const wallet::CWallet* pwallet,
                        UniValue& data);
 #endif
 
@@ -51,6 +53,12 @@ valtype DecodeNameFromRPCOrThrow (const UniValue& val, const UniValue& opt);
  * for values instead of names.
  */
 valtype DecodeValueFromRPCOrThrow (const UniValue& val, const UniValue& opt);
+
+/**
+ * RPCResult for the "nameOp" field that is optionally returned from
+ * some RPCs that decode scripts.
+ */
+extern const RPCResult NameOpResult;
 
 /**
  * Builder class for the RPC results for methods that return information about

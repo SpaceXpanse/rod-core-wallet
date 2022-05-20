@@ -8,12 +8,20 @@ print-%: FORCE
 
 DIST_SUBDIRS = secp256k1
 
-AM_LDFLAGS = $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS) $(GPROF_LDFLAGS) $(SANITIZER_LDFLAGS) $(LTO_LDFLAGS)
-AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) $(LTO_CXXFLAGS)
-AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS)
+AM_LDFLAGS = $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS) $(GPROF_LDFLAGS) $(SANITIZER_LDFLAGS) $(LTO_LDFLAGS) $(CORE_LDFLAGS)
+AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) $(LTO_CXXFLAGS) $(CORE_CXXFLAGS)
+AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) $(CORE_CPPFLAGS)
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 PTHREAD_FLAGS = $(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
 EXTRA_LIBRARIES =
+
+lib_LTLIBRARIES =
+noinst_LTLIBRARIES =
+
+bin_PROGRAMS =
+noinst_PROGRAMS = xaya-hash
+TESTS =
+BENCHMARKS =
 
 BITCOIN_INCLUDES=-I$(builddir) -I$(srcdir)/$(MINISKETCH_INCLUDE_DIR_INT) -I$(srcdir)/secp256k1/include -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT) $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS)
 
@@ -21,8 +29,9 @@ LIBBITCOIN_NODE=libbitcoin_node.a
 LIBBITCOIN_COMMON=libbitcoin_common.a
 LIBBITCOIN_CONSENSUS=libbitcoin_consensus.a
 LIBBITCOIN_CLI=libbitcoin_cli.a
+LIBBITCOIN_KERNEL=libbitcoin_kernel.a
 LIBBITCOIN_UTIL=libbitcoin_util.a
-LIBBITCOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.a
+LIBBITCOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.la
 LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
@@ -32,24 +41,32 @@ endif
 if BUILD_BITCOIN_LIBS
 LIBBITCOINCONSENSUS=libnamecoinconsensus.la
 endif
+if BUILD_BITCOIN_KERNEL_LIB
+LIBBITCOINKERNEL=libbitcoinkernel.la
+endif
 if ENABLE_WALLET
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 LIBBITCOIN_WALLET_TOOL=libbitcoin_wallet_tool.a
 endif
 
-LIBBITCOIN_CRYPTO= $(LIBBITCOIN_CRYPTO_BASE)
+LIBBITCOIN_CRYPTO = $(LIBBITCOIN_CRYPTO_BASE)
 if ENABLE_SSE41
-LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.a
+LIBBITCOIN_CRYPTO_SSE41 = crypto/libbitcoin_crypto_sse41.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SSE41)
 endif
 if ENABLE_AVX2
-LIBBITCOIN_CRYPTO_AVX2 = crypto/libbitcoin_crypto_avx2.a
+LIBBITCOIN_CRYPTO_AVX2 = crypto/libbitcoin_crypto_avx2.la
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_AVX2)
 endif
-if ENABLE_SHANI
-LIBBITCOIN_CRYPTO_SHANI = crypto/libbitcoin_crypto_shani.a
-LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SHANI)
+if ENABLE_X86_SHANI
+LIBBITCOIN_CRYPTO_X86_SHANI = crypto/libbitcoin_crypto_x86_shani.la
+LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_X86_SHANI)
 endif
+if ENABLE_ARM_SHANI
+LIBBITCOIN_CRYPTO_ARM_SHANI = crypto/libbitcoin_crypto_arm_shani.la
+LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_ARM_SHANI)
+endif
+noinst_LTLIBRARIES += $(LIBBITCOIN_CRYPTO)
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*.h) $(wildcard secp256k1/src/*.c) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
@@ -57,7 +74,6 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*.h) $(wildcard secp256k1/src/*.c) $(w
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES += \
-  $(LIBBITCOIN_CRYPTO) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_CONSENSUS) \
@@ -67,13 +83,6 @@ EXTRA_LIBRARIES += \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_WALLET_TOOL) \
   $(LIBBITCOIN_ZMQ)
-
-noinst_LTLIBRARIES = $(LIBBITCOINCONSENSUS)
-
-bin_PROGRAMS =
-noinst_PROGRAMS = xaya-hash
-TESTS =
-BENCHMARKS =
 
 if BUILD_BITCOIND
   bin_PROGRAMS += xayad
@@ -99,6 +108,10 @@ endif
 
 if BUILD_BITCOIN_UTIL
   bin_PROGRAMS += xaya-util
+endif
+
+if BUILD_BITCOIN_CHAINSTATE
+  bin_PROGRAMS += xaya-chainstate
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -177,6 +190,7 @@ BITCOIN_CORE_H = \
   net_types.h \
   netaddress.h \
   netbase.h \
+  netgroup.h \
   netmessagemaker.h \
   node/blockstorage.h \
   node/caches.h \
@@ -204,11 +218,13 @@ BITCOIN_CORE_H = \
   psbt.h \
   random.h \
   randomenv.h \
+  rest.h \
   reverse_iterator.h \
   rpc/auxpow_miner.h \
   rpc/blockchain.h \
   rpc/client.h \
   rpc/game.h \
+  rpc/mempool.h \
   rpc/mining.h \
   rpc/names.h \
   rpc/protocol.h \
@@ -222,6 +238,7 @@ BITCOIN_CORE_H = \
   scheduler.h \
   script/descriptor.h \
   script/keyorigin.h \
+  script/miniscript.h \
   script/sigcache.h \
   script/sign.h \
   script/signingprovider.h \
@@ -250,6 +267,7 @@ BITCOIN_CORE_H = \
   util/check.h \
   util/epochguard.h \
   util/error.h \
+  util/fastrange.h \
   util/fees.h \
   util/getuniquepath.h \
   util/golombrice.h \
@@ -268,6 +286,7 @@ BITCOIN_CORE_H = \
   util/spanparsing.h \
   util/string.h \
   util/syscall_sandbox.h \
+  util/syserror.h \
   util/system.h \
   util/thread.h \
   util/threadnames.h \
@@ -355,6 +374,7 @@ libbitcoin_node_a_SOURCES = \
   names/main.cpp \
   names/mempool.cpp \
   net.cpp \
+  netgroup.cpp \
   net_processing.cpp \
   node/blockstorage.cpp \
   node/caches.cpp \
@@ -377,14 +397,19 @@ libbitcoin_node_a_SOURCES = \
   rest.cpp \
   rpc/auxpow_miner.cpp \
   rpc/blockchain.cpp \
+  rpc/fees.cpp \
   rpc/game.cpp \
+  rpc/mempool.cpp \
   rpc/mining.cpp \
-  rpc/misc.cpp \
   rpc/names.cpp \
+  rpc/node.cpp \
   rpc/net.cpp \
+  rpc/output_script.cpp \
   rpc/rawtransaction.cpp \
   rpc/server.cpp \
   rpc/server_util.cpp \
+  rpc/signmessage.cpp \
+  rpc/txoutproof.cpp \
   script/sigcache.cpp \
   shutdown.cpp \
   signet.cpp \
@@ -469,10 +494,16 @@ libbitcoin_wallet_tool_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libbitcoin_crypto_base_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitcoin_crypto_base_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libbitcoin_crypto_base_a_CFLAGS = $(AM_CFLAGS) $(PIE_FLAGS)
-crypto_libbitcoin_crypto_base_a_SOURCES = \
+crypto_libbitcoin_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS)
+
+# Specify -static in both CXXFLAGS and LDFLAGS so libtool will only build a
+# static version of this library. We don't need a dynamic version, and a dynamic
+# version can't be used on windows anyway because the library doesn't currently
+# export DLL symbols.
+crypto_libbitcoin_crypto_base_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_base_la_LDFLAGS = $(AM_LDFLAGS) -static
+
+crypto_libbitcoin_crypto_base_la_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/chacha_poly_aead.h \
@@ -506,28 +537,46 @@ crypto_libbitcoin_crypto_base_a_SOURCES = \
   crypto/siphash.h
 
 if USE_ASM
-crypto_libbitcoin_crypto_base_a_SOURCES += \
+crypto_libbitcoin_crypto_base_la_SOURCES += \
   crypto/sha256_sse4.cpp \
   crypto/neoscrypt_asm.S
 endif
 
-crypto_libbitcoin_crypto_sse41_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libbitcoin_crypto_sse41_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitcoin_crypto_sse41_a_CXXFLAGS += $(SSE41_CXXFLAGS)
-crypto_libbitcoin_crypto_sse41_a_CPPFLAGS += -DENABLE_SSE41
-crypto_libbitcoin_crypto_sse41_a_SOURCES = crypto/sha256_sse41.cpp
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
+# CXXFLAGS above
+crypto_libbitcoin_crypto_sse41_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_sse41_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_sse41_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_sse41_la_CXXFLAGS += $(SSE41_CXXFLAGS)
+crypto_libbitcoin_crypto_sse41_la_CPPFLAGS += -DENABLE_SSE41
+crypto_libbitcoin_crypto_sse41_la_SOURCES = crypto/sha256_sse41.cpp
 
-crypto_libbitcoin_crypto_avx2_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libbitcoin_crypto_avx2_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitcoin_crypto_avx2_a_CXXFLAGS += $(AVX2_CXXFLAGS)
-crypto_libbitcoin_crypto_avx2_a_CPPFLAGS += -DENABLE_AVX2
-crypto_libbitcoin_crypto_avx2_a_SOURCES = crypto/sha256_avx2.cpp
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
+# CXXFLAGS above
+crypto_libbitcoin_crypto_avx2_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_avx2_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_avx2_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_avx2_la_CXXFLAGS += $(AVX2_CXXFLAGS)
+crypto_libbitcoin_crypto_avx2_la_CPPFLAGS += -DENABLE_AVX2
+crypto_libbitcoin_crypto_avx2_la_SOURCES = crypto/sha256_avx2.cpp
 
-crypto_libbitcoin_crypto_shani_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libbitcoin_crypto_shani_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libbitcoin_crypto_shani_a_CXXFLAGS += $(SHANI_CXXFLAGS)
-crypto_libbitcoin_crypto_shani_a_CPPFLAGS += -DENABLE_SHANI
-crypto_libbitcoin_crypto_shani_a_SOURCES = crypto/sha256_shani.cpp
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
+# CXXFLAGS above
+crypto_libbitcoin_crypto_x86_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_x86_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_x86_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_x86_shani_la_CXXFLAGS += $(X86_SHANI_CXXFLAGS)
+crypto_libbitcoin_crypto_x86_shani_la_CPPFLAGS += -DENABLE_X86_SHANI
+crypto_libbitcoin_crypto_x86_shani_la_SOURCES = crypto/sha256_x86_shani.cpp
+
+# See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
+# CXXFLAGS above
+crypto_libbitcoin_crypto_arm_shani_la_LDFLAGS = $(AM_LDFLAGS) -static
+crypto_libbitcoin_crypto_arm_shani_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
+crypto_libbitcoin_crypto_arm_shani_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_arm_shani_la_CXXFLAGS += $(ARM_SHANI_CXXFLAGS)
+crypto_libbitcoin_crypto_arm_shani_la_CPPFLAGS += -DENABLE_ARM_SHANI
+crypto_libbitcoin_crypto_arm_shani_la_SOURCES = crypto/sha256_arm_shani.cpp
 
 # consensus: shared between all executables that validate any consensus rules.
 libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
@@ -606,6 +655,7 @@ libbitcoin_common_a_SOURCES = \
   rpc/util.cpp \
   scheduler.cpp \
   script/descriptor.cpp \
+  script/miniscript.cpp \
   script/sign.cpp \
   script/signingprovider.cpp \
   script/standard.cpp \
@@ -622,7 +672,6 @@ libbitcoin_util_a_SOURCES = \
   chainparamsbase.cpp \
   clientversion.cpp \
   compat/glibcxx_sanity.cpp \
-  compat/strnlen.cpp \
   fs.cpp \
   interfaces/echo.cpp \
   interfaces/handler.cpp \
@@ -637,11 +686,13 @@ libbitcoin_util_a_SOURCES = \
   util/asmap.cpp \
   util/bip32.cpp \
   util/bytevectorhash.cpp \
+  util/check.cpp \
   util/error.cpp \
   util/fees.cpp \
   util/getuniquepath.cpp \
   util/hasher.cpp \
   util/sock.cpp \
+  util/syserror.cpp \
   util/system.cpp \
   util/message.cpp \
   util/moneystr.cpp \
@@ -697,11 +748,10 @@ bitcoin_bin_ldadd = \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBLEVELDB) \
-  $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-bitcoin_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS)
+bitcoin_bin_ldadd += $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS)
 
 xayad_SOURCES = $(bitcoin_daemon_sources) init/bitcoind.cpp
 xayad_CPPFLAGS = $(bitcoin_bin_cppflags)
@@ -731,7 +781,7 @@ xaya_cli_LDADD = \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-xaya_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
+xaya_cli_LDADD += $(EVENT_LIBS)
 #
 
 # bitcoin-tx binary #
@@ -768,7 +818,6 @@ xaya_hash_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBUNIVALUE) \
   $(LIBSECP256K1)
-xaya_hash_LDADD += $(BOOST_LIBS)
 #
 
 # bitcoin-wallet binary #
@@ -803,14 +852,152 @@ xaya_util_LDADD = \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
+#
 
-xaya_util_LDADD += $(BOOST_LIBS)
+# bitcoin-chainstate binary #
+xaya_chainstate_SOURCES = bitcoin-chainstate.cpp
+xaya_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+xaya_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+
+# $(LIBTOOL_APP_LDFLAGS) deliberately omitted here so that we can test linking
+# bitcoin-chainstate against libbitcoinkernel as a shared or static library by
+# setting --{en,dis}able-shared.
+xaya_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS)
+xaya_chainstate_LDADD = $(LIBBITCOINKERNEL)
+#
+
+# bitcoinkernel library #
+if BUILD_BITCOIN_KERNEL_LIB
+lib_LTLIBRARIES += $(LIBBITCOINKERNEL)
+
+libbitcoinkernel_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(PTHREAD_FLAGS)
+libbitcoinkernel_la_LIBADD = $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) $(LIBSECP256K1)
+libbitcoinkernel_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) -I$(srcdir)/$(UNIVALUE_INCLUDE_DIR_INT)
+
+# libbitcoinkernel requires default symbol visibility, explicitly specify that
+# here so that things still work even when user configures with
+#   --enable-reduce-exports
+#
+# Note this is a quick hack that will be removed as we incrementally define what
+# to export from the library.
+libbitcoinkernel_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -fvisibility=default
+
+# TODO: For now, Specify -static in both CXXFLAGS and LDFLAGS when building for
+#       windows targets so libtool will only build a static version of this
+#       library. There are unresolved problems when building dll's for mingw-w64
+#       and attempting to statically embed libstdc++, libpthread, etc.
+if TARGET_WINDOWS
+libbitcoinkernel_la_LDFLAGS += -static
+libbitcoinkernel_la_CXXFLAGS += -static
+endif
+
+# TODO: libbitcoinkernel is a work in progress consensus engine library, as more
+#       and more modules are decoupled from the consensus engine, this list will
+#       shrink to only those which are absolutely necessary. For example, things
+#       like index/*.cpp will be removed.
+libbitcoinkernel_la_SOURCES = \
+  kernel/bitcoinkernel.cpp \
+  arith_uint256.cpp \
+  auxpow.cpp \
+  blockfilter.cpp \
+  chain.cpp \
+  chainparamsbase.cpp \
+  chainparams.cpp \
+  clientversion.cpp \
+  coins.cpp \
+  compat/glibcxx_sanity.cpp \
+  compressor.cpp \
+  consensus/merkle.cpp \
+  consensus/tx_check.cpp \
+  consensus/tx_verify.cpp \
+  core_read.cpp \
+  dbwrapper.cpp \
+  deploymentinfo.cpp \
+  deploymentstatus.cpp \
+  flatfile.cpp \
+  fs.cpp \
+  hash.cpp \
+  index/base.cpp \
+  index/blockfilterindex.cpp \
+  index/coinstatsindex.cpp \
+  init/common.cpp \
+  key.cpp \
+  logging.cpp \
+  names/common.cpp \
+  names/encoding.cpp \
+  names/main.cpp \
+  names/mempool.cpp \
+  netaddress.cpp \
+  node/blockstorage.cpp \
+  node/chainstate.cpp \
+  node/coinstats.cpp \
+  node/ui_interface.cpp \
+  policy/feerate.cpp \
+  policy/fees.cpp \
+  policy/packages.cpp \
+  policy/policy.cpp \
+  policy/rbf.cpp \
+  policy/settings.cpp \
+  pow.cpp \
+  powdata.cpp \
+  primitives/block.cpp \
+  primitives/pureheader.cpp \
+  primitives/transaction.cpp \
+  pubkey.cpp \
+  random.cpp \
+  randomenv.cpp \
+  scheduler.cpp \
+  script/interpreter.cpp \
+  script/names.cpp \
+  script/script.cpp \
+  script/script_error.cpp \
+  script/sigcache.cpp \
+  script/standard.cpp \
+  shutdown.cpp \
+  signet.cpp \
+  support/cleanse.cpp \
+  support/lockedpool.cpp \
+  sync.cpp \
+  threadinterrupt.cpp \
+  timedata.cpp \
+  txdb.cpp \
+  txmempool.cpp \
+  uint256.cpp \
+  util/asmap.cpp \
+  util/bytevectorhash.cpp \
+  util/check.cpp \
+  util/getuniquepath.cpp \
+  util/hasher.cpp \
+  util/moneystr.cpp \
+  util/rbf.cpp \
+  util/serfloat.cpp \
+  util/settings.cpp \
+  util/strencodings.cpp \
+  util/string.cpp \
+  util/syscall_sandbox.cpp \
+  util/syserror.cpp \
+  util/system.cpp \
+  util/thread.cpp \
+  util/threadnames.cpp \
+  util/time.cpp \
+  util/tokenpipe.cpp \
+  validation.cpp \
+  validationinterface.cpp \
+  versionbits.cpp \
+  warnings.cpp
+
+# Required for obj/build.h to be generated first.
+# More details: https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html
+libbitcoinkernel_la-clientversion.l$(OBJEXT): obj/build.h
+endif # BUILD_BITCOIN_KERNEL_LIB
 #
 
 # bitcoinconsensus library #
 if BUILD_BITCOIN_LIBS
+lib_LTLIBRARIES += $(LIBBITCOINCONSENSUS)
+
 include_HEADERS = script/namecoinconsensus.h
-libnamecoinconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libbitcoin_crypto_base_a_SOURCES) $(libnamecoin_consensus_a_SOURCES)
+libnamecoinconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libbitcoin_crypto_base_la_SOURCES) $(libnamecoin_consensus_a_SOURCES)
 
 libnamecoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
 libnamecoinconsensus_la_LIBADD = $(LIBSECP256K1)

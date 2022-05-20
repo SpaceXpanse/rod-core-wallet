@@ -24,6 +24,8 @@
 #include <string>
 #include <utility>
 
+using node::ReadBlockFromDisk;
+
 static std::multimap<std::string, CZMQAbstractPublishNotifier*> mapPublishNotifiers;
 
 static const char *MSG_HASHBLOCK = "hashblock";
@@ -220,9 +222,10 @@ bool CZMQPublishHashBlockNotifier::NotifyBlock(const CBlockIndex *pindex)
 {
     uint256 hash = pindex->GetBlockHash();
     LogPrint(BCLog::ZMQ, "zmq: Publish hashblock %s to %s\n", hash.GetHex(), this->address);
-    char data[32];
-    for (unsigned int i = 0; i < 32; i++)
+    uint8_t data[32];
+    for (unsigned int i = 0; i < 32; i++) {
         data[31 - i] = hash.begin()[i];
+    }
     return SendZmqMessage(MSG_HASHBLOCK, data, 32);
 }
 
@@ -230,9 +233,10 @@ bool CZMQPublishHashTransactionNotifier::NotifyTransaction(const CTransaction &t
 {
     uint256 hash = transaction.GetHash();
     LogPrint(BCLog::ZMQ, "zmq: Publish hashtx %s to %s\n", hash.GetHex(), this->address);
-    char data[32];
-    for (unsigned int i = 0; i < 32; i++)
+    uint8_t data[32];
+    for (unsigned int i = 0; i < 32; i++) {
         data[31 - i] = hash.begin()[i];
+    }
     return SendZmqMessage(MSG_HASHTX, data, 32);
 }
 

@@ -9,6 +9,8 @@
 #include <node/blockstorage.h>
 #include <util/system.h>
 
+using node::UndoReadFromDisk;
+
 /* The index database stores three items for each block: the disk location of the encoded filter,
  * its dSHA256 hash, and the header. Those belonging to blocks on the active chain are indexed by
  * height, and those belonging to blocks that have been reorganized out of the active chain are
@@ -98,7 +100,7 @@ BlockFilterIndex::BlockFilterIndex(BlockFilterType filter_type,
     const std::string& filter_name = BlockFilterTypeName(filter_type);
     if (filter_name.empty()) throw std::invalid_argument("unknown filter_type");
 
-    fs::path path = gArgs.GetDataDirNet() / "indexes" / "blockfilter" / filter_name;
+    fs::path path = gArgs.GetDataDirNet() / "indexes" / "blockfilter" / fs::u8path(filter_name);
     fs::create_directories(path);
 
     m_name = filter_name + " block filter index";

@@ -12,6 +12,7 @@
 #include <consensus/consensus.h>
 #include <core_io.h>
 #include <key_io.h>
+#include <fs.h>
 #include <names/encoding.h>
 #include <policy/policy.h>
 #include <policy/rbf.h>
@@ -31,8 +32,6 @@
 #include <functional>
 #include <memory>
 #include <stdio.h>
-
-#include <boost/algorithm/string.hpp>
 
 static bool fCreateBlank;
 static std::map<std::string,UniValue> registers;
@@ -114,7 +113,10 @@ static int AppInitRawTx(int argc, char* argv[])
     if (argc < 2 || HelpRequested(gArgs) || gArgs.IsArgSet("-version")) {
         // First part of help message is specific to this utility
         std::string strUsage = PACKAGE_NAME " xaya-tx utility version " + FormatFullVersion() + "\n";
-        if (!gArgs.IsArgSet("-version")) {
+
+        if (gArgs.IsArgSet("-version")) {
+            strUsage += FormatParagraph(LicenseInfo());
+        } else {
             strUsage += "\n"
                 "Usage:  xaya-tx [options] <hex-tx> [commands]  Update hex-encoded transaction\n"
                 "or:     xaya-tx [options] -create [commands]   Create hex-encoded transaction\n"
@@ -171,7 +173,7 @@ static void RegisterLoad(const std::string& strInput)
     std::string key = strInput.substr(0, pos);
     std::string filename = strInput.substr(pos + 1, std::string::npos);
 
-    FILE *f = fopen(filename.c_str(), "r");
+    FILE *f = fsbridge::fopen(filename.c_str(), "r");
     if (!f) {
         std::string strErr = "Cannot open file " + filename;
         throw std::runtime_error(strErr);
@@ -251,7 +253,7 @@ static void MutateTxRBFOptIn(CMutableTransaction& tx, const std::string& strInId
 template <typename T>
 static T TrimAndParse(const std::string& int_str, const std::string& err)
 {
-    const auto parsed{ToIntegral<T>(TrimString(int_str))};
+    const auto parsed{ToIntegral<T>(TrimStringView(int_str))};
     if (!parsed.has_value()) {
         throw std::runtime_error(err + " '" + int_str + "'");
     }
@@ -260,8 +262,7 @@ static T TrimAndParse(const std::string& int_str, const std::string& err)
 
 static void MutateTxAddInput(CMutableTransaction& tx, const std::string& strInput)
 {
-    std::vector<std::string> vStrInputParts;
-    boost::split(vStrInputParts, strInput, boost::is_any_of(":"));
+    std::vector<std::string> vStrInputParts = SplitString(strInput, ':');
 
     // separate TXID:VOUT in string
     if (vStrInputParts.size()<2)
@@ -296,8 +297,7 @@ static void MutateTxAddInput(CMutableTransaction& tx, const std::string& strInpu
 static void MutateTxAddOutAddr(CMutableTransaction& tx, const std::string& strInput)
 {
     // Separate into VALUE:ADDRESS
-    std::vector<std::string> vStrInputParts;
-    boost::split(vStrInputParts, strInput, boost::is_any_of(":"));
+    std::vector<std::string> vStrInputParts = SplitString(strInput, ':');
 
     if (vStrInputParts.size() != 2)
         throw std::runtime_error("TX output missing or too many separators");
@@ -321,8 +321,7 @@ static void MutateTxAddOutAddr(CMutableTransaction& tx, const std::string& strIn
 static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& strInput)
 {
     // Separate into VALUE:PUBKEY[:FLAGS]
-    std::vector<std::string> vStrInputParts;
-    boost::split(vStrInputParts, strInput, boost::is_any_of(":"));
+    std::vector<std::string> vStrInputParts = SplitString(strInput, ':');
 
     if (vStrInputParts.size() < 2 || vStrInputParts.size() > 3)
         throw std::runtime_error("TX output missing or too many separators");
@@ -365,8 +364,7 @@ static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& str
 static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& strInput)
 {
     // Separate into VALUE:REQUIRED:NUMKEYS:PUBKEY1:PUBKEY2:....[:FLAGS]
-    std::vector<std::string> vStrInputParts;
-    boost::split(vStrInputParts, strInput, boost::is_any_of(":"));
+    std::vector<std::string> vStrInputParts = SplitString(strInput, ':');
 
     // Check that there are enough parameters
     if (vStrInputParts.size()<3)
@@ -446,13 +444,16 @@ static void MutateTxAddOutData(CMutableTransaction& tx, const std::string& strIn
     if (pos==0)
         throw std::runtime_error("TX output value not specified");
 
-    if (pos != std::string::npos) {
+    if (pos == std::string::npos) {
+        pos = 0;
+    } else {
         // Extract and validate VALUE
         value = ExtractAndValidateValue(strInput.substr(0, pos));
+        ++pos;
     }
 
     // extract and validate DATA
-    std::string strData = strInput.substr(pos + 1, std::string::npos);
+    const std::string strData{strInput.substr(pos, std::string::npos)};
 
     if (!IsHex(strData))
         throw std::runtime_error("invalid TX output data");
@@ -466,8 +467,7 @@ static void MutateTxAddOutData(CMutableTransaction& tx, const std::string& strIn
 static void MutateTxAddOutScript(CMutableTransaction& tx, const std::string& strInput)
 {
     // separate VALUE:SCRIPT[:FLAGS]
-    std::vector<std::string> vStrInputParts;
-    boost::split(vStrInputParts, strInput, boost::is_any_of(":"));
+    std::vector<std::string> vStrInputParts = SplitString(strInput, ':');
     if (vStrInputParts.size() < 2)
         throw std::runtime_error("TX output missing separator");
 
@@ -524,8 +524,7 @@ MutateTxNameOutput (CMutableTransaction& tx, const std::string& command,
      start with the output index and then have some hex-encoded data
      arguments.  */
 
-  std::vector<std::string> valueParts;
-  boost::split (valueParts, value, boost::is_any_of (":"));
+  const std::vector<std::string> valueParts = SplitString(value, ':');
   if (valueParts.size () < 1)
     throw std::runtime_error ("name operation missing output index");
 
@@ -751,7 +750,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
         SignatureData sigdata = DataFromTransaction(mergedTx, i, coin.out);
         // Only sign SIGHASH_SINGLE if there's a corresponding output:
         if (!fHashSingle || (i < mergedTx.vout.size()))
-            ProduceSignature(keystore, MutableTransactionSignatureCreator(&mergedTx, i, amount, nHashType), prevPubKey, sigdata);
+            ProduceSignature(keystore, MutableTransactionSignatureCreator(mergedTx, i, amount, nHashType), prevPubKey, sigdata);
 
         if (amount == MAX_MONEY && !sigdata.scriptWitness.IsNull()) {
             throw std::runtime_error(strprintf("Missing amount for CTxOut with scriptPubKey=%s", HexStr(prevPubKey)));
@@ -830,7 +829,7 @@ static void MutateTx(CMutableTransaction& tx, const std::string& command,
 static void OutputTxJSON(const CTransaction& tx)
 {
     UniValue entry(UniValue::VOBJ);
-    TxToUniv(tx, uint256(), entry);
+    TxToUniv(tx, /*block_hash=*/uint256(), entry);
 
     std::string jsonOutput = entry.write(4);
     tfm::format(std::cout, "%s\n", jsonOutput);

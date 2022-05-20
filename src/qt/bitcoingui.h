@@ -9,6 +9,7 @@
 #include <config/bitcoin-config.h>
 #endif
 
+#include <qt/bitcoinunits.h>
 #include <qt/guiutil.h>
 #include <qt/optionsdialog.h>
 
@@ -137,7 +138,6 @@ private:
     QAction* historyAction = nullptr;
     QAction* quitAction = nullptr;
     QAction* sendCoinsAction = nullptr;
-    QAction* sendCoinsMenuAction = nullptr;
     QAction* usedSendingAddressesAction = nullptr;
     QAction* usedReceivingAddressesAction = nullptr;
     QAction* buyNamesAction = nullptr;
@@ -150,9 +150,7 @@ private:
     QAction* m_load_psbt_clipboard_action = nullptr;
     QAction* aboutAction = nullptr;
     QAction* receiveCoinsAction = nullptr;
-    QAction* receiveCoinsMenuAction = nullptr;
     QAction* optionsAction = nullptr;
-    QAction* toggleHideAction = nullptr;
     QAction* encryptWalletAction = nullptr;
     QAction* backupWalletAction = nullptr;
     QAction* changePassphraseAction = nullptr;
@@ -267,7 +265,7 @@ public Q_SLOTS:
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
     /** Show incoming transaction notification for new transactions. */
-    void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& walletName);
+    void incomingTransaction(const QString& date, BitcoinUnit unit, const CAmount& amount, const QString& type, const QString& address, const QString& label, const QString& walletName);
 #endif // ENABLE_WALLET
 
 private:
@@ -310,18 +308,11 @@ public Q_SLOTS:
     void showDebugWindowActivateConsole();
     /** Show help message dialog */
     void showHelpMessageClicked();
-#ifndef Q_OS_MAC
-    /** Handle tray icon clicked */
-    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-#else
-    /** Handle macOS Dock icon clicked */
-    void macosDockIconActivated();
-#endif
 
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
     void showNormalIfMinimized() { showNormalIfMinimized(false); }
     void showNormalIfMinimized(bool fToggleHidden);
-    /** Simply calls showNormalIfMinimized(true) for use in SLOT() macro */
+    /** Simply calls showNormalIfMinimized(true) */
     void toggleHidden();
 
     /** called by a timer to check if ShutdownRequested() has been set **/
@@ -359,7 +350,7 @@ private:
 
 private Q_SLOTS:
     /** When Display Units are changed on OptionsModel it will refresh the display text of the control on the status bar */
-    void updateDisplayUnit(int newUnits);
+    void updateDisplayUnit(BitcoinUnit newUnits);
     /** Tells underlying optionsModel to update its current display unit. */
     void onMenuSelection(QAction* action);
 };

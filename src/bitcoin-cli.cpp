@@ -9,23 +9,26 @@
 
 #include <chainparamsbase.h>
 #include <clientversion.h>
+#include <compat/stdin.h>
 #include <policy/feerate.h>
 #include <rpc/client.h>
 #include <rpc/mining.h>
 #include <rpc/protocol.h>
 #include <rpc/request.h>
 #include <tinyformat.h>
+#include <univalue.h>
 #include <util/strencodings.h>
 #include <util/system.h>
 #include <util/translation.h>
 #include <util/url.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <functional>
 #include <memory>
 #include <optional>
-#include <stdio.h>
 #include <string>
 #include <tuple>
 
@@ -37,8 +40,11 @@
 #include <event2/keyvalq_struct.h>
 #include <support/events.h>
 
-#include <univalue.h>
-#include <compat/stdin.h>
+// The server returns time values from a mockable system clock, but it is not
+// trivial to get the mocked time from the server, nor is it needed for now, so
+// just use a plain system_clock.
+using CliClock = std::chrono::system_clock;
+using CliSeconds = std::chrono::time_point<CliClock, std::chrono::seconds>;
 
 const std::function<std::string(const char*)> G_TRANSLATION_FUN = nullptr;
 UrlDecodeFn* const URL_DECODE = urlDecode;
@@ -69,8 +75,13 @@ static void SetupCliArgs(ArgsManager& argsman)
     argsman.AddArg("-version", "Print version and exit", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-conf=<file>", strprintf("Specify configuration file. Relative paths will be prefixed by datadir location. (default: %s)", BITCOIN_CONF_FILENAME), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-datadir=<dir>", "Specify data directory", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    argsman.AddArg("-generate", strprintf("Generate blocks immediately, equivalent to RPC getnewaddress followed by RPC generatetoaddress. Optional positional integer arguments are number of blocks to generate (default: %s) and maximum iterations to try (default: %s), equivalent to RPC generatetoaddress nblocks and maxtries arguments. Example: xaya-cli -generate 4 1000", DEFAULT_NBLOCKS, DEFAULT_MAX_TRIES), ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
-    argsman.AddArg("-addrinfo", "Get the number of addresses known to the node, per network and total.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-generate",
+                   strprintf("Generate blocks, equivalent to RPC getnewaddress followed by RPC generatetoaddress. Optional positional integer "
+                             "arguments are number of blocks to generate (default: %s) and maximum iterations to try (default: %s), equivalent to "
+                             "RPC generatetoaddress nblocks and maxtries arguments. Example: xaya-cli -generate 4 1000",
+                             DEFAULT_NBLOCKS, DEFAULT_MAX_TRIES),
+                   ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-addrinfo", "Get the number of addresses known to the node, per network and total, after filtering for quality and recency. The total number of addresses known to the node may be higher.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-getinfo", "Get general information from the remote server. Note that unlike server-side RPC calls, the results of -getinfo is the result of multiple non-atomic requests. Some entries in the result may represent results from different states (e.g. wallet balance may be as of a different block from the chain state reported)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
     argsman.AddArg("-netinfo", "Get network peer connection information from the remote server. An optional integer argument from 0 to 4 can be passed for different peers listings (default: 0). Pass \"help\" for detailed help documentation.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 
@@ -128,7 +139,10 @@ static int AppInitRPC(int argc, char* argv[])
     }
     if (argc < 2 || HelpRequested(gArgs) || gArgs.IsArgSet("-version")) {
         std::string strUsage = PACKAGE_NAME " RPC client version " + FormatFullVersion() + "\n";
-        if (!gArgs.IsArgSet("-version")) {
+
+        if (gArgs.IsArgSet("-version")) {
+            strUsage += FormatParagraph(LicenseInfo());
+        } else {
             strUsage += "\n"
                 "Usage:  xaya-cli [options] <command> [params]  Send command to " PACKAGE_NAME "\n"
                 "or:     xaya-cli [options] -named <command> [name=value]...  Send command to " PACKAGE_NAME " (with named arguments)\n"
@@ -176,7 +190,6 @@ struct HTTPReply
 static std::string http_errorstring(int code)
 {
     switch(code) {
-#if LIBEVENT_VERSION_NUMBER >= 0x02010300
     case EVREQ_HTTP_TIMEOUT:
         return "timeout reached";
     case EVREQ_HTTP_EOF:
@@ -189,7 +202,6 @@ static std::string http_errorstring(int code)
         return "request was canceled";
     case EVREQ_HTTP_DATA_TOO_LONG:
         return "response body is larger than allowed";
-#endif
     default:
         return "unknown";
     }
@@ -220,13 +232,11 @@ static void http_request_done(struct evhttp_request *req, void *ctx)
     }
 }
 
-#if LIBEVENT_VERSION_NUMBER >= 0x02010300
 static void http_error_cb(enum evhttp_request_error err, void *ctx)
 {
     HTTPReply *reply = static_cast<HTTPReply*>(ctx);
     reply->error = err;
 }
-#endif
 
 /** Class that handles the conversion from a command-line to a JSON-RPC request,
  * as well as converting back to a JSON object that can be shown as result.
@@ -266,7 +276,7 @@ public:
         if (!reply["error"].isNull()) return reply;
         const std::vector<UniValue>& nodes{reply["result"].getValues()};
         if (!nodes.empty() && nodes.at(0)["network"].isNull()) {
-            throw std::runtime_error("-addrinfo requires bitcoind server to be running v22.0 and up");
+            throw std::runtime_error("-addrinfo requires xayad server to be running v22.0 and up");
         }
         // Count the number of peers known to our node, by network.
         std::array<uint64_t, NETWORKS.size()> counts{{}};
@@ -434,7 +444,7 @@ private:
         if (conn_type == "addr-fetch") return "addr";
         return "";
     }
-    const int64_t m_time_now{GetTimeSeconds()};
+    const int64_t m_time_now{count_seconds(Now<CliSeconds>())};
 
 public:
     static constexpr int ID_PEERINFO = 0;
@@ -447,7 +457,7 @@ public:
             if (ParseUInt8(args.at(0), &n)) {
                 m_details_level = std::min(n, MAX_DETAIL_LEVEL);
             } else {
-                throw std::runtime_error(strprintf("invalid -netinfo argument: %s\nFor more information, run: bitcoin-cli -netinfo help", args.at(0)));
+                throw std::runtime_error(strprintf("invalid -netinfo argument: %s\nFor more information, run: xaya-cli -netinfo help", args.at(0)));
             }
         }
         UniValue result(UniValue::VARR);
@@ -464,7 +474,7 @@ public:
 
         const UniValue& networkinfo{batch[ID_NETWORKINFO]["result"]};
         if (networkinfo["version"].get_int() < 209900) {
-            throw std::runtime_error("-netinfo requires bitcoind server to be running v0.21.0 and up");
+            throw std::runtime_error("-netinfo requires xayad server to be running v0.21.0 and up");
         }
 
         // Count peer connection totals, and if DetailsRequested(), store peer data in a vector of structs.
@@ -611,8 +621,9 @@ public:
         "Suggestion: use with the Linux watch(1) command for a live dashboard; see example below.\n\n"
         "Arguments:\n"
         + strprintf("1. level (integer 0-%d, optional)  Specify the info level of the peers dashboard (default 0):\n", MAX_DETAIL_LEVEL) +
-        "                                  0 - Connection counts and local addresses\n"
-        "                                  1 - Like 0 but with a peers listing (without address or version columns)\n"
+        "                                  0 - Peer counts for each reachable network as well as for block relay peers\n"
+        "                                      and manual peers, and the list of local addresses and ports\n"
+        "                                  1 - Like 0 but preceded by a peers listing (without address and version columns)\n"
         "                                  2 - Like 1 but with an address column\n"
         "                                  3 - Like 1 but with a version column\n"
         "                                  4 - Like 1 but with both address and version columns\n"
@@ -650,20 +661,20 @@ public:
         "  id       Peer index, in increasing order of peer connections since node startup\n"
         "  address  IP address and port of the peer\n"
         "  version  Peer version and subversion concatenated, e.g. \"70016/Satoshi:21.0.0/\"\n\n"
-        "* The connection counts table displays the number of peers by direction, network, and the totals\n"
-        "  for each, as well as two special outbound columns for block relay peers and manual peers.\n\n"
+        "* The peer counts table displays the number of peers for each reachable network as well as\n"
+        "  the number of block relay peers and manual peers.\n\n"
         "* The local addresses table lists each local address broadcast by the node, the port, and the score.\n\n"
         "Examples:\n\n"
-        "Connection counts and local addresses only\n"
-        "> bitcoin-cli -netinfo\n\n"
-        "Compact peers listing\n"
-        "> bitcoin-cli -netinfo 1\n\n"
+        "Peer counts table of reachable networks and list of local addresses\n"
+        "> xaya-cli -netinfo\n\n"
+        "The same, preceded by a peers listing without address and version columns\n"
+        "> xaya-cli -netinfo 1\n\n"
         "Full dashboard\n"
-        + strprintf("> bitcoin-cli -netinfo %d\n\n", MAX_DETAIL_LEVEL) +
+        + strprintf("> xaya-cli -netinfo %d\n\n", MAX_DETAIL_LEVEL) +
         "Full live dashboard, adjust --interval or --no-title as needed (Linux)\n"
-        + strprintf("> watch --interval 1 --no-title bitcoin-cli -netinfo %d\n\n", MAX_DETAIL_LEVEL) +
+        + strprintf("> watch --interval 1 --no-title xaya-cli -netinfo %d\n\n", MAX_DETAIL_LEVEL) +
         "See this help\n"
-        "> bitcoin-cli -netinfo help\n"};
+        "> xaya-cli -netinfo help\n"};
 };
 
 /** Process RPC generatetoaddress request. */
@@ -741,11 +752,11 @@ static UniValue CallRPC(BaseRequestHandler* rh, const std::string& strMethod, co
 
     HTTPReply response;
     raii_evhttp_request req = obtain_evhttp_request(http_request_done, (void*)&response);
-    if (req == nullptr)
+    if (req == nullptr) {
         throw std::runtime_error("create http request failed");
-#if LIBEVENT_VERSION_NUMBER >= 0x02010300
+    }
+
     evhttp_request_set_error_cb(req.get(), http_error_cb);
-#endif
 
     // Get credentials
     std::string strRPCUserColonPass;
@@ -1054,7 +1065,9 @@ static void ParseGetInfoResult(UniValue& result)
         result_string += "\n";
     }
 
-    result_string += strprintf("%sWarnings:%s %s", YELLOW, RESET, result["warnings"].getValStr());
+    const std::string warnings{result["warnings"].getValStr()};
+    result_string += strprintf("%sWarnings:%s %s", YELLOW, RESET, warnings.empty() ? "(none)" : warnings);
+
     result.setStr(result_string);
 }
 

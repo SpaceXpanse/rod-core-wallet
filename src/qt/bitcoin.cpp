@@ -41,6 +41,7 @@
 #endif // ENABLE_WALLET
 
 #include <boost/signals2/connection.hpp>
+#include <chrono>
 #include <memory>
 
 #include <QApplication>
@@ -76,6 +77,8 @@ Q_DECLARE_METATYPE(CAmount)
 Q_DECLARE_METATYPE(SynchronizationState)
 Q_DECLARE_METATYPE(uint256)
 
+using node::NodeContext;
+
 static void RegisterMetaTypes()
 {
     // Register meta types used for QMetaObject::invokeMethod and Qt::QueuedConnection
@@ -92,6 +95,8 @@ static void RegisterMetaTypes()
     qRegisterMetaType<std::function<void()>>("std::function<void()>");
     qRegisterMetaType<QMessageBox::Icon>("QMessageBox::Icon");
     qRegisterMetaType<interfaces::BlockAndHeaderTipInfo>("interfaces::BlockAndHeaderTipInfo");
+
+    qRegisterMetaTypeStreamOperators<BitcoinUnit>("BitcoinUnit");
 }
 
 static QString GetLangTerritory()
@@ -265,7 +270,11 @@ void BitcoinApplication::createWindow(const NetworkStyle *networkStyle)
     connect(window, &BitcoinGUI::quitRequested, this, &BitcoinApplication::requestShutdown);
 
     pollShutdownTimer = new QTimer(window);
-    connect(pollShutdownTimer, &QTimer::timeout, window, &BitcoinGUI::detectShutdown);
+    connect(pollShutdownTimer, &QTimer::timeout, [this]{
+        if (!QApplication::activeModalWidget()) {
+            window->detectShutdown();
+        }
+    });
 }
 
 void BitcoinApplication::createSplashScreen(const NetworkStyle *networkStyle)
@@ -410,10 +419,10 @@ void BitcoinApplication::initializeResult(bool success, interfaces::BlockAndHead
             connect(paymentServer, &PaymentServer::message, [this](const QString& title, const QString& message, unsigned int style) {
                 window->message(title, message, style);
             });
-            QTimer::singleShot(100, paymentServer, &PaymentServer::uiReady);
+            QTimer::singleShot(100ms, paymentServer, &PaymentServer::uiReady);
         }
 #endif
-        pollShutdownTimer->start(200);
+        pollShutdownTimer->start(SHUTDOWN_POLLING_DELAY);
     } else {
         Q_EMIT splashFinished(); // Make sure splash screen doesn't stick around during shutdown
         requestShutdown();
@@ -445,6 +454,16 @@ WId BitcoinApplication::getMainWinId() const
         return 0;
 
     return window->winId();
+}
+
+bool BitcoinApplication::event(QEvent* e)
+{
+    if (e->type() == QEvent::Quit) {
+        requestShutdown();
+        return true;
+    }
+
+    return QApplication::event(e);
 }
 
 static void SetupUIArgs(ArgsManager& argsman)
@@ -502,7 +521,7 @@ int GuiMain(int argc, char* argv[])
         InitError(strprintf(Untranslated("Error parsing command line arguments: %s\n"), error));
         // Create a message box, because the gui has neither been created nor has subscribed to core signals
         QMessageBox::critical(nullptr, PACKAGE_NAME,
-            // message can not be translated because translations have not been initialized
+            // message cannot be translated because translations have not been initialized
             QString::fromStdString("Error parsing command line arguments: %1.").arg(QString::fromStdString(error)));
         return EXIT_FAILURE;
     }
@@ -570,7 +589,7 @@ int GuiMain(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 #ifdef ENABLE_WALLET
-    // Parse URIs on command line -- this can affect Params()
+    // Parse URIs on command line
     PaymentServer::ipcParseCommandLine(argc, argv);
 #endif
 

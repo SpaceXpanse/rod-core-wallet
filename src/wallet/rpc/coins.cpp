@@ -4,6 +4,7 @@
 
 #include <core_io.h>
 #include <key_io.h>
+#include <rpc/names.h>
 #include <rpc/server_util.h>
 #include <rpc/util.h>
 #include <util/moneystr.h>
@@ -17,6 +18,7 @@
 #include <univalue.h>
 
 
+namespace wallet {
 static CAmount GetReceived(const CWallet& wallet, const UniValue& params, bool by_label) EXCLUSIVE_LOCKS_REQUIRED(wallet.cs_wallet)
 {
     std::set<CTxDestination> address_set;
@@ -61,8 +63,8 @@ static CAmount GetReceived(const CWallet& wallet, const UniValue& params, bool b
         if (depth < min_depth
             // Coinbase with less than 1 confirmation is no longer in the main chain
             || (wtx.IsCoinBase() && (depth < 1 || !include_coinbase))
-            || (wallet.IsTxImmatureCoinBase(wtx) && !include_immature_coinbase)
-            || !wallet.chain().checkFinalTx(*wtx.tx)) {
+            || (wallet.IsTxImmatureCoinBase(wtx) && !include_immature_coinbase))
+        {
             continue;
         }
 
@@ -113,7 +115,7 @@ RPCHelpMan getreceivedbyaddress()
 
     LOCK(pwallet->cs_wallet);
 
-    return ValueFromAmount(GetReceived(*pwallet, request.params, /* by_label */ false));
+    return ValueFromAmount(GetReceived(*pwallet, request.params, /*by_label=*/false));
 },
     };
 }
@@ -154,7 +156,7 @@ RPCHelpMan getreceivedbylabel()
 
     LOCK(pwallet->cs_wallet);
 
-    return ValueFromAmount(GetReceived(*pwallet, request.params, /* by_label */ true));
+    return ValueFromAmount(GetReceived(*pwallet, request.params, /*by_label=*/true));
 },
     };
 }
@@ -533,6 +535,7 @@ RPCHelpMan listunspent()
                             {RPCResult::Type::STR_HEX, "txid", "the transaction id"},
                             {RPCResult::Type::NUM, "vout", "the vout value"},
                             {RPCResult::Type::STR, "address", /*optional=*/true, "the address"},
+                            NameOpResult,
                             {RPCResult::Type::STR, "label", /*optional=*/true, "The associated label, or \"\" for the default label"},
                             {RPCResult::Type::STR, "scriptPubKey", "the script key"},
                             {RPCResult::Type::STR_AMOUNT, "amount", "the transaction output amount in " + CURRENCY_UNIT},
@@ -657,9 +660,9 @@ RPCHelpMan listunspent()
 
     for (const COutput& out : vecOutputs) {
         CTxDestination address;
-        const CScript& scriptPubKey = out.tx->tx->vout[out.i].scriptPubKey;
+        const CScript& scriptPubKey = out.txout.scriptPubKey;
         bool fValidAddress = ExtractDestination(scriptPubKey, address);
-        bool reused = avoid_reuse && pwallet->IsSpentKey(out.tx->GetHash(), out.i);
+        bool reused = avoid_reuse && pwallet->IsSpentKey(out.outpoint.hash, out.outpoint.n);
 
         if (destinations.size() && (!fValidAddress || !destinations.count(address)))
             continue;
@@ -677,8 +680,8 @@ RPCHelpMan listunspent()
           }
 
         UniValue entry(UniValue::VOBJ);
-        entry.pushKV("txid", out.tx->GetHash().GetHex());
-        entry.pushKV("vout", out.i);
+        entry.pushKV("txid", out.outpoint.hash.GetHex());
+        entry.pushKV("vout", (int)out.outpoint.n);
 
         if (nameOp.isNameOp())
             entry.pushKV("nameOp", NameOpToUniv(nameOp));
@@ -726,21 +729,21 @@ RPCHelpMan listunspent()
         }
 
         entry.pushKV("scriptPubKey", HexStr(scriptPubKey));
-        entry.pushKV("amount", ValueFromAmount(out.tx->tx->vout[out.i].nValue));
-        entry.pushKV("confirmations", out.nDepth);
-        if (!out.nDepth) {
+        entry.pushKV("amount", ValueFromAmount(out.txout.nValue));
+        entry.pushKV("confirmations", out.depth);
+        if (!out.depth) {
             size_t ancestor_count, descendant_count, ancestor_size;
             CAmount ancestor_fees;
-            pwallet->chain().getTransactionAncestry(out.tx->GetHash(), ancestor_count, descendant_count, &ancestor_size, &ancestor_fees);
+            pwallet->chain().getTransactionAncestry(out.outpoint.hash, ancestor_count, descendant_count, &ancestor_size, &ancestor_fees);
             if (ancestor_count) {
                 entry.pushKV("ancestorcount", uint64_t(ancestor_count));
                 entry.pushKV("ancestorsize", uint64_t(ancestor_size));
                 entry.pushKV("ancestorfees", uint64_t(ancestor_fees));
             }
         }
-        entry.pushKV("spendable", out.fSpendable);
-        entry.pushKV("solvable", out.fSolvable);
-        if (out.fSolvable) {
+        entry.pushKV("spendable", out.spendable);
+        entry.pushKV("solvable", out.solvable);
+        if (out.solvable) {
             std::unique_ptr<SigningProvider> provider = pwallet->GetSolvingProvider(scriptPubKey);
             if (provider) {
                 auto descriptor = InferDescriptor(scriptPubKey, *provider);
@@ -748,7 +751,7 @@ RPCHelpMan listunspent()
             }
         }
         if (avoid_reuse) entry.pushKV("reused", reused);
-        entry.pushKV("safe", out.fSafe);
+        entry.pushKV("safe", out.safe);
         results.push_back(entry);
     }
 
@@ -756,3 +759,4 @@ RPCHelpMan listunspent()
 },
     };
 }
+} // namespace wallet
