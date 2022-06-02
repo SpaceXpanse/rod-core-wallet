@@ -260,7 +260,7 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")},} 
+//            {{ 0, uint256S("0x0")},} 
 /*
             {
                 {0, uint256S("d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389")},   
@@ -393,7 +393,7 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")},} 
+//            {{ 0, uint256S("0x0")},} 
 /*
             {
                 {0, uint256S("61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71")},
@@ -650,7 +650,7 @@ public:
         m_is_mockable_chain = true;
 
         checkpointData =  {
-            {{ 0, uint256S("0x0")},} 
+//            {{ 0, uint256S("0x0")},} 
 /*
             {
                 {0, uint256S("fa37a72ecf6241368fafcb4a4c49abe2ba06614f9bd06cb62fa05a5975303765")},
