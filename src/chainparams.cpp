@@ -260,7 +260,7 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}} 
+            {{ 0, uint256S("0x0")}}, 
 /*
             {
                 {0, uint256S("d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389")},   
@@ -273,7 +273,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 1644862766, // 1626099379,
+            /* nTime    */ 0, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -393,7 +393,7 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}} 
+            {{ 0, uint256S("0x0")}}, 
 /*
             {
                 {0, uint256S("61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71")},
@@ -406,7 +406,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 1644863012, // 1586091497,
+            /* nTime    */ 0, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -650,7 +650,7 @@ public:
         m_is_mockable_chain = true;
 
         checkpointData =  {
-            {{ 0, uint256S("0x0")}} 
+            {{ 0, uint256S("0x0")}}, 
 /*
             {
                 {0, uint256S("fa37a72ecf6241368fafcb4a4c49abe2ba06614f9bd06cb62fa05a5975303765")},
