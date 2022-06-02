@@ -38,7 +38,7 @@ More Information
 
 SPACEXPANSE ROD Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
-You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
+You may check https://github.com/SpaceXpanse/rod-core-wallet/tree/0.6.3/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
 Several tutorials and more information are here:
 https://github.com/SpaceXpanse/Documentation/wiki
