@@ -147,7 +147,7 @@ void MineGenesisBlock (CBlock& block, const Consensus::Params& consensus)
   std::cout << "nTime: " << block.nTime << std::endl;
   std::cout << "Block hash: " << block.GetHash ().GetHex () << std::endl;
   std::cout << "Merkle root: " << block.hashMerkleRoot.GetHex () << std::endl;
-//  exit (EXIT_SUCCESS);
+  exit (EXIT_SUCCESS);
 }
 
 } // anonymous namespace
@@ -340,7 +340,7 @@ public:
 
         genesis = CreateGenesisBlock (1644863012, 1149994, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressRegtest));
+                                      uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
 //        
         consensus.hashGenesisBlock = uint256S("0x");
