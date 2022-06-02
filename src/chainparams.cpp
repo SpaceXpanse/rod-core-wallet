@@ -237,8 +237,8 @@ public:
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
 //        
-        assert(consensus.hashGenesisBlock == uint256S("0x0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0"));
+//        assert(consensus.hashGenesisBlock == uint256S("0x0"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
@@ -365,8 +365,8 @@ public:
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
 //        
-        assert(consensus.hashGenesisBlock == uint256S("0x0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0"));
+//        assert(consensus.hashGenesisBlock == uint256S("0x0"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -532,8 +532,8 @@ public:
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
 //        
-        assert(consensus.hashGenesisBlock == uint256S("0x0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0"));
+//        assert(consensus.hashGenesisBlock == uint256S("0x0"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
         vFixedSeeds.clear();
 
@@ -638,8 +638,8 @@ public:
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
 //        
-        assert(consensus.hashGenesisBlock == uint256S("0x0"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0"));
+//        assert(consensus.hashGenesisBlock == uint256S("0x0"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
