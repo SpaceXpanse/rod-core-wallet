@@ -4,6 +4,7 @@
 
 #include <qt/walletframe.h>
 
+#include <fs.h>
 #include <node/ui_interface.h>
 #include <psbt.h>
 #include <qt/guiutil.h>
@@ -14,6 +15,8 @@
 #include <util/system.h>
 
 #include <cassert>
+#include <fstream>
+#include <string>
 
 #include <QApplication>
 #include <QClipboard>
@@ -205,16 +208,16 @@ void WalletFrame::gotoVerifyMessageTab(QString addr)
 
 void WalletFrame::gotoLoadPSBT(bool from_clipboard)
 {
-    std::string data;
+    std::vector<unsigned char> data;
 
     if (from_clipboard) {
         std::string raw = QApplication::clipboard()->text().toStdString();
-        bool invalid;
-        data = DecodeBase64(raw, &invalid);
-        if (invalid) {
+        auto result = DecodeBase64(raw);
+        if (!result) {
             Q_EMIT message(tr("Error"), tr("Unable to decode PSBT from clipboard (invalid base64)"), CClientUIInterface::MSG_ERROR);
             return;
         }
+        data = std::move(*result);
     } else {
         QString filename = GUIUtil::getOpenFileName(this,
             tr("Load Transaction Data"), QString(),
@@ -224,20 +227,20 @@ void WalletFrame::gotoLoadPSBT(bool from_clipboard)
             Q_EMIT message(tr("Error"), tr("PSBT file must be smaller than 100 MiB"), CClientUIInterface::MSG_ERROR);
             return;
         }
-        std::ifstream in(filename.toLocal8Bit().data(), std::ios::binary);
-        data = std::string(std::istreambuf_iterator<char>{in}, {});
+        std::ifstream in{filename.toLocal8Bit().data(), std::ios::binary};
+        data.assign(std::istream_iterator<unsigned char>{in}, {});
     }
 
     std::string error;
     PartiallySignedTransaction psbtx;
-    if (!DecodeRawPSBT(psbtx, data, error)) {
+    if (!DecodeRawPSBT(psbtx, MakeByteSpan(data), error)) {
         Q_EMIT message(tr("Error"), tr("Unable to decode PSBT") + "\n" + QString::fromStdString(error), CClientUIInterface::MSG_ERROR);
         return;
     }
 
     auto dlg = new PSBTOperationsDialog(this, currentWalletModel(), clientModel);
     dlg->openWithPSBT(psbtx);
-    GUIUtil::ShowModalDialogAndDeleteOnClose(dlg);
+    GUIUtil::ShowModalDialogAsynchronously(dlg);
 }
 
 void WalletFrame::encryptWallet()

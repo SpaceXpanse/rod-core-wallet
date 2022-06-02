@@ -110,7 +110,7 @@ SendUpdatesOneBlock (const std::set<std::string>& trackedGames,
                      const CBlockIndex* pindex)
 {
   CBlock blk;
-  if (!ReadBlockFromDisk (blk, pindex, Params ().GetConsensus ()))
+  if (!node::ReadBlockFromDisk (blk, pindex, Params ().GetConsensus ()))
     {
       LogPrint (BCLog::GAME, "Reading block %s failed, ignoring\n",
                 pindex->GetBlockHash ().GetHex ());
@@ -265,7 +265,7 @@ game_sendupdates ()
                                         "fromblock");
 
   std::vector<unsigned char> tokenBin(16);
-  GetRandBytes (tokenBin.data (), tokenBin.size ());
+  GetRandBytes (tokenBin);
   const std::string reqtoken = HexStr (tokenBin);
   w.reqtoken = reqtoken;
 
@@ -413,12 +413,11 @@ trackedgames ()
 
 void RegisterGameRPCCommands (CRPCTable& t)
 {
-static const CRPCCommand commands[] =
-{ //  category               actor (function)
-  //  ---------------------  -----------------------
-  { "game",                  &game_sendupdates,        },
-  { "game",                  &trackedgames,            },
-};
+  static const CRPCCommand commands[] =
+  {
+    {"game", &game_sendupdates},
+    {"game", &trackedgames},
+  };
 
   for (const auto& c : commands)
     t.appendCommand (c.name, &c);

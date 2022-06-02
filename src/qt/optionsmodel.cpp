@@ -24,6 +24,7 @@
 #include <QLatin1Char>
 #include <QSettings>
 #include <QStringList>
+#include <QVariant>
 
 const char *DEFAULT_GUI_PROXY_HOST = "127.0.0.1";
 
@@ -71,9 +72,16 @@ void OptionsModel::Init(bool resetSettings)
     fMinimizeOnClose = settings.value("fMinimizeOnClose").toBool();
 
     // Display
-    if (!settings.contains("nDisplayUnit"))
-        settings.setValue("nDisplayUnit", BitcoinUnits::BTC);
-    nDisplayUnit = settings.value("nDisplayUnit").toInt();
+    if (!settings.contains("DisplayBitcoinUnit")) {
+        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(BitcoinUnit::BTC));
+    }
+    QVariant unit = settings.value("DisplayBitcoinUnit");
+    if (unit.canConvert<BitcoinUnit>()) {
+        m_display_bitcoin_unit = unit.value<BitcoinUnit>();
+    } else {
+        m_display_bitcoin_unit = BitcoinUnit::BTC;
+        settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(m_display_bitcoin_unit));
+    }
 
     if (!settings.contains("strThirdPartyTxUrls"))
         settings.setValue("strThirdPartyTxUrls", "");
@@ -151,8 +159,28 @@ void OptionsModel::Init(bool resetSettings)
 
     if (!settings.contains("fListen"))
         settings.setValue("fListen", DEFAULT_LISTEN);
-    if (!gArgs.SoftSetBoolArg("-listen", settings.value("fListen").toBool()))
+    const bool listen{settings.value("fListen").toBool()};
+    if (!gArgs.SoftSetBoolArg("-listen", listen)) {
         addOverriddenOption("-listen");
+    } else if (!listen) {
+        // We successfully set -listen=0, thus mimic the logic from InitParameterInteraction():
+        // "parameter interaction: -listen=0 -> setting -listenonion=0".
+        //
+        // Both -listen and -listenonion default to true.
+        //
+        // The call order is:
+        //
+        // InitParameterInteraction()
+        //     would set -listenonion=0 if it sees -listen=0, but for bitcoin-qt with
+        //     fListen=false -listen is 1 at this point
+        //
+        // OptionsModel::Init()
+        //     (this method) can flip -listen from 1 to 0 if fListen=false
+        //
+        // AppInitParameterInteraction()
+        //     raises an error if -listen=0 and -listenonion=1
+        gArgs.SoftSetBoolArg("-listenonion", false);
+    }
 
     if (!settings.contains("server")) {
         settings.setValue("server", false);
@@ -209,8 +237,8 @@ static void CopySettings(QSettings& dst, const QSettings& src)
 /** Back up a QSettings to an ini-formatted file. */
 static void BackupSettings(const fs::path& filename, const QSettings& src)
 {
-    qInfo() << "Backing up GUI settings to" << GUIUtil::boostPathToQString(filename);
-    QSettings dst(GUIUtil::boostPathToQString(filename), QSettings::IniFormat);
+    qInfo() << "Backing up GUI settings to" << GUIUtil::PathToQString(filename);
+    QSettings dst(GUIUtil::PathToQString(filename), QSettings::IniFormat);
     dst.clear();
     CopySettings(dst, src);
 }
@@ -356,7 +384,7 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return m_sub_fee_from_amount;
 #endif
         case DisplayUnit:
-            return nDisplayUnit;
+            return QVariant::fromValue(m_display_bitcoin_unit);
         case ThirdPartyTxUrls:
             return strThirdPartyTxUrls;
         case Language:
@@ -564,16 +592,13 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
     return successful;
 }
 
-/** Updates current unit in memory, settings and emits displayUnitChanged(newUnit) signal */
-void OptionsModel::setDisplayUnit(const QVariant &value)
+void OptionsModel::setDisplayUnit(const QVariant& new_unit)
 {
-    if (!value.isNull())
-    {
-        QSettings settings;
-        nDisplayUnit = value.toInt();
-        settings.setValue("nDisplayUnit", nDisplayUnit);
-        Q_EMIT displayUnitChanged(nDisplayUnit);
-    }
+    if (new_unit.isNull() || new_unit.value<BitcoinUnit>() == m_display_bitcoin_unit) return;
+    m_display_bitcoin_unit = new_unit.value<BitcoinUnit>();
+    QSettings settings;
+    settings.setValue("DisplayBitcoinUnit", QVariant::fromValue(m_display_bitcoin_unit));
+    Q_EMIT displayUnitChanged(m_display_bitcoin_unit);
 }
 
 void OptionsModel::setRestartRequired(bool fRequired)

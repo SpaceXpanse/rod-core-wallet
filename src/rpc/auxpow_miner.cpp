@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2021 Daniel Kraft
+// Copyright (c) 2018-2022 Daniel Kraft
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,6 +7,7 @@
 #include <arith_uint256.h>
 #include <auxpow.h>
 #include <chainparams.h>
+#include <consensus/merkle.h>
 #include <net.h>
 #include <node/context.h>
 #include <primitives/pureheader.h>
@@ -24,9 +25,10 @@
 namespace
 {
 
-void auxMiningCheck(const JSONRPCRequest& request)
+using node::BlockAssembler;
+
+void auxMiningCheck(const node::NodeContext& node)
 {
-  const NodeContext& node = EnsureAnyNodeContext (request);
   const auto& connman = EnsureConnman (node);
   const auto& chainman = EnsureChainman (node);
 
@@ -73,7 +75,7 @@ AuxpowMiner::getCurrentBlock (const ChainstateManager& chainman,
           }
 
         /* Create new block with nonce = 0 and extraNonce = 1.  */
-        std::unique_ptr<CBlockTemplate> newBlock
+        std::unique_ptr<node::CBlockTemplate> newBlock
             = BlockAssembler (chainman.ActiveChainstate (), mempool, Params ())
                 .CreateNewBlock (algo, scriptPubKey);
         if (newBlock == nullptr)
@@ -85,7 +87,7 @@ AuxpowMiner::getCurrentBlock (const ChainstateManager& chainman,
         startTime = GetTime ();
 
         /* Finalise it by building the merkle root.  */
-        IncrementExtraNonce (&newBlock->block, pindexPrev, extraNonce);
+        newBlock->block.hashMerkleRoot = BlockMerkleRoot (newBlock->block);
 
         /* Save in our map of constructed blocks.  */
         pblockCur = &newBlock->block;
@@ -131,10 +133,10 @@ UniValue
 AuxpowMiner::createAuxBlock (const JSONRPCRequest& request,
                              const CScript& scriptPubKey)
 {
-  auxMiningCheck (request);
   LOCK (cs);
 
   const auto& node = EnsureAnyNodeContext (request);
+  auxMiningCheck (node);
   const auto& mempool = EnsureMemPool (node);
   const auto& chainman = EnsureChainman (node);
 
@@ -183,8 +185,8 @@ UniValue
 AuxpowMiner::createWork (const JSONRPCRequest& request,
                          const CScript& scriptPubKey)
 {
-  auxMiningCheck (request);
   auto& node = EnsureAnyNodeContext (request);
+  auxMiningCheck (node);
   auto& chainman = EnsureChainman (node);
   LOCK (cs);
 
@@ -229,8 +231,8 @@ AuxpowMiner::submitAuxBlock (const JSONRPCRequest& request,
                              const std::string& hashHex,
                              const std::string& auxpowHex) const
 {
-  auxMiningCheck (request);
   const auto& node = EnsureAnyNodeContext (request);
+  auxMiningCheck (node);
   auto& chainman = EnsureChainman (node);
 
   std::shared_ptr<CBlock> shared_block;
@@ -248,7 +250,7 @@ AuxpowMiner::submitAuxBlock (const JSONRPCRequest& request,
   shared_block->pow.setAuxpow (std::move (pow));
   assert (shared_block->GetHash ().GetHex () == hashHex);
 
-  return chainman.ProcessNewBlock (Params (), shared_block, true, nullptr);
+  return chainman.ProcessNewBlock (shared_block, true, nullptr);
 }
 
 bool
@@ -256,8 +258,9 @@ AuxpowMiner::submitWork (const JSONRPCRequest& request,
                          const std::string& hashHex,
                          const std::string& dataHex) const
 {
-  auxMiningCheck (request);
-  auto& chainman = EnsureChainman (EnsureAnyNodeContext (request));
+  const auto& node = EnsureAnyNodeContext (request);
+  auxMiningCheck (node);
+  auto& chainman = EnsureChainman (node);
 
   std::vector<unsigned char> vchData = ParseHex (dataHex);
   if (vchData.size () < 80)
@@ -285,7 +288,7 @@ AuxpowMiner::submitWork (const JSONRPCRequest& request,
   shared_block->pow.setFakeHeader (std::move (fakeHeader));
   assert (shared_block->GetHash ().GetHex () == hashForLookup);
 
-  return chainman.ProcessNewBlock (Params (), shared_block, true, nullptr);
+  return chainman.ProcessNewBlock (shared_block, true, nullptr);
 }
 
 AuxpowMiner&

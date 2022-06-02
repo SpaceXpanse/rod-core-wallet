@@ -20,6 +20,7 @@
 #include <util/check.h>
 #include <util/strencodings.h>
 #include <util/syscall_sandbox.h>
+#include <util/syserror.h>
 #include <util/system.h>
 #include <util/threadnames.h>
 #include <util/tokenpipe.h>
@@ -29,6 +30,8 @@
 #include <any>
 #include <functional>
 #include <optional>
+
+using node::NodeContext;
 
 const std::function<std::string(const char*)> G_TRANSLATION_FUN = nullptr;
 UrlDecodeFn* const URL_DECODE = urlDecode;
@@ -124,9 +127,10 @@ static bool AppInit(NodeContext& node, int argc, char* argv[])
     if (HelpRequested(args) || args.IsArgSet("-version")) {
         std::string strUsage = PACKAGE_NAME " version " + FormatFullVersion() + "\n";
 
-        if (!args.IsArgSet("-version")) {
-            strUsage += FormatParagraph(LicenseInfo()) + "\n"
-                "\nUsage:  xayad [options]                     Start " PACKAGE_NAME "\n"
+        if (args.IsArgSet("-version")) {
+            strUsage += FormatParagraph(LicenseInfo());
+        } else {
+            strUsage += "\nUsage:  xayad [options]                     Start " PACKAGE_NAME "\n"
                 "\n";
             strUsage += args.GetHelpMessage();
         }
@@ -203,7 +207,7 @@ static bool AppInit(NodeContext& node, int argc, char* argv[])
                 }
                 break;
             case -1: // Error happened.
-                return InitError(Untranslated(strprintf("fork_daemon() failed: %s\n", strerror(errno))));
+                return InitError(Untranslated(strprintf("fork_daemon() failed: %s\n", SysErrorString(errno))));
             default: { // Parent: wait and exit.
                 int token = daemon_ep.TokenRead();
                 if (token) { // Success

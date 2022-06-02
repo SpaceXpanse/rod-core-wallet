@@ -15,10 +15,10 @@
 #include <interfaces/chain.h>
 #include <net.h>
 #include <net_processing.h>
-#include <node/miner.h>
-#include <noui.h>
 #include <node/blockstorage.h>
 #include <node/chainstate.h>
+#include <node/miner.h>
+#include <noui.h>
 #include <policy/fees.h>
 #include <pow.h>
 #include <powdata.h>
@@ -29,6 +29,7 @@
 #include <script/sigcache.h>
 #include <shutdown.h>
 #include <streams.h>
+#include <test/util/net.h>
 #include <txdb.h>
 #include <util/strencodings.h>
 #include <util/string.h>
@@ -43,6 +44,15 @@
 #include <walletinitinterface.h>
 
 #include <functional>
+#include <stdexcept>
+
+using node::BlockAssembler;
+using node::CalculateCacheSizes;
+using node::LoadChainstate;
+using node::RegenerateCommitments;
+using node::VerifyLoadedChainstate;
+using node::fPruneMode;
+using node::fReindex;
 
 const std::function<std::string(const char*)> G_TRANSLATION_FUN = nullptr;
 UrlDecodeFn* const URL_DECODE = nullptr;
@@ -81,7 +91,7 @@ BasicTestingSetup::BasicTestingSetup(const std::string& chainName, const std::ve
       m_args{}
 {
     m_node.args = &gArgs;
-    const std::vector<const char*> arguments = Cat(
+    std::vector<const char*> arguments = Cat(
         {
             "dummy",
             "-printtoconsole=0",
@@ -93,6 +103,9 @@ BasicTestingSetup::BasicTestingSetup(const std::string& chainName, const std::ve
             "-debugexclude=leveldb",
         },
         extra_args);
+    if (G_TEST_COMMAND_LINE_ARGUMENTS) {
+        arguments = Cat(arguments, G_TEST_COMMAND_LINE_ARGUMENTS());
+    }
     util::ThreadRename("test");
     fs::create_directories(m_path_root);
     m_args.ForceSetArg("-datadir", fs::PathToString(m_path_root));
@@ -101,9 +114,10 @@ BasicTestingSetup::BasicTestingSetup(const std::string& chainName, const std::ve
     {
         SetupServerArgs(*m_node.args);
         std::string error;
-        const bool success{m_node.args->ParseParameters(arguments.size(), arguments.data(), error)};
-        assert(success);
-        assert(error.empty());
+        if (!m_node.args->ParseParameters(arguments.size(), arguments.data(), error)) {
+            m_node.args->ClearArgs();
+            throw std::runtime_error{error};
+        }
     }
     SelectParams(chainName);
     SeedInsecureRand();
@@ -138,6 +152,8 @@ BasicTestingSetup::~BasicTestingSetup()
 ChainTestingSetup::ChainTestingSetup(const std::string& chainName, const std::vector<const char*>& extra_args)
     : BasicTestingSetup(chainName, extra_args)
 {
+    const CChainParams& chainparams = Params();
+
     // We have to run a scheduler thread to prevent ActivateBestChain
     // from blocking due to queue overrun.
     m_node.scheduler = std::make_unique<CScheduler>();
@@ -149,7 +165,7 @@ ChainTestingSetup::ChainTestingSetup(const std::string& chainName, const std::ve
 
     m_cache_sizes = CalculateCacheSizes(m_args);
 
-    m_node.chainman = std::make_unique<ChainstateManager>();
+    m_node.chainman = std::make_unique<ChainstateManager>(chainparams);
     m_node.chainman->m_blockman.m_block_tree_db = std::make_unique<CBlockTreeDB>(m_cache_sizes.block_tree_db, true);
 
     // Start script-checking threads. Set g_parallel_script_checks to true so they are used.
@@ -167,11 +183,10 @@ ChainTestingSetup::~ChainTestingSetup()
     m_node.connman.reset();
     m_node.banman.reset();
     m_node.addrman.reset();
+    m_node.netgroupman.reset();
     m_node.args = nullptr;
-    UnloadBlockIndex(m_node.mempool.get(), *m_node.chainman);
     m_node.mempool.reset();
     m_node.scheduler.reset();
-    m_node.chainman->Reset();
     m_node.chainman.reset();
 }
 
@@ -212,9 +227,12 @@ TestingSetup::TestingSetup(const std::string& chainName, const std::vector<const
         throw std::runtime_error(strprintf("ActivateBestChain failed. (%s)", state.ToString()));
     }
 
-    m_node.addrman = std::make_unique<AddrMan>(/*asmap=*/std::vector<bool>(), /*deterministic=*/false, /*consistency_check_ratio=*/0);
+    m_node.netgroupman = std::make_unique<NetGroupManager>(/*asmap=*/std::vector<bool>());
+    m_node.addrman = std::make_unique<AddrMan>(*m_node.netgroupman,
+                                               /*deterministic=*/false,
+                                               m_node.args->GetIntArg("-checkaddrman", 0));
     m_node.banman = std::make_unique<BanMan>(m_args.GetDataDirBase() / "banlist", nullptr, DEFAULT_MISBEHAVING_BANTIME);
-    m_node.connman = std::make_unique<CConnman>(0x1337, 0x1337, *m_node.addrman); // Deterministic randomness for tests.
+    m_node.connman = std::make_unique<ConnmanTestMsg>(0x1337, 0x1337, *m_node.addrman, *m_node.netgroupman); // Deterministic randomness for tests.
     m_node.peerman = PeerManager::make(chainparams, *m_node.connman, *m_node.addrman,
                                        m_node.banman.get(), *m_node.chainman,
                                        *m_node.mempool, false);
@@ -291,10 +309,9 @@ CBlock TestChain100Setup::CreateAndProcessBlock(
         chainstate = &Assert(m_node.chainman)->ActiveChainstate();
     }
 
-    const CChainParams& chainparams = Params();
     const CBlock block = this->CreateBlock(txns, scriptPubKey, *chainstate);
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
-    Assert(m_node.chainman)->ProcessNewBlock(chainparams, shared_pblock, true, nullptr);
+    Assert(m_node.chainman)->ProcessNewBlock(shared_pblock, true, nullptr);
 
     return block;
 }

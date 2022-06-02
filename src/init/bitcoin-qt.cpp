@@ -8,6 +8,7 @@
 #include <interfaces/node.h>
 #include <interfaces/wallet.h>
 #include <node/context.h>
+#include <util/check.h>
 #include <util/system.h>
 
 #include <memory>
@@ -29,7 +30,7 @@ public:
         return MakeWalletLoader(chain, *Assert(m_node.args));
     }
     std::unique_ptr<interfaces::Echo> makeEcho() override { return interfaces::MakeEcho(); }
-    NodeContext m_node;
+    node::NodeContext m_node;
 };
 } // namespace
 } // namespace init

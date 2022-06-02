@@ -162,6 +162,11 @@ bool IsValidDestination(const CTxDestination& dest);
 /** Get the name of a TxoutType as a string */
 std::string GetTxnOutputType(TxoutType t);
 
+constexpr bool IsPushdataOp(opcodetype opcode)
+{
+    return opcode > OP_FALSE && opcode <= OP_PUSHDATA4;
+}
+
 /**
  * Checks if the given script is a burn (OP_RETURN) and returns the first
  * operand as data if it is.
@@ -196,6 +201,10 @@ CScript GetScriptForDestination(const CTxDestination& dest);
 
 /** Generate a P2PK script for the given pubkey. */
 CScript GetScriptForRawPubKey(const CPubKey& pubkey);
+
+/** Determine if script is a "multi_a" script. Returns (threshold, keyspans) if so, and nullopt otherwise.
+ *  The keyspans refer to bytes in the passed script. */
+std::optional<std::pair<int, std::vector<Span<const unsigned char>>>> MatchMultiA(const CScript& script LIFETIMEBOUND);
 
 /** Generate a multisig script. */
 CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);

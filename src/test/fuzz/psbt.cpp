@@ -18,6 +18,10 @@
 #include <string>
 #include <vector>
 
+using node::AnalyzePSBT;
+using node::PSBTAnalysis;
+using node::PSBTInputAnalysis;
+
 void initialize_psbt()
 {
     static const ECCVerifyHandle verify_handle;
@@ -28,7 +32,8 @@ FUZZ_TARGET_INIT(psbt, initialize_psbt)
     FuzzedDataProvider fuzzed_data_provider{buffer.data(), buffer.size()};
     PartiallySignedTransaction psbt_mut;
     std::string error;
-    if (!DecodeRawPSBT(psbt_mut, fuzzed_data_provider.ConsumeRandomLengthString(), error)) {
+    auto str = fuzzed_data_provider.ConsumeRandomLengthString();
+    if (!DecodeRawPSBT(psbt_mut, MakeByteSpan(str), error)) {
         return;
     }
     const PartiallySignedTransaction psbt = psbt_mut;
@@ -75,7 +80,8 @@ FUZZ_TARGET_INIT(psbt, initialize_psbt)
     }
 
     PartiallySignedTransaction psbt_merge;
-    if (!DecodeRawPSBT(psbt_merge, fuzzed_data_provider.ConsumeRandomLengthString(), error)) {
+    str = fuzzed_data_provider.ConsumeRandomLengthString();
+    if (!DecodeRawPSBT(psbt_merge, MakeByteSpan(str), error)) {
         psbt_merge = psbt;
     }
     psbt_mut = psbt;
