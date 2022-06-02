@@ -25,11 +25,11 @@ namespace
 
 constexpr const char pszTimestampTestnet[] = "SpaceXpance Testnet";
 constexpr const char pszTimestampMainnet[]
-    = "Forbes, 16.01.2022 10:59am EST: "
-      "Amazon\'s The Expanse Finale Packed 30 Easter Eggs Into One Shot";
+    = "Analytics Insight, 28.05.2022: "
+      "Can Python help create the Martian metaverse that NASA is looking for?";
 
 /* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
-   coins needed in case everything is sold in the ICO.  If this is not the case
+   coins needed.  If this is not the case
    and we need to reduce the coin supply, excessive coins will be burnt by
    sending to an unspendable OP_RETURN output.  */
 constexpr CAmount premineAmount = 222222222 * COIN;
@@ -162,7 +162,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 1054080; // 4216320;
-        consensus.initialSubsidy = 8000000000;
+        consensus.initialSubsidy = 800000000;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -243,8 +243,8 @@ public:
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,75);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,78);
         /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
@@ -294,7 +294,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 1054080; // 2880;
-        consensus.initialSubsidy = 8000000000; //10 * COIN;
+        consensus.initialSubsidy = 800000000; //10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -339,7 +339,7 @@ public:
 
         genesis = CreateGenesisBlock (1644863012, 1149994, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressMainnet));
+                                      uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
 /*        
         consensus.hashGenesisBlock = uint256S("0x");
@@ -372,8 +372,8 @@ public:
         vSeeds.emplace_back("seed1.testnet.spacexpanse.net");
         vSeeds.emplace_back("seed2.testnet.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
@@ -505,7 +505,7 @@ public:
 
         genesis = CreateGenesisBlock (1644863508, 716082, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressMainnet));
+                                      uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
 /*        
         consensus.hashGenesisBlock = uint256S("0x");
@@ -535,8 +535,8 @@ public:
 
         vFixedSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
@@ -671,8 +671,8 @@ public:
             0
         };
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
