@@ -147,7 +147,7 @@ void MineGenesisBlock (CBlock& block, const Consensus::Params& consensus)
   std::cout << "nTime: " << block.nTime << std::endl;
   std::cout << "Block hash: " << block.GetHash ().GetHex () << std::endl;
   std::cout << "Merkle root: " << block.hashMerkleRoot.GetHex () << std::endl;
-  exit (EXIT_SUCCESS);
+//  exit (EXIT_SUCCESS);
 }
 
 } // anonymous namespace
@@ -214,7 +214,7 @@ public:
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Mainnet genesis block..." << std::endl;
@@ -236,7 +236,7 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
-        
+//        
         assert(consensus.hashGenesisBlock == uint256S("0x0"));
         assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
@@ -342,7 +342,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining TestNet genesis block..." << std::endl;
@@ -364,7 +364,7 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
-        
+//        
         assert(consensus.hashGenesisBlock == uint256S("0x0"));
         assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
@@ -509,7 +509,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Signet genesis block..." << std::endl;
@@ -531,7 +531,7 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
-        
+//        
         assert(consensus.hashGenesisBlock == uint256S("0x0"));
         assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
@@ -615,7 +615,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining RegTest genesis block..." << std::endl;
@@ -637,7 +637,7 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
-        
+//        
         assert(consensus.hashGenesisBlock == uint256S("0x0"));
         assert(genesis.hashMerkleRoot == uint256S("0x0"));
 
