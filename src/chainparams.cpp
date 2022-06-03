@@ -25,8 +25,8 @@ namespace
 
 constexpr const char pszTimestampTestnet[] = "SpaceXpance Testnet";
 constexpr const char pszTimestampMainnet[]
-    = "Fortune, May 19, 2022 11:00 PM GMT: "
-      "NASA is offering 70k USD as a prize for the best design for a Martian metaverse..";
+    = "01/Jun/2022: "
+      "NASA has hosted the Martian Metaverse Creation Challenge";
 
 /* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
    coins needed in case everything is sold in the ICO.  If this is not the case
