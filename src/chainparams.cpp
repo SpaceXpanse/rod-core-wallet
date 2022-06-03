@@ -339,7 +339,7 @@ public:
 
         genesis = CreateGenesisBlock (1644863012, 1149994, 0x1e0ffff0,
                                       pszTimestampTestnet,
-                                      uint160S (hexPremineAddressMainnet));
+                                      uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
 /*        
         consensus.hashGenesisBlock = uint256S("0x");
