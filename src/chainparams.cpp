@@ -237,8 +237,8 @@ public:
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0xf2bee54442aa6bba8f33077e880f58c6df47d46f0f836094cc407a879a775c2c"));
-        assert(genesis.hashMerkleRoot == uint256S("0x219c6d9e9da3502a0593048d56009153f173d0507bc71e414a1ff346e6965b7a"));
+        assert(consensus.hashGenesisBlock == uint256S("f2bee54442aa6bba8f33077e880f58c6df47d46f0f836094cc407a879a775c2c"));
+        assert(genesis.hashMerkleRoot == uint256S("219c6d9e9da3502a0593048d56009153f173d0507bc71e414a1ff346e6965b7a"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
@@ -273,7 +273,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 0, // 1626099379,
+            /* nTime    */ 320110, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -365,8 +365,8 @@ public:
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0x3ab92554e060a6e8eb68e7053a2e4ca8386afaa5764256d360204b93c2e461bf"));
-        assert(genesis.hashMerkleRoot == uint256S("0xb7ead88a1fc6a94b63d507399a01232591bc49138a20f3d354d111d52a376023"));
+        assert(consensus.hashGenesisBlock == uint256S("3ab92554e060a6e8eb68e7053a2e4ca8386afaa5764256d360204b93c2e461bf"));
+        assert(genesis.hashMerkleRoot == uint256S("b7ead88a1fc6a94b63d507399a01232591bc49138a20f3d354d111d52a376023"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -406,7 +406,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 0, // 1586091497,
+            /* nTime    */ 361427, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -532,8 +532,8 @@ public:
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0x418f1ca9e1c6ead12baa3c51c38ae9907b05ff653209f86c0781fbf6c6ccc843"));
-        assert(genesis.hashMerkleRoot == uint256S("0x93faeb43731b5526c9712779b5df560fc6513bdd3361d3f1cfd608640f6b5914"));
+        assert(consensus.hashGenesisBlock == uint256S("418f1ca9e1c6ead12baa3c51c38ae9907b05ff653209f86c0781fbf6c6ccc843"));
+        assert(genesis.hashMerkleRoot == uint256S("93faeb43731b5526c9712779b5df560fc6513bdd3361d3f1cfd608640f6b5914"));
 
         vFixedSeeds.clear();
 
@@ -638,8 +638,8 @@ public:
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0x546b18ec88077c1c26886ddb4bcdf809f2c9a6767aef627dcef5b2dabfddfae6"));
-        assert(genesis.hashMerkleRoot == uint256S("0x93faeb43731b5526c9712779b5df560fc6513bdd3361d3f1cfd608640f6b5914"));
+        assert(consensus.hashGenesisBlock == uint256S("546b18ec88077c1c26886ddb4bcdf809f2c9a6767aef627dcef5b2dabfddfae6"));
+        assert(genesis.hashMerkleRoot == uint256S("93faeb43731b5526c9712779b5df560fc6513bdd3361d3f1cfd608640f6b5914"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
