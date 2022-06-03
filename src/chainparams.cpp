@@ -210,11 +210,11 @@ public:
         m_assumed_blockchain_size = 5;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock (1654281856, 2046861, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1654259629, 125547, 0x1e0ffff0,
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Mainnet genesis block..." << std::endl;
@@ -236,15 +236,15 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x3c50b7e33587d655d6f69e509a279a4b16451e32f2f2a1321e47c9467fbdb702"));
-        assert(genesis.hashMerkleRoot == uint256S("0x492a9645ef109597d23f4ac08fc4b2acd350b8f7b838f599837011ee0cc1535e"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0xfe4e33441ae97e8bf43e9e780fdb37dcc7e1dcc243f9ebd5927541f654c6f8ee"));
+//        assert(genesis.hashMerkleRoot == uint256S("0xad16aeca130042a84778962d32abbd35ac5d4747413631d6e0e7e5fcb37f1cf1"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,80);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,75);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,78);
         /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xE4, 0xAD};
@@ -339,11 +339,11 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock (1654282732, 1306169, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1654259699, 730623, 0x1e0ffff0,
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining TestNet genesis block..." << std::endl;
@@ -365,19 +365,18 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0xbd2c60846880afb81aa33b07d4d306d70c9e304a7cc3a985981d5ecdfca845aa"));
-        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0xccfc6ef06fd97241d24f8859d45719beba1e16c7eb4374d39640475236046509"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
         vSeeds.emplace_back("seed1.testnet.spacexpanse.net");
         vSeeds.emplace_back("seed2.testnet.spacexpanse.net");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
-        /* FIXME: Update these below.  */
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
@@ -507,11 +506,11 @@ public:
         nDefaultPort = 38398;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock (1654283279, 2311992, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1654260057, 702298, 0x1e0ffff0,
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Signet genesis block..." << std::endl;
@@ -533,14 +532,14 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x6fd6f9612f4c4edf0bfd9b7ca83bfc0bdd853663506ec0e2ef08618c02ee1a74"));
-        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0xa6ab37a0f554577c3244a2c284357230c299ab8e434c1e784adc878580e24fce"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
 
         vFixedSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
@@ -613,11 +612,11 @@ public:
 
         UpdateActivationParametersFromArgs(args);
 
-        genesis = CreateGenesisBlock (1654284267, 0, 0x207fffff,
+        genesis = CreateGenesisBlock (1654260378, 1, 0x207fffff,
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining RegTest genesis block..." << std::endl;
@@ -639,9 +638,9 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x39cbea2e235584ce396a824c188753ade420b22f6569ce0f93c46c2e7ab7d102"));
-        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0xb1436163920f482350e2cbc088d01ef9f486931bbe81fc55b36483b3c2ad47cf"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -677,8 +676,8 @@ public:
             0
         };
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,137);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,142);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,137);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,140);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
