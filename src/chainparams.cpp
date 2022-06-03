@@ -210,7 +210,7 @@ public:
         m_assumed_blockchain_size = 5;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock (1654269237, 103167, 0x1e0ffff0,
+        genesis = CreateGenesisBlock (1654270728, 2407759, 0x1e0ffff0,
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -237,7 +237,7 @@ public:
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
 */        
-        assert(consensus.hashGenesisBlock == uint256S("0x472d2d24a540f82830ad2b6484fd4cefd26fd71dc66bb0b80d32614e506cc1bd"));
+        assert(consensus.hashGenesisBlock == uint256S("0x51576ba1d46ebc113b794dd72c1a1ef678aeddb0428a8ee7fdb83f864728415c"));
         assert(genesis.hashMerkleRoot == uint256S("0x7bcbd2e2270e466824e67c9e54a8550e20c1fd46c561018db55e5107e099e0aa"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
