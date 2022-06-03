@@ -53,7 +53,7 @@ final premine script will be:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressRegtest[]
-    = "a25f20bd7dd2d450b5475dc0f27115ce3143427b";
+    = "6c1831889d988f7af4aced0ee72d8a694a4ef0db";
 
 /*
 The premine on testnet and mainnet is sent to a 2-of-4 multisig address.  The
@@ -67,7 +67,7 @@ premine script is:
   OP_HASH160 hexPremineAddress OP_EQUAL
 */
 constexpr const char hexPremineAddressMainnet[]
-    = "fe546eafc3574b33f1c9e20a4d44680c4e54074d";
+    = "aae413aa224018c505b88cfc0e6922e027b28144";
 
 CBlock CreateGenesisBlock(const CScript& genesisInputScript, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
