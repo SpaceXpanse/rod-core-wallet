@@ -214,7 +214,7 @@ public:
                                       pszTimestampMainnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Mainnet genesis block..." << std::endl;
@@ -236,9 +236,9 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x83b7d8b4f0cf60b2e1b6cfff6732045bd4f30a1f86d8d50ce1b3c4eb64c79a0a"));
-        assert(genesis.hashMerkleRoot == uint256S("0xad16aeca130042a84778962d32abbd35ac5d4747413631d6e0e7e5fcb37f1cf1"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0x83b7d8b4f0cf60b2e1b6cfff6732045bd4f30a1f86d8d50ce1b3c4eb64c79a0a"));
+//        assert(genesis.hashMerkleRoot == uint256S("0xad16aeca130042a84778962d32abbd35ac5d4747413631d6e0e7e5fcb37f1cf1"));
 
         vSeeds.emplace_back("seed1.spacexpanse.net");
         vSeeds.emplace_back("seed2.spacexpanse.net");
@@ -260,10 +260,12 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-//            {{ 0, uint256S("0x0")}}, 
+            {{ 0, uint256S("0x0")}}, 
+/*
             {
                 {0, uint256S("d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389")},   
-            }          
+            }
+*/          
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -272,7 +274,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 1644862766, // 1626099379,
+            /* nTime    */ 0, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -341,7 +343,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining TestNet genesis block..." << std::endl;
@@ -363,9 +365,9 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating TestNet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x742f607f632e7843243420b198dbdf2154aa795d1c9b6f60dc7560e974c1b881"));
-        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0x742f607f632e7843243420b198dbdf2154aa795d1c9b6f60dc7560e974c1b881"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -392,10 +394,12 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-//            {{ 0, uint256S("0x0")}}, 
+            {{ 0, uint256S("0x0")}}, 
+/*
             {
                 {0, uint256S("61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71")},
-            } 
+            }
+*/ 
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -404,7 +408,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 1644863012, // 1586091497,
+            /* nTime    */ 0, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -507,7 +511,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressMainnet));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining Signet genesis block..." << std::endl;
@@ -529,9 +533,9 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x8ac6523cac1f9c2f2853c77574480452e68e08f37ba9d02118733f441834c031"));
-        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0x8ac6523cac1f9c2f2853c77574480452e68e08f37ba9d02118733f441834c031"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x95f865b5ff3d3bc631e7c91872d2ac755c4de1e6fc2e5d72ff6442175c3e01f2"));
 
         vFixedSeeds.clear();
 
@@ -613,7 +617,7 @@ public:
                                       pszTimestampTestnet,
                                       uint160S (hexPremineAddressRegtest));
         consensus.hashGenesisBlock = genesis.GetHash();
-/*        
+//        
         consensus.hashGenesisBlock = uint256S("0x");
         if (true && (genesis.GetHash() != consensus.hashGenesisBlock)) { 
         std::cout << "Mining RegTest genesis block..." << std::endl;
@@ -635,9 +639,9 @@ public:
         std::cout << "Merkle root: " << genesis.hashMerkleRoot.GetHex () << std::endl;
         }
         std::cout << std::string("Finished calculating RegTest Genesis Block.\n");        
-*/        
-        assert(consensus.hashGenesisBlock == uint256S("0x08601bb356c19063840030e5e70b02bc768975435c77cf0ac76f25be050f340a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
+//        
+//        assert(consensus.hashGenesisBlock == uint256S("0x08601bb356c19063840030e5e70b02bc768975435c77cf0ac76f25be050f340a"));
+//        assert(genesis.hashMerkleRoot == uint256S("0x9896d55bbacdfeabbe129e6d137d3ae4ed255e378c1d86f52f7eaa0c3534ff7e"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -648,10 +652,12 @@ public:
         m_is_mockable_chain = true;
 
         checkpointData =  {
-//            {{ 0, uint256S("0x0")}}, 
+            {{ 0, uint256S("0x0")}}, 
+/*
             {
                 {0, uint256S("fa37a72ecf6241368fafcb4a4c49abe2ba06614f9bd06cb62fa05a5975303765")},
-            } 
+            }
+*/ 
         };
 
         m_assumeutxo_data = MapAssumeutxo{
