@@ -28,25 +28,25 @@ constexpr const char pszTimestampMainnet[]
     = "01/Jun/2022: "
       "NASA has hosted the Martian Metaverse Creation Challenge";
 
-/* Premined amount is 222,222,222 ROD.  This is the maximum possible number of
-   coins needed in case everything is sold in the ICO.  If this is not the case
+/* Premined amount is 199,999.998 ROD.  This is the maximum possible number of
+   coins needed to support the project for at least 4 years.  If this is not the case
    and we need to reduce the coin supply, excessive coins will be burnt by
    sending to an unspendable OP_RETURN output.  */
 constexpr CAmount premineAmount = 199999998 * COIN;
 
 /*
-The premine on regtest is sent to a 1-of-2 multisig address.
+The premine on testnet, signet and regtest is sent to a 1-of-2 multisig address.
 
-The two addresses and corresponding privkeys are:
-  cRH94YMZVk4MnRwPqRVebkLWerCPJDrXGN:
-    b69iyynFSWcU54LqXisbbqZ8uTJ7Dawk3V3yhht6ykxgttqMQFjb
-  ceREF8QnXPsJ2iVQ1M4emggoXiXEynm59D:
-    b3fgAKVQpMj24gbuh6DiXVwCCjCbo1cWiZC2fXgWEU9nXy6sdxD5
+The two addresses and corresponding pubkeys are:
+    rFAdSr3RHUfu5DU8KFodnCANZNFpRXZV4A
+      02dcc2da82ec53da47647f0765e5a36f81786907deaf6b189f22ac38d70d00c1da
+    rNGQ9qazxkUGqqoASTbjrJziTHsmTHRJBc
+      0289da4bca18786ac1112d280360c186707d32ef2c08b5960dac4a936042727220
 
-This results in the multisig address: dHNvNaqcD7XPDnoRjAoyfcMpHRi5upJD7p
+This results in the multisig address: xP7BKZBGDU6j7pTLdyXVGr1MT2egJvBCtL
 Redeem script:
-  512103c278d06b977e67b8ea45ef24e3c96a9258c47bc4cce3d0b497b690d672497b6e21
-  0221ac9dc97fe12a98374344d08b458a9c2c1df9afb29dd6089b94a3b4dc9ad57052ae
+  522102dcc2da82ec53da47647f0765e5a36f81786907deaf6b189f22ac38d70d00c1da21
+  0289da4bca18786ac1112d280360c186707d32ef2c08b5960dac4a93604272722052ae
 
 The constant below is the HASH160 of the redeem script.  In other words, the
 final premine script will be:
@@ -56,11 +56,11 @@ constexpr const char hexPremineAddressRegtest[]
     = "a25f20bd7dd2d450b5475dc0f27115ce3143427b";
 
 /*
-The premine on testnet and mainnet is sent to a 2-of-4 multisig address.  The
+The premine on mainnet is sent to a 2-of-4 multisig address.  The
 keys are held by the founding members of the SpaceXpanse team.
 
 The address is:
-  DHy2615XKevE23LVRVZVxGeqxadRGyiFW4
+  XaY1dLJjXr7tPizEQGSgwEMwchW32vpZXu
 
 The hash of the redeem script is the constant below.  With it, the final
 premine script is:
@@ -260,12 +260,12 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}}, 
-/*
+//            {{ 0, uint256S("0x0")}}, 
+//
             {
-                {0, uint256S("d9678db80036b688727a082025dc92dbd2908afc3ec0466f0ae695a310284389")},   
+                {0, uint256S("017a66b43b4e58c544d878fda40a5f1238999c3ba7381d36d5b49c94a0ffd4fe")},   
             }
-*/          
+//          
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -274,7 +274,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 0, // 1626099379,
+            /* nTime    */ 1654336219, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -407,7 +407,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 0, // 1586091497,
+            /* nTime    */ 1654336227, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -440,7 +440,7 @@ public:
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
                 // Data from RPC: getchaintxstats 4096 000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54
-                /* nTime    */ 0, // 1626696658,
+                /* nTime    */ 1654337344, // 1626696658,
                 /* nTxCount */ 0, // 387761,
                 /* dTxRate  */ 0, // 0.04035946932424404,
             };
