@@ -192,7 +192,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0");
         consensus.defaultAssumeValid = uint256S("0x0"); // 3'000'000
 
-        consensus.nAuxpowChainId = 1829;
+        consensus.nAuxpowChainId = 1899;
 
         consensus.rules.reset(new Consensus::MainNetConsensus());
 
@@ -326,7 +326,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0");
         consensus.defaultAssumeValid = uint256S("0x0"); // 110'000
 
-        consensus.nAuxpowChainId = 1829;
+        consensus.nAuxpowChainId = 1899;
 
         consensus.rules.reset(new Consensus::TestNetConsensus());
 
@@ -493,7 +493,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
 
-        consensus.nAuxpowChainId = 1829;
+        consensus.nAuxpowChainId = 1899;
 
         consensus.rules.reset(new Consensus::TestNetConsensus());
 
@@ -597,7 +597,7 @@ public:
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
 
-        consensus.nAuxpowChainId = 1829;
+        consensus.nAuxpowChainId = 1899;
 
         consensus.rules.reset(new Consensus::RegTestConsensus());
 
