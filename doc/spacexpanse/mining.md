@@ -64,7 +64,7 @@ the two extremes:
 
 **SpaceXpanse blocks can be either merge-mined with SHA-256d (Bitcoin), or they
 can be mined stand-alone with a modified Neoscrypt.**
-The *chain ID* for merge mining SpaceXpanse is `1829`.
+The *chain ID* for merge mining SpaceXpanse is `1899`.
 There are no particular rules enforcing a certain sequence of blocks for each
 algorithm (unlike some existing multi-algorithm projects), but the difficulty
 for each algorithm is retargeted independently.  This means that, on average and
