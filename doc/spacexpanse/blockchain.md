@@ -70,8 +70,7 @@ The current parameters for `mainnet` are:
 * The genesis block's coinbase transaction pays to a multisig address owned
   by the SpaceXpanse team.  Unlike Bitcoin and Namecoin, it is actually spendable,
   and does not observe the usual "block maturity" rule.
-  * These coins will be distributed to the community according to the token
-    sale and Huntercoin snapshot.  Unsold coins will be destroyed by sending
+  * These coins will be used to support the project development. They will be equally distributed and sent to time-locked addresses which will unlock every 1054080 block (every year) for the next 3 years. Unspent coins will be destroyed by sending
     them to a provably unspendable script (`OP_RETURN`).
 * The maximum block weight is **400,000** instead of 4 million,
   corresponding to a block size of **100 KB** instead of 1 MB.  The maximum
