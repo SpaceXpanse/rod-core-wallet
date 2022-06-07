@@ -44,7 +44,7 @@ block and the [moves](#moves) performed in them.
 
 Player accounts are represented in SpaceXpanse by [names](blockchain.md#names)
 with the `p/` prefix.
-For instance, `p/domob` is for the player account "domob".
+For instance, `p/jamesholden` is for the player account "jamesholden".
 Each player performs moves by **updating** this name to a value that encodes
 the move(s) he wants to make.
 
