@@ -568,7 +568,7 @@ public:
         strNetworkID =  CBaseChainParams::REGTEST;
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 2880; // 150;
+        consensus.nSubsidyHalvingInterval = 360; // 150;
         // The subsidy for regtest net is kept same as upstream Bitcoin, so
         // that we don't have to update many of the tests unnecessarily.
         consensus.initialSubsidy = 800000000; //50 * COIN;
