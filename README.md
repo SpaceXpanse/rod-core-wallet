@@ -19,7 +19,8 @@ It is primarily aimed at decentralized blockchain application creation and trust
 ● Allow creation of Trustless Accounts - securely record and transfer arbitrary names (keys) in the blockchain.  
 ● Provide secure storage of Data in the blockchain.  
 ● Create Virtual Currencies - allows minting and trading of tokens.  
-● Create other Virtual Assets (NFTs) - storage, ownership and management. 
+● Create other Virtual Assets (NFTs) - storage, ownership and management.  
+
 More Information
 ----------------
 
@@ -32,7 +33,7 @@ https://github.com/SpaceXpanse/Documentation/wiki
 
 For issues with SpaceXpanse ROD Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
 
-If you want to compile it yourself you can also follow any Bitcoin guide, just replace the repo with SpaceXpanse's:
-[[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-windows.md)
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-unix.md)
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-osx.md)
+If you want to compile it yourself you can also follow any Bitcoin guide, just replace the repo with SpaceXpanse's:  
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-windows.md)   
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-unix.md)  
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-osx.md)  
