@@ -1,11 +1,9 @@
-SPACEXPANSE
+SpaceXpanse ROD Core
 ====
 
 Setup
 ---------------------
 [SpaceXpanse](https://spacexpanse.org/) provides the official SpaceXpanse client and it builds the backbone of the network. However, it downloads and stores the entire history of SpaceXpanse transactions; depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
-
-To download Namecoin Core, visit [namecoin.org](https://namecoin.org/download/).
 
 Running
 ---------------------
@@ -15,8 +13,8 @@ The following are some helpful notes on how to run SpaceXpanse on your native pl
 
 Unpack the files into a directory and run:
 
-- `bin/spacexpanse-qt` (GUI) or
-- `bin/spacexpansed` (headless)
+- `spacexpanse-qt` (GUI) or
+- `spacexpansed` (headless)
 
 ### Windows
 
@@ -28,7 +26,7 @@ Drag SpaceXpanse-Qt to your applications folder, and then run SpaceXpanse-Qt.
 
 ### Need Help?
 
-* See the documentation at the [SpaceXpanse Site](https://spacexpanse.org)
+* Go to [SpaceXpanse ROD webite](https://rod.spacexpanse.org)
 for help and more information.
 
 Building
