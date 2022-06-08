@@ -5,50 +5,34 @@ SpaceXpanse ROD Core
 
 https://rod.spacexpanse.org
 
-What is SpaceXpanse ROD Core?
--------------
+## What is SpaceXpanse ROD Core?
+It is a decentralized information registration, storage and transfer platform, based on Bitcoin and other top-notch cryptocurrencies.
 
-SpaceXpanse ROD Core is a decentralized open source information registration and transfer system based on the Namecoin cryptocurrency. It is primarily aimed at decentralised blockchain worlds creation. 
-This is the first layer of the SpaceXpanse Platform.
+It is primarily aimed at decentralized blockchain application creation and trustless asset management.
 
-What does SpaceXpanse ROD Core do?
-----------------     
+[SpaceXpanse ROD Core wallet](http://https://github.com/SpaceXpanse/rod-core-wallet "SpaceXpanse ROD Core") is the first layer of the platform.
 
-* Securely record and transfer arbitrary names (keys).
-* Transact ROD Coins, the digital currency (ROD).
-* Store Data.
-* Allow creation of Tokens.
-* and more
+## What does SpaceXpanse ROD Core do?
+**SpaceXpanse: Next-Gen Trustless Blockchain Metaverse and NFT Platform** is made for development of games and other complex decentralized applications and with a convenient creation of immersive user experience in mind, so it can:
 
-What can SpaceXpanse be used for?
---------------------------
-
-* It is designed especially with gaming and complex decentralised applications in mind.
-* Allow creation of trustless accounts.
-* Create Virtual Currencies.
-* Asset Storage, Ownership and Management.
-* Identification and authentication systems.
-* DAPPs.
-* Payment Gateways.
-* Decentralised Autonomous Worlds.
-* and much more.
-
+● Create, store and transact ROD coins, the main SpaceXpanse digital currency.  
+● Allow creation of Trustless Accounts - securely record and transfer arbitrary names (keys) in the blockchain.  
+● Provide secure storage of Data in the blockchain.  
+● Create Virtual Currencies - allows minting and trading of tokens.  
+● Create other Virtual Assets (NFTs) - storage, ownership and management. 
 More Information
 ----------------
 
-SPACEXPANSE ROD Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
+SpaceXpanse ROD Core includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
-You may check https://github.com/spacexpanse/rod-core-wallet/tree/master/doc/spacexpanse for more SpaceXpanse specs and additional information.
+You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.5/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
 Several tutorials and more information are here:
 https://github.com/SpaceXpanse/Documentation/wiki
 
-You can also follow any Bitcoin guide, just replace the repo with SpaceXpanse's:
-https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md
-https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md
-https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md
+For issues with SpaceXpanse ROD Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
 
-
-Standard users should use the SpaceXpanse ROD Electron Wallet which is a front end to spacexpansed here https://github.com/spacexpanse/rod-core-wallet_electron
-
-For issues with SPACEXPANSE Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
+If you want to compile it yourself you can also follow any Bitcoin guide, just replace the repo with SpaceXpanse's:
+[[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-windows.md)
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-unix.md)
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-osx.md)
