@@ -17,7 +17,9 @@ Block: 120 confirmations
 Current Supply: ~199,999,998
 Max. Supply: 999,999,999²
 ICO/IEO: None
-Premine: 199,999,998 coins in the developer's multisig 3/4 address and 2/3 of them will be transfered to time-locked addresses to be unlocked in the next four years³. The other will be used to support the first year of development.
+Premine: 199,999,998 coins in the developer's multisig 3/4 address and 2/3 of them 
+will be transfered to time-locked addresses to be unlocked in the next four years³. 
+The other will be used to support the first year of development.
 
 ¹*There is a pre-release period of 86400 blocks /~30 days/ in the beginning, in which the reward will be 1 ROD*.
 ²*This will change if 5% inflation will be implemented*.
