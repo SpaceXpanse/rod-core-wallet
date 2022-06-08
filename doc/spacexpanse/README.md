@@ -1,4 +1,4 @@
-# SpaceXpanse Specs
+# SpaceXpanse Specs 
 
 Name: SpaceXpanse
 Ticker: ROD
