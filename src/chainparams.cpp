@@ -260,12 +260,12 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-//            {{ 0, uint256S("0x0")}}, 
-//
+            {{ 0, uint256S("0x0")}}, 
+/*
             {
                 {0, uint256S("017a66b43b4e58c544d878fda40a5f1238999c3ba7381d36d5b49c94a0ffd4fe")},   
             }
-//          
+*/          
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -274,7 +274,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 1654336219, // 1626099379,
+            /* nTime    */ 0, // 1626099379,
             /* nTxCount */ 0, // 4457837,
             /* dTxRate  */ 0, // 0.034450420845411,
         };
@@ -407,7 +407,7 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 1654336227, // 1586091497,
+            /* nTime    */ 0, // 1586091497,
             /* nTxCount */ 0, // 113579,
             /* dTxRate  */ 0, // 0.002815363095612851,
         };
@@ -440,7 +440,7 @@ public:
             m_assumed_chain_state_size = 0;
             chainTxData = ChainTxData{
                 // Data from RPC: getchaintxstats 4096 000000187d4440e5bff91488b700a140441e089a8aaea707414982460edbfe54
-                /* nTime    */ 1654337344, // 1626696658,
+                /* nTime    */ 0, // 1626696658,
                 /* nTxCount */ 0, // 387761,
                 /* dTxRate  */ 0, // 0.04035946932424404,
             };
