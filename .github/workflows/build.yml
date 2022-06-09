@@ -80,7 +80,7 @@ jobs:
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
-        zip --junk-paths spacexpanse-rod-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
+        zip --junk-paths spacexpanse-rod-core-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -98,8 +98,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./spacexpanse-rod-bin-${{ github.job }}.zip
-        asset_name: spacexpanse-rod-bin-${{ github.job }}.zip
+        asset_path: ./spacexpanse-rod-core-${{ github.job }}.zip
+        asset_name: spacexpanse-rod-core-${{ github.job }}.zip
         asset_content_type: application/zip
 
   win64:
@@ -169,7 +169,7 @@ jobs:
         cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
-        zip --junk-paths spacexpanse-rod-bin-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
+        zip --junk-paths spacexpanse-rod-core-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -187,6 +187,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./spacexpanse-rod-bin-${{ github.job }}.zip
-        asset_name: spacexpanse-rod-bin-${{ github.job }}.zip
+        asset_path: ./spacexpanse-rod-core-${{ github.job }}.zip
+        asset_name: spacexpanse-rod-core-${{ github.job }}.zip
         asset_content_type: application/zip
