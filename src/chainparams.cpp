@@ -162,7 +162,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 1054080; // 4216320;
-        consensus.initialSubsidy = 8000000000000;
+        consensus.initialSubsidy = 800 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -296,7 +296,7 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 1054080; // 2880;
-        consensus.initialSubsidy = 8000000000000; //10 * COIN;
+        consensus.initialSubsidy = 800 * COIN; //10 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 1;
         consensus.BIP65Height = 0;
@@ -571,7 +571,7 @@ public:
         consensus.nSubsidyHalvingInterval = 360; // 150;
         // The subsidy for regtest net is kept same as upstream Bitcoin, so
         // that we don't have to update many of the tests unnecessarily.
-        consensus.initialSubsidy = 8000000000000; //50 * COIN;
+        consensus.initialSubsidy = 800 * COIN; //50 * COIN;
         consensus.BIP16Height = 0;
         consensus.BIP34Height = 500; // BIP34 activated on regtest (Used in functional tests)
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in functional tests)
