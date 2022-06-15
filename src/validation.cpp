@@ -1239,17 +1239,19 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 */
 
     CAmount nSubsidy = 0;
+//    halvings = round(halvings);
     if (halvings > 3) { 
         // calculate coin inflation for this halving
         CAmount inflateCoins = round(1772119998 * (pow(1.05, halvings - 3) - pow(1.05, halvings - 4)));
         // subsidy is inflateCoins / 210000 * COIN
-        nSubsidy = ((int)round((inflateCoins / consensusParams.initialSubsidy) * 100)) * (COIN / 100);
+        nSubsidy = ((int)round((inflateCoins / consensus.nSubsidyHalvingInterval.0) * 100)) * (COIN / 100);
     } else { 
         nSubsidy = consensusParams.initialSubsidy;
         // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
         nSubsidy >>= halvings; 
         }
     return nSubsidy;
+    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
         
 // Introduce 5% inflation after 3rd halving 
 /*
