@@ -1240,7 +1240,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 
     CAmount nSubsidy = 0;
 //    halvings = round(halvings);
-    if (halvings > 3) { 
+    if (halvings > 4) { 
         // calculate coin inflation for this halving
         CAmount inflateCoins = round(1772119998 * (pow(1.05, halvings - 3) - pow(1.05, halvings - 4)));
         // subsidy is inflateCoins / 210000 * COIN
