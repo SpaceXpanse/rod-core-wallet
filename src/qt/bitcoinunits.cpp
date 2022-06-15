@@ -45,9 +45,9 @@ QString BitcoinUnits::longName(int unit)
     switch(unit)
     {
     case BTC: return QString("ROD");
-    case mBTC: return QString("mROD");
-    case uBTC: return QString::fromUtf8("μROD");
-    case SAT: return QString("Satoshi (sat)");
+    case mBTC: return QString("Post");
+    case uBTC: return QString::fromUtf8("Pole");
+    case SAT: return QString("bar");
     default: return QString("???");
     }
 }
@@ -56,8 +56,8 @@ QString BitcoinUnits::shortName(int unit)
 {
     switch(unit)
     {
-    case uBTC: return QString::fromUtf8("bits");
-    case SAT: return QString("sat");
+    case uBTC: return QString::fromUtf8("poles");
+    case SAT: return QString("bars");
     default: return longName(unit);
     }
 }
@@ -67,9 +67,9 @@ QString BitcoinUnits::description(int unit)
     switch(unit)
     {
     case BTC: return QString("SpaceXpanse");
-    case mBTC: return QString("Milli-ROD (1 / 1" THIN_SP_UTF8 "000)");
-    case uBTC: return QString("Micro-ROD (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    case SAT: return QString("Satoshi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case mBTC: return QString("Post (Milli-ROD) (1 / 1" THIN_SP_UTF8 "000)");
+    case uBTC: return QString("Pole (Micro-ROD) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case SAT: return QString(" bar (satoshi) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
