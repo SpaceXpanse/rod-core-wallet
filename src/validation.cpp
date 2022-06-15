@@ -1251,7 +1251,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
         nSubsidy >>= halvings; 
         }
     return nSubsidy;
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+//    halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
         
 // Introduce 5% inflation after 3rd halving 
 /*
