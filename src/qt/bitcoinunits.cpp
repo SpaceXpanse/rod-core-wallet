@@ -45,8 +45,8 @@ QString BitcoinUnits::longName(int unit)
     switch(unit)
     {
     case BTC: return QString("ROD");
-    case mBTC: return QString("GBar");
-    case uBTC: return QString::fromUtf8("MBar");
+    case mBTC: return QString("MBar");
+    case uBTC: return QString::fromUtf8("KBar");
     case SAT: return QString("bar");
     default: return QString("???");
     }
