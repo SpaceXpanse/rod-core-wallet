@@ -102,7 +102,7 @@ public:
         switch (type)
         {
             case Fork::POST_ICO:
-                return height >= 38400;   /* Set to end at 01.07.22 */
+                return height >= 55560;   /* Set to end at 12:00 01.07.22 */
             default:
                 assert (false);
         }
