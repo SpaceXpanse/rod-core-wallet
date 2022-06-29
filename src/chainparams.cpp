@@ -260,12 +260,13 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}}, 
-/*
+//            {{ 0, uint256S("0x0")}}, 
+
             {
-                {0, uint256S("017a66b43b4e58c544d878fda40a5f1238999c3ba7381d36d5b49c94a0ffd4fe")},   
+                {1, uint256S("4e079b3935a684d8dfc89d485b99283e19d75cd4b7d755d6f52a448c43a3abd2")},   
+                {48550, uint256S("9f7abe9fa74ea774f66a89beebb9381d1bfb6434c132a2d0b12e50ba8634bf69")},   
             }
-*/          
+          
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -273,10 +274,10 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data from RPC: getchaintxstats 4096 d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-            /* nTime    */ 0, // 1626099379,
-            /* nTxCount */ 0, // 4457837,
-            /* dTxRate  */ 0, // 0.034450420845411,
+            // Data from RPC: getchaintxstats 48550 9f7abe9fa74ea774f66a89beebb9381d1bfb6434c132a2d0b12e50ba8634bf69
+            /* nTime    */ 1656495286, // 1626099379,
+            /* nTxCount */ 49565, // 4457837,
+            /* dTxRate  */ 0.02922271267086764, // 0.034450420845411,
         };
     }
 
@@ -393,12 +394,13 @@ public:
         m_is_mockable_chain = false;
 
         checkpointData = {
-            {{ 0, uint256S("0x0")}}, 
-/*
+//            {{ 0, uint256S("0x0")}}, 
+
             {
-                {0, uint256S("61a99c9b45cafb5066d14a3b7fe536c18a2b687b781b81fd5bcb99c83988cd71")},
+                {1, uint256S("15d3d57c15dd8dcfdcc03e69c4c0647416789083a17fd1c88902112399855a48")},   
+                {2880, uint256S("48d26b2b69c4d70d2284d983e10341c034f7fb3d36205677cd8d6198991764b3")},   
             }
-*/ 
+ 
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -406,10 +408,10 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data from rpc: getchaintxstats 4096 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
-            /* nTime    */ 0, // 1586091497,
-            /* nTxCount */ 0, // 113579,
-            /* dTxRate  */ 0, // 0.002815363095612851,
+            // Data from rpc: getchaintxstats 2880 48d26b2b69c4d70d2284d983e10341c034f7fb3d36205677cd8d6198991764b3
+            /* nTime    */ 1655635459, // 1586091497,
+            /* nTxCount */ 2882, // 113579,
+            /* dTxRate  */ 0.003367995621605692, // 0.002815363095612851,
         };
     }
 
