@@ -1,4 +1,4 @@
-[![Build CI](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml/badge.svg?branch=0.6.1)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml)
+[![Build ROD core](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/buildcore.yml/badge.svg)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/buildcore.yml)
 
 SpaceXpanse ROD Core
 =========
