@@ -18,6 +18,6 @@
 **Max. Supply**: 4,615,066,365² ROD  
 **ICO/IEO**: None  
 **Premine**: 199,999,998 coins in the developer's multisig 3/4 address and 2/3 of them will be transfered to time-locked addresses to be unlocked in the next four years³. The other will be used to support the first year of development.  
-
-¹There is a pre-release period of 55560 blocks /around 01.07.2020 11:59PM UTC/ in the beginning, in which the reward will be 1 ROD.
+----
+¹There is a pre-release period of 55560 blocks /around 01.07.2020 11:59PM UTC/ in the beginning, in which the reward will be 1 ROD.  
 ²They will be unspendable until target block numbers are reached. The unused coins from the premine will be burned accordingly.
