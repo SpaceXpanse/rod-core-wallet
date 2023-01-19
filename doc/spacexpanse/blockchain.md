@@ -64,7 +64,7 @@ The current parameters for `mainnet` are:
   each of the two possible [mining algorithms](mining.md).  Merge mined
   SHA-256d blocks are scheduled once every two minutes and standalone
   Neoscrypt blocks every 40 seconds.
-* The initial block reward is set to **8 ROD**,
+* The initial block reward is set to **800 ROD**,
   and halves every **1054080** blocks, which corresponds to Bitcoin's
   halving of once a year.
 * The genesis block's coinbase transaction pays to a multisig address owned
