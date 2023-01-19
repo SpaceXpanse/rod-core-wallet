@@ -14,7 +14,7 @@
 **Block Time**: 30 seconds  
 **Spend**: 6 confirmations  
 **Block**: 120 confirmations  
-**Current Supply**: ~640,000,000 ROD 
+**Current Supply**: ~640,000,000 ROD  
 **Max. Supply**: 4,615,066,365² ROD  
 **ICO/IEO**: None  
 **Premine**: 199,999,998 coins in the developer's multisig 3/4 address and 2/3 of them will be transfered to time-locked addresses to be unlocked in the next four years³. The other will be used to support the first year of development.  
