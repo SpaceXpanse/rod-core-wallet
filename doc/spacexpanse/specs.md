@@ -8,7 +8,7 @@
 **P2SH Header**: 75  
 **Port**: 11998  
 **RPC Port**: 11999  
-**Algorithm**: neoscrypt-xaya/SHA256d, for merged mining - ChainID: 1899  
+**Algorithm**: neoscrypt-xaya and SHA256d, for merged mining - ChainID: 1899  
 **Block Reward**:800 ROD¹, halving every 1,054,080 blocks /~1 year/ for 5 years and then imposed ~3% inflation on the supply of that exact moment until 59 years are passed and the supply reaches ~2.5 fold increment. 
 **Reward distribution**: 75%/25% - 3 neoscrypt-xaya blocks and 1 SHA256d block every 4 blocks till the beginning of the third year when masternodes with delegated proof of stake /DPoS/ will be introduced /TBC/.  
 **Block Time**: 30 seconds  
