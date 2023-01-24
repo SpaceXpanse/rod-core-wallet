@@ -1,11 +1,11 @@
 [![Build ROD core](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/buildcore.yml/badge.svg)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/buildcore.yml)
 
-SpaceXpanse ROD Core
+SpaceXpanse ROD Core Wallet
 =========
 
 https://rod.spacexpanse.org
 
-## What is SpaceXpanse ROD Core?
+## What is SpaceXpanse ROD blockchain?
 It is a decentralized information registration, storage and transfer platform, based on Bitcoin and other top-notch cryptocurrencies.
 
 It is primarily aimed at decentralized blockchain application creation and trustless asset management.
