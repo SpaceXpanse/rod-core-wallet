@@ -1,4 +1,4 @@
-# SpaceXpanse Specs 
+# SpaceXpanse ROD Blockchain Specs 
 
 This repository contains technical specifications and design documents that
 describe how the various components and layers in the ecosystem interact.
