@@ -1,4 +1,4 @@
-# Games on the Blockchain
+# Games and other complex applications on the Blockchain
 
 This document describes how games in SpaceXpanse are structured and how they interact
 with the core SpaceXpanse blockchain.  By following these rules, games ensure that
