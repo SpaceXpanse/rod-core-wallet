@@ -12,5 +12,5 @@ In particular, important topics are:
 * In-game trading of assets for ROD using [atomic name updates](trading.md)
 * The core daemon [interface](interface.md) for game engines
 
-You can access SpaceXpanse tutorials here > https://github.com/SpaceXpanse/Documentation/wiki
+You can access SpaceXpanse documentation here > https://github.com/SpaceXpanse/Documentation/wiki
    
