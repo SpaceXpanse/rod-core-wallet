@@ -68,11 +68,17 @@ jobs:
           depends/x86_64-unknown-linux-gnu          
         key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
         restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
+    - run: wget https://raw.githubusercontent.com/SpaceXpanse/rod-core-wallet/0.6.8/contrib/install_db4.sh  
+    - run: chmod +x install_db4.sh
+    - run: mkdir ~/db4 
+    - run: ./install_db4.sh ~/   
     - run: ./autogen.sh
+    - run: export BDB_PREFIX='/home/$USER/db4'  
 #    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --without-gui --without-miniupnpc
+#    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --with-gui=qt5
     - run: |
-        make -j"$(($(nproc)+1))"
+        make -j2
         sudo make install # todo: make check /strip
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
