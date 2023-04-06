@@ -187,10 +187,10 @@ public:
 
         // The best chain should have at least this much work.
         // The value is the chain work of the SpaceXpanse mainnet chain at height
-        // 3'000'000, with best block hash:
-        // d572443c76c8c00e301dec49d881fd04b5802810ee6c0f336802e8b98c6d272e
-        consensus.nMinimumChainWork = uint256S("0x0");
-        consensus.defaultAssumeValid = uint256S("0x0"); // 3'000'000
+        // 800'000 with best block hash:
+        // 4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000007d524faed2c48c6c828");
+        consensus.defaultAssumeValid = uint256S("0x4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f"); // 800'000
 
         consensus.nAuxpowChainId = 1899;
 
@@ -321,11 +321,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
 
-        // The value is the chain work of the SpaceXpanse mainnet chain at height
-        // 800'000 with best block hash:
-        // 4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000007d524faed2c48c6c828");
-        consensus.defaultAssumeValid = uint256S("0x4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f"); // 800'000
+        // The value is the chain work of the SpaceXpanse testnet chain at height
+        // 110'000 with best block hash:
+        // 01547d538737e01d81d207e7d2f4c8f2510c6b82f0ee5dd8cd6c26bed5a03d0f
+        consensus.nMinimumChainWork = uint256S("0x0");
+        consensus.defaultAssumeValid = uint256S("0x0"); // 110'000
 
         consensus.nAuxpowChainId = 1899;
 
