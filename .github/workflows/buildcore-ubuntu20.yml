@@ -72,7 +72,8 @@ jobs:
     - run: chmod +x install_db4.sh
     - run: mkdir db4 
     - run: ./install_db4.sh db4
-    - run: ls -la     
+    - run: ls -la
+    - run: $GITHUB_WORKSPACE           
     - run: ./autogen.sh 
     - run: export BDB_PREFIX='/home/runner/work/rod-core-wallet/rod-core-wallet/db4' 
 #    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
