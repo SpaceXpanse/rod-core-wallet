@@ -1,4 +1,4 @@
-name: Build ROD core
+name: Build ROD core on Ubuntu 20.04
    
 on:
   push: 
@@ -66,8 +66,8 @@ jobs:
           depends/work/build
           depends/sdk-sources
           depends/x86_64-unknown-linux-gnu          
-        key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
-        restore-keys: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-
+        key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
+        restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
     - run: ./autogen.sh
     - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: |
@@ -145,8 +145,8 @@ jobs:
           depends/sdk-sources
           depends/work/build
           depends/x86_64-w64-mingw32          
-        key: ubuntu-18.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
-        restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32-
+        key: ubuntu-20.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
+        restore-keys: ubuntu-20.04-depends-x86_64-w64-mingw32-
     - run: |
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
