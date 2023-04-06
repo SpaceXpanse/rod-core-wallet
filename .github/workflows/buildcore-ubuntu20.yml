@@ -71,9 +71,12 @@ jobs:
     - run: wget https://raw.githubusercontent.com/SpaceXpanse/rod-core-wallet/0.6.8/contrib/install_db4.sh  
     - run: chmod +x install_db4.sh
     - run: mkdir ~/db4 
-    - run: ./install_db4.sh ~/   
+    - run: ./install_db4.sh ~/
+    - run: ls -la
+    - run: cd ..      
+    - run: ls -la      
     - run: ./autogen.sh
-    - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4'  
+    - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
 #    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --without-gui --without-miniupnpc
 #    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --with-gui=qt5
