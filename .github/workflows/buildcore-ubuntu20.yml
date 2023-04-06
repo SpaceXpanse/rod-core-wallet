@@ -78,13 +78,14 @@ jobs:
 #    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --without-gui --without-miniupnpc
 #    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --with-gui=qt5
-    - run: make
+    - run: |
+        make
+        sudo make install # todo: make check /strip
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
         ls -lh
-#        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
-        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
         zip --junk-paths spacexpanse-rod-core-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
