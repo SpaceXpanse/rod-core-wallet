@@ -38,7 +38,7 @@ jobs:
     steps:
     - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
     #- run: echo $NOW
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         path: |
           .ccache
@@ -56,10 +56,10 @@ jobs:
         sudo apt-add-repository "ppa:deadsnakes/ppa" -y
         sudo apt-get update
         sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev    
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.ref_name }}
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         path: |
           depends/built
@@ -117,7 +117,7 @@ jobs:
 
     steps:
     - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         path: |
           .ccache
@@ -135,10 +135,10 @@ jobs:
         sudo apt-add-repository "ppa:deadsnakes/ppa" -y
         sudo apt-get update
         sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 nsis    
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.ref_name }}
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       with:
         path: |
           depends/built
