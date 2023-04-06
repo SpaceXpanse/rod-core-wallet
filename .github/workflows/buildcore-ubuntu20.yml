@@ -78,7 +78,7 @@ jobs:
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --without-gui --without-miniupnpc
 #    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --with-gui=qt5
     - run: |
-        make -j2
+        make
         sudo make install # todo: make check /strip
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
