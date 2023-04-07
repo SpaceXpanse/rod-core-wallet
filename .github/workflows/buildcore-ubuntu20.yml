@@ -76,8 +76,8 @@ jobs:
     - run: ls -la
     - run: echo $GITHUB_WORKSPACE           
     - run: ./autogen.sh 
-#    - run: export BDB_PREFIX='/home/runner/work/rod-core-wallet/rod-core-wallet/db4/db4' 
-    - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
+    - run: export BDB_PREFIX='/home/runner/work/rod-core-wallet/rod-core-wallet/db4/db4' 
+#    - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
 #    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
 #    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include" --without-gui --without-miniupnpc
