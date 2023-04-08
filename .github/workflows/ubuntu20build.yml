@@ -2,7 +2,7 @@ name: Build Ubuntu 20.04
 on:
   push: 
     branches:
-      - ubuntu20build
+     - ubuntu20build
      - dev 
      - '[0-9].[0-9].[0-9]+'
     tags:
@@ -50,9 +50,7 @@ jobs:
         key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
         restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
     - run: chmod +x ./contrib/install_db4.sh
-    - run: ./contrib/install_db4.sh ./   
-    - run: ls -la
-    - run: echo $GITHUB_WORKSPACE           
+    - run: ./contrib/install_db4.sh ./       
     - run: ./autogen.sh 
     - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
     - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
