@@ -69,13 +69,12 @@ jobs:
           depends/x86_64-unknown-linux-gnu          
         key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
         restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
-    - run: |
-        chmod +x ./contrib/install_db4.sh
-        ./contrib/install_db4.sh `pwd`   
+    - run: chmod +x ./contrib/install_db4.sh
+    - run: ./contrib/install_db4.sh `pwd`   
 #        mkdir ../db4
 #        ./install_db4.sh ../
-        ls -la
-        echo $GITHUB_WORKSPACE           
+    - run: ls -la
+    - run: echo $GITHUB_WORKSPACE           
     - run: ./autogen.sh 
 #    - run: export BDB_PREFIX='/home/runner/work/rod-core-wallet/db4' 
     - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
