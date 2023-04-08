@@ -53,5 +53,5 @@ jobs:
     - run: ./contrib/install_db4.sh ./       
     - run: ./autogen.sh 
     - run: export BDB_PREFIX='/home/runner/work/rod-core-wallet/rod-core-wallet/db4' #export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
-    - run: ./configure BDB_LIBS="-L${{ env.BDB_PREFIX }}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${{ env.BDB_PREFIX }}/include"
+    - run: ./configure BDB_LIBS="-L/home/runner/work/rod-core-wallet/rod-core-wallet/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I/home/runner/work/rod-core-wallet/rod-core-wallet/db4/include"
     - run: make -j2
