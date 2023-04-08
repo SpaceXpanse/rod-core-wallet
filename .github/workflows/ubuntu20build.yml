@@ -1,5 +1,4 @@
-name: Build Ubuntu 20.04
-   
+name: Build Ubuntu 20.04  
 on:
   push: 
     branches:
@@ -12,10 +11,8 @@ on:
   pull_request:
     branches:
       - dev
-
 jobs:
   linux64:
-
     runs-on: ubuntu-20.04
     env:
       APT_BASE: ccache
@@ -25,8 +22,7 @@ jobs:
       PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
     defaults:
       run:
-        shell: bash
-        
+        shell: bash        
     steps:
     - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
     - uses: actions/cache@v3
