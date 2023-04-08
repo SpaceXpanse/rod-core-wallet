@@ -1,0 +1,63 @@
+name: Build Ubuntu 20.04
+   
+on:
+  push: 
+    branches:
+      - ubuntu20build
+     - dev 
+     - '[0-9].[0-9].[0-9]+'
+    tags:
+     - build
+     - 'v[0-9].[0-9].[0-9]+'
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  linux64:
+
+    runs-on: ubuntu-20.04
+    env:
+      APT_BASE: ccache
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_SIZE: 500M
+      CCACHE_COMPRESS: 1
+      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
+    defaults:
+      run:
+        shell: bash
+        
+    steps:
+    - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
+    - uses: actions/cache@v3
+      with:
+        path: |
+          .ccache
+          .spacexpanse-params
+        key: x86_64-unknown-linux-gnu-ccache-${{ env.NOW }} 
+        restore-keys: |
+            x86_64-unknown-linux-gnu-ccache-
+    - run: |
+        sudo apt-get update
+        sudo apt-get upgrade
+        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref_name }}
+    - uses: actions/cache@v3
+      with:
+        path: |
+          depends/built
+          depends/work/build
+          depends/sdk-sources
+          depends/x86_64-unknown-linux-gnu          
+        key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
+        restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
+    - run: chmod +x ./contrib/install_db4.sh
+    - run: ./contrib/install_db4.sh `pwd`   
+    - run: ls -la
+    - run: echo $GITHUB_WORKSPACE           
+    - run: ./autogen.sh 
+    - run: export BDB_PREFIX='$GITHUB_WORKSPACE/db4' 
+    - run: ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
+    - run: make -j2
