@@ -1,4 +1,4 @@
-name: Build ROD core on Ubuntu 20.04
+name: Build ROD wallet on Ubuntu 20.04
    
 on:
   push: 
