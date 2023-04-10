@@ -36,7 +36,7 @@ jobs:
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.ref_name }}
