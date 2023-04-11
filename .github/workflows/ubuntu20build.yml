@@ -135,7 +135,7 @@ jobs:
     - run: make -j2 -C depends HOST=x86_64-w64-mingw32
       #working-directory: depends
     - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" --prefix=/ --with-gui=yes #LDFLAGS=-Wa,-mbig-obj CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings
+    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes #LDFLAGS=-Wa,-mbig-obj CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: |
         make -j2
         #make deploy 
