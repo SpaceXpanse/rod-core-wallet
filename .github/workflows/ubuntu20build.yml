@@ -194,7 +194,7 @@ jobs:
         restore-keys: |
             x86_64-apple-darwin18-ccache-
     - run: |   
-        xcode-select --install
+        #xcode-select --install
         brew uninstall qt  
         brew install automake libtool boost pkg-config libevent git sqlite qt@5 qrencode miniupnpc libnatpmp zeromq python librsvg
         pip3 install ds_store mac_alias
@@ -218,12 +218,12 @@ jobs:
         #PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
     #- run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++            
     #- run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
-    - run: make -j2 -C depends HOST=x86_64-apple-darwin18
+    - run: make -j3 -C depends HOST=x86_64-apple-darwin18
       #working-directory: depends
     - run: ./autogen.sh
     - run: CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: |
-        make -j2
+        make -j3
         #make deploy 
     #- run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
     #- run: ls -lh 
