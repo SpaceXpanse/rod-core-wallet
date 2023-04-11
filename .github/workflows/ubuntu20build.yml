@@ -196,7 +196,7 @@ jobs:
     - run: |    
         export HOMEBREW_NO_AUTO_UPDATE=1
         export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3650
-        brew install automake libtool boost pkg-config libevent git berkeley-db@4 sqlite qt@5 qrencode miniupnpc libnatpmp zeromq@4 python librsvg
+        brew install automake libtool boost pkg-config libevent git berkeley-db@4 sqlite qt@5 qrencode miniupnpc libnatpmp zeromq@4.0.5 python librsvg
         pip3 install ds_store mac_alias
     - uses: actions/checkout@v3
       with:
