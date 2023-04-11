@@ -193,7 +193,9 @@ jobs:
         key: x86_64-apple-darwin18-ccache-${{ env.NOW }} 
         restore-keys: |
             x86_64-apple-darwin18-ccache-
-    - run: |   
+    - run: |    
+        export HOMEBREW_NO_AUTO_UPDATE=1
+        export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3650
         brew install automake libtool boost pkg-config libevent git sqlite qt@5 qrencode miniupnpc libnatpmp zeromq python librsvg
         pip3 install ds_store mac_alias
     - uses: actions/checkout@v3
@@ -208,14 +210,8 @@ jobs:
           depends/x86_64-apple-darwin18          
         key: macos-11-depends-x86_64-apple-darwin18-${{ env.NOW }}
         restore-keys: macos-11-depends-x86_64-apple-darwin18-
-    - run: |   
-        export LC_ALL=C.UTF-8
-        unset CC CXX DISPLAY                 
-        #PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    - run: make -j3 -C depends HOST=x86_64-apple-darwin18
-      #working-directory: depends
     - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: |
         make -j3
         #make deploy 
@@ -224,7 +220,7 @@ jobs:
       run: |
         mkdir -p deploy
         ls -lh
-        cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.app $GITHUB_WORKSPACE/src/spacexpanse-tx.app $GITHUB_WORKSPACE/src/spacexpanse-wallet.app $GITHUB_WORKSPACE/src/spacexpanse-util.app $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.app $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
         zip --junk-paths spacexpanse-rod-core-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
