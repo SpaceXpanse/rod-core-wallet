@@ -53,7 +53,7 @@ jobs:
     - run: chmod +x ./contrib/install_db4.sh
     - run: ./contrib/install_db4.sh ./       
     - run: ./autogen.sh 
-    - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" LDFLAGS=-Wa,-mbig-obj 
     - run: make -j2
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
@@ -211,7 +211,7 @@ jobs:
         key: macos-11-depends-x86_64-apple-darwin18-${{ env.NOW }}
         restore-keys: macos-11-depends-x86_64-apple-darwin18-
     - run: ./autogen.sh
-    - run: ./configure --with-gui=yes LDFLAGS=-Wa,-mbig-obj 
+    - run: ./configure --with-gui=yes #LDFLAGS=-Wa,-mbig-obj 
     - run: |
         make -j3
         make deploy 
