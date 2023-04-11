@@ -196,7 +196,7 @@ jobs:
     - run: |    
         export HOMEBREW_NO_AUTO_UPDATE=1
         export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3650
-        brew install automake libtool boost pkg-config libevent git berkeley-db@4 sqlite qt@5 qrencode miniupnpc libnatpmp homebrew/versions/zeromq405 python librsvg
+        brew install automake libtool boost pkg-config libevent git berkeley-db@4 sqlite qt@5 qrencode miniupnpc libnatpmp zeromq@3.2 python librsvg
         pip3 install ds_store mac_alias
     - uses: actions/checkout@v3
       with:
@@ -214,7 +214,7 @@ jobs:
     - run: ./configure --with-gui=yes #LDFLAGS=-Wa,-mbig-obj CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: |
         make -j3
-        #make deploy 
+        make deploy 
     #- run: ls -lh 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
