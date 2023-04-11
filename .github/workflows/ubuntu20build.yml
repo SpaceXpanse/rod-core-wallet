@@ -138,7 +138,7 @@ jobs:
     - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: |
         make -j2
-        #make deploy 
+        make deploy 
     - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
     #- run: ls -lh 
     - name: Build project # This would actually build your project, using zip for an example artifact
@@ -211,7 +211,7 @@ jobs:
         key: macos-11-depends-x86_64-apple-darwin18-${{ env.NOW }}
         restore-keys: macos-11-depends-x86_64-apple-darwin18-
     - run: ./autogen.sh
-    - run: ./configure --with-gui=yes #LDFLAGS=-Wa,-mbig-obj CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: ./configure --with-gui=yes LDFLAGS=-Wa,-mbig-obj 
     - run: |
         make -j3
         make deploy 
@@ -220,7 +220,7 @@ jobs:
       run: |
         mkdir -p deploy
         ls -lh
-        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/SpaceXpanse-Qt.app $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         ls -lh 
         strip $GITHUB_WORKSPACE/deploy/*
         zip --junk-paths spacexpanse-rod-core-${{ github.job }} $GITHUB_WORKSPACE/deploy/*
