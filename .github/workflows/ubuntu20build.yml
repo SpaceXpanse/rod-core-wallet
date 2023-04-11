@@ -194,7 +194,6 @@ jobs:
         restore-keys: |
             x86_64-apple-darwin18-ccache-
     - run: |   
-        #xcode-select --install
         brew uninstall qt  
         brew install automake libtool boost pkg-config libevent git sqlite qt@5 qrencode miniupnpc libnatpmp zeromq python librsvg
         pip3 install ds_store mac_alias
@@ -210,14 +209,10 @@ jobs:
           depends/x86_64-apple-darwin18          
         key: macos-11-depends-x86_64-apple-darwin18-${{ env.NOW }}
         restore-keys: macos-11-depends-x86_64-apple-darwin18-
-    - run: |
-        #chmod +x ./contrib/install_db4.sh
-        #./contrib/install_db4.sh ./     
+    - run: |   
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
         #PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    #- run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++            
-    #- run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
     - run: make -j3 -C depends HOST=x86_64-apple-darwin18
       #working-directory: depends
     - run: ./autogen.sh
@@ -225,7 +220,6 @@ jobs:
     - run: |
         make -j3
         #make deploy 
-    #- run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
     #- run: ls -lh 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
