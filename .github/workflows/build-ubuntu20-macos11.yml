@@ -145,7 +145,7 @@ jobs:
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.2-win64-setup.exe $GITHUB_WORKSPACE/deploy 
+        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.${{ github.job }}-win64-setup.exe $GITHUB_WORKSPACE/deploy 
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
         ls -lh         
     - name: Create Release
