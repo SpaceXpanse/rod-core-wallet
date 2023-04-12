@@ -1,4 +1,4 @@
-name: Build ROD core wallets
+name: Build core wallets
 on:
   push: 
     branches:
