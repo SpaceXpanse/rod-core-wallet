@@ -55,6 +55,7 @@ jobs:
     - run: ./autogen.sh 
     - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" 
     - run: make -j2
+    - run: make deploy 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
