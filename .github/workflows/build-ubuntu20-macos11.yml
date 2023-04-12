@@ -70,7 +70,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD Core Wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -155,7 +155,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD Core Wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -219,7 +219,7 @@ jobs:
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp -r $GITHUB_WORKSPACE/SpaceXpanse-Qt.app $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/deploy
+        cp -r $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/deploy
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
         ls -lh         
     - name: Create Release  
@@ -229,7 +229,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD Core Wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
