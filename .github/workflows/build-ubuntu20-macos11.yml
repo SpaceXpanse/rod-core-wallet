@@ -69,8 +69,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
+        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -154,8 +154,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
+        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -228,8 +228,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}#.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }} ${{ github.job }}
+        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
+        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
