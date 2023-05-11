@@ -1,4 +1,4 @@
-# Interface of the SpaceXpanse Core Daemon for Games
+# Interface of the SpaceXpanse Core Daemon for Games and dApps
 
 The main interface of the Bitcoin Core daemon is through the various
 provided [JSON RPC](http://www.jsonrpc.org/) methods as well as
