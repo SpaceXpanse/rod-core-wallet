@@ -28,7 +28,7 @@ SpaceXpanse ROD Core Wallet includes the base elements required for Experienced 
 You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.5/doc/spacexpanse for more SpaceXpanse specs and additional information.
 
 Several tutorials and more information are here:
-https://github.com/SpaceXpanse/Documentation/wiki
+https://github.com/SpaceXpanse/Documentation/wiki or https://docs.spacexpanse.org
 
 For issues with SpaceXpanse ROD Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
 
