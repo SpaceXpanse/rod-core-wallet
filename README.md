@@ -1,6 +1,5 @@
-[![Build core wallets](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml/badge.svg?branch=0.6.8)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml)
-SpaceXpanse ROD core wallet
-=========
+# SpaceXpanse ROD core wallet
+[![Build core wallets](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml/badge.svg)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml)
 
 ROD blockchain website: https://rod.spacexpanse.org
 
