@@ -1,41 +1,39 @@
 [![Build core wallets](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml/badge.svg?branch=0.6.8)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml)
-SpaceXpanse ROD Core Wallet
+SpaceXpanse ROD core wallet
 =========
 
-https://rod.spacexpanse.org
+ROD blockchain website: https://rod.spacexpanse.org
 
-## What is SpaceXpanse ROD blockchain?
-It is a decentralized information registration, storage and transfer platform, based on Bitcoin and other top-notch cryptocurrencies.
+## What is SpaceXpanse ROD coin?
+SpaceXpanse ROD coin is the native cryptocurrency of the SpaceXpanse Multiverse platform. And the ROD blockchain and its [core wallet](http://https://github.com/SpaceXpanse/rod-core-wallet "ROD core wollet") serve as the foundational layer in the platform, providing essential functions such as secure value and data storage, transaction processing, mining, and network connectivity for users to interact with the blockchain network. Additionally, the ROD core wallet serves as a tool for users to manage their ROD holdings and participate in various activities within the platform, further enhancing its utility.  
 
-It is primarily aimed at decentralized blockchain application creation and trustless asset management.
-
-[SpaceXpanse ROD Core wallet](http://https://github.com/SpaceXpanse/rod-core-wallet "SpaceXpanse ROD Core") is the first layer of the platform.
 
 ## What does SpaceXpanse ROD blockchain do?
-**SpaceXpanse: Next-Gen Trustless Blockchain Metaverse and NFT Platform** is made for development of games and other complex decentralized applications and with a convenient creation of immersive user experience in mind, so it can:
 
-● Create, store and transact ROD coins, the main SpaceXpanse digital currency.  
-● Allow creation of Trustless Accounts - securely record and transfer arbitrary names (keys) in the blockchain.  
-● Provide secure storage of Data in the blockchain.  
-● Create Virtual Currencies - allows minting and trading of tokens.  
-● Create other Virtual Assets (NFTs) - storage, ownership and management.  
+✔ Create, store and transact its main cryptocurrency - ROD coin, fungible and nonfungible tokens /NFTs/.  
+✔ Support two PoW algorithms: neoscrypt-xaya and SHA-256d - for merged mining, generating blocks every 30 seconds in 3 to 1 ratio.  
+✔ Grant halving the block reward every year for 5 years, then ~3% annual inflation of the block reward for 59 years.  
+✔ Allow register and transfer of arbitrary names /digital IDs/ for trustless user identification, which can hold and transfer value.  
+✔ Provide a fair amount of secure data storage in every block, delivering possibility for near real-time communication between the nodes.  
+✔ Support Atomic trading for exchange of in-game assets (fungible currencies as well as non-fungible items) in a trustless manner.  
+✔ Possess Play-to-Earn functionality, which allows a part of the block rewards to be "placed" inside a decentralized application /DApp/, where users can pick/win them up and bank them to their on-chain address. /WIP/  
 
 More Information
 ----------------
 
-SpaceXpanse ROD Core Wallet includes the base elements required for Experienced users, Miners and Exchanges. spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
+SpaceXpanse ROD core wallet includes the base elements required for experienced users, miners and crypto exchanges: spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
-You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.5/doc/spacexpanse for more SpaceXpanse specs and additional information.
+You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.8/doc/spacexpanse for more SpaceXpanse ROD blockchain specs and additional information.
 
 Several tutorials and more information are here:
 https://github.com/SpaceXpanse/Documentation/wiki or https://docs.spacexpanse.org
 
-For issues with SpaceXpanse ROD Core you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
+For issues with SpaceXpanse ROD core wallet you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
 
-If you want to compile it yourself you can also follow SpaceXpanse's guide:  
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-windows.md)   
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-unix.md)  
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.5/doc/build-osx.md) 
+If you want to compile it yourself you can also follow the documentation's guide:  
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-windows.md)   
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-unix.md)  
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-osx.md) 
 
 ### Disclaimer
 
