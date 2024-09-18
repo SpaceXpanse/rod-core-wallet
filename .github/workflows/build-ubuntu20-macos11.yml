@@ -139,13 +139,13 @@ jobs:
     - run: make -j2
     - run: make deploy 
     - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
-    - run: ls -lh $GITHUB_WORKSPACE
+    #- run: ls -lh $GITHUB_WORKSPACE
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.${{ github.run_number }}-win64-setup.exe $GITHUB_WORKSPACE/deploy 
+        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.9-win64-setup.exe $GITHUB_WORKSPACE/deploy 
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
         ls -lh         
     - name: Create Release
@@ -171,7 +171,7 @@ jobs:
 
   macos:
 
-    runs-on: macos-12
+    runs-on: macos-11
     env:
       APT_BASE: ccache
       CCACHE_DIR: ${{ github.workspace }}/.ccache
