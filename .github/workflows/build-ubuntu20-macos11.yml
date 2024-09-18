@@ -139,7 +139,7 @@ jobs:
     - run: make -j2
     - run: make deploy 
     - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
-    #- run: ls -lh 
+    - run: ls -lh $GITHUB_WORKSPACE
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
