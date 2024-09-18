@@ -171,7 +171,7 @@ jobs:
 
   macos:
 
-    runs-on: macos-11
+    runs-on: macos-12
     env:
       APT_BASE: ccache
       CCACHE_DIR: ${{ github.workspace }}/.ccache
@@ -189,9 +189,9 @@ jobs:
         path: |
           .ccache
           .spacexpanse-params
-        key: x86_64-apple-darwin18-ccache-${{ env.NOW }} 
+        key: x86_64-apple-darwin19-ccache-${{ env.NOW }} 
         restore-keys: |
-            x86_64-apple-darwin18-ccache-
+            x86_64-apple-darwin19-ccache-
     - run: export HOMEBREW_NO_AUTO_UPDATE=1
     - run: export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3650
     - run: |    
@@ -206,9 +206,9 @@ jobs:
           depends/built
           depends/sdk-sources
           depends/work/build
-          depends/x86_64-apple-darwin18          
-        key: macos-11-depends-x86_64-apple-darwin18-${{ env.NOW }}
-        restore-keys: macos-11-depends-x86_64-apple-darwin18-
+          depends/x86_64-apple-darwin19          
+        key: macos-11-depends-x86_64-apple-darwin19-${{ env.NOW }}
+        restore-keys: macos-11-depends-x86_64-apple-darwin19-
     - run: ./autogen.sh
     - run: ./configure --with-gui=yes 
     - run: make -j3
