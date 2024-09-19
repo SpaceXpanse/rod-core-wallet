@@ -211,7 +211,7 @@ jobs:
         restore-keys: macos-12-depends-x86_64-apple-darwin21-
     - run: ./autogen.sh
     - run: ./configure --with-gui=yes --without-miniupnpc CFLAGS=-W
-    - run: make -j2
+    - run: make #-j2
     - run: make deploy 
     #- run: ls -lh 
     - name: Build project # This would actually build your project, using zip for an example artifact
