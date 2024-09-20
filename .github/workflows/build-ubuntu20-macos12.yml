@@ -209,8 +209,13 @@ jobs:
           depends/x86_64-apple-darwin18          
         key: macos-12-depends-x86_64-apple-darwin21-${{ env.NOW }}
         restore-keys: macos-12-depends-x86_64-apple-darwin21-
+    - run: | 
+        export LDFLAGS="-L/usr/local/opt/boost@1.76/lib"
+        export CPPFLAGS="-I/usr/local/opt/boost@1.76/include"
+        export LDFLAGS="-L/usr/local/opt/berkeley-db@4/lib"
+        export CPPFLAGS="-I/usr/local/opt/berkeley-db@4/include"
     - run: ./autogen.sh
-    - run: ./configure --with-gui=yes --without-miniupnpc CFLAGS=-W LDFLAGS="-L/usr/local/opt/boost@1.76/lib" CPPFLAGS="-I/usr/local/opt/boost@1.76/include"
+    - run: ./configure --with-gui=yes --without-miniupnpc #CFLAGS=-W LDFLAGS="-L/usr/local/opt/boost@1.76/lib" CPPFLAGS="-I/usr/local/opt/boost@1.76/include"
     - run: make #-j2
     - run: make deploy 
     #- run: ls -lh 
