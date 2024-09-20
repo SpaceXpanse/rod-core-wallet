@@ -216,7 +216,7 @@ jobs:
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
         PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    - run: echo 1 | sudo update-alternatives --config x86_64-apple-darwin18-g++            
+    #- run: echo 1 | sudo update-alternatives --config x86_64-apple-darwin18-g++            
     - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
     - run: make -j2 -C depends HOST=x86_64-apple-darwin18
       #working-directory: depends
