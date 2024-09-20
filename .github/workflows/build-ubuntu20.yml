@@ -171,7 +171,7 @@ jobs:
 
   macos:
 
-    runs-on: macos-12
+    runs-on: ubuntu-20.04
     env:
       APT_BASE: ccache
       CCACHE_DIR: ${{ github.workspace }}/.ccache
@@ -189,14 +189,15 @@ jobs:
         path: |
           .ccache
           .spacexpanse-params
-        key: x86_64-apple-darwin21-ccache-${{ env.NOW }} 
+        key: x86_64-apple-darwin18-ccache-${{ env.NOW }} 
         restore-keys: |
-            x86_64-apple-darwin21-ccache-
-    - run: export HOMEBREW_NO_AUTO_UPDATE=1
-    - run: export HOMEBREW_CLEANUP_PERIODIC_FULL_DAYS=3650
-    - run: |    
-        brew install automake libtool boost@1.85 pkg-config libevent git berkeley-db@4 sqlite qt@5 qrencode miniupnpc libnatpmp zeromq python librsvg
-        pip3 install ds_store mac_alias
+            x86_64-apple-darwin18-ccache-
+    - run: |
+        sudo apt-get update  
+        sudo apt-get upgrade  
+        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install curl librsvg2-bin libtiff-tools bsdmainutils cmake imagemagick libz-dev python3-setuptools libtinfo5 xorriso
+        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.ref_name }}
@@ -207,24 +208,29 @@ jobs:
           depends/sdk-sources
           depends/work/build
           depends/x86_64-apple-darwin18          
-        key: macos-12-depends-x86_64-apple-darwin21-${{ env.NOW }}
-        restore-keys: macos-12-depends-x86_64-apple-darwin21-
-    - run: | 
-        export LDFLAGS="-L/usr/local/opt/berkeley-db@4/lib"
-        export CPPFLAGS="-I/usr/local/opt/berkeley-db@4/include"
-        export LDFLAGS="-L/usr/local/opt/boost@1.85/lib"
-        export CPPFLAGS="-I/usr/local/opt/boost@1.85/include"
+        key: ubuntu-20.04-depends-x86_64-apple-darwin18-${{ env.NOW }}
+        restore-keys: ubuntu-20.04-x86_64-apple-darwin18-
+    - run: |
+        #chmod +x ./contrib/install_db4.sh
+        #./contrib/install_db4.sh ./     
+        export LC_ALL=C.UTF-8
+        unset CC CXX DISPLAY                 
+        PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
+    - run: echo 1 | sudo update-alternatives --config x86_64-apple-darwin18-g++            
+    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
+    - run: make -j2 -C depends HOST=x86_64-apple-darwin18
+      #working-directory: depends
     - run: ./autogen.sh
-    - run: ./configure --with-gui=yes --without-miniupnpc #CFLAGS=-W LDFLAGS="-L/usr/local/opt/boost@1.76/lib" CPPFLAGS="-I/usr/local/opt/boost@1.76/include"
-    - run: make #-j2
-    - run: make deploy 
+    - run: CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: make -j2
+    #- run: make deploy 
     #- run: ls -lh 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp -r $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/deploy
+        #cp -r $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/deploy
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
         ls -lh         
     - name: Create Release  
