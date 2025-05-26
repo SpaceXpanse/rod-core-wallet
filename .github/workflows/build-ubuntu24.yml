@@ -37,7 +37,7 @@ jobs:
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
+        sudo apt-get install qtbase5-dev qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.ref_name }}
@@ -48,8 +48,8 @@ jobs:
           depends/work/build
           depends/sdk-sources
           depends/x86_64-unknown-linux-gnu          
-        key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
-        restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
+        key: ubuntu-24.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
+        restore-keys: ubuntu-24.04-depends-x86_64-unknown-linux-gnu-
     - run: chmod +x ./contrib/install_db4.sh
     - run: ./contrib/install_db4.sh ./       
     - run: ./autogen.sh 
@@ -122,8 +122,8 @@ jobs:
           depends/sdk-sources
           depends/work/build
           depends/x86_64-w64-mingw32          
-        key: ubuntu-20.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
-        restore-keys: ubuntu-20.04-depends-x86_64-w64-mingw32-
+        key: ubuntu-24.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
+        restore-keys: ubuntu-24.04-depends-x86_64-w64-mingw32-
     - run: |
         #chmod +x ./contrib/install_db4.sh
         #./contrib/install_db4.sh ./     
@@ -171,7 +171,7 @@ jobs:
 
   macos:
 
-    runs-on: ubuntu-24.04
+    runs-on: macos-latest
     env:
       APT_BASE: ccache
       CCACHE_DIR: ${{ github.workspace }}/.ccache
@@ -254,4 +254,4 @@ jobs:
         asset_name: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
         asset_content_type: application/zip
 
-        
+
