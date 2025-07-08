@@ -1,35 +1,46 @@
-name: ubuntu24
+name: Ubuntu 24.04 Build
 
 on:
   push:
-    branches:
-      - 0.6.9   # Added for consistency, optional
+    branches: [ "0.6.9" ]
   pull_request:
+    branches: [ "0.6.9" ]
 
 jobs:
   build:
     runs-on: ubuntu-24.04
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - name: install-deps
+    - name: Install dependencies
       run: |
-        set -e
         sudo apt-get update
-        sudo apt-get install -y --no-install-recommends \
+        sudo apt-get install -y \
           build-essential libtool autotools-dev automake pkg-config \
-          bsdmainutils python3 python3-pip \
-          libssl-dev libevent-dev libboost-all-dev \
-          libzmq3-dev libdb_cxx_compat-dev \
-          libminiupnpc-dev libnatpmp-dev libqrencode-dev
+          libssl-dev libboost-all-dev libevent-dev python3 \
+          qtbase5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler \
+          libqrencode-dev libminiupnpc-dev libzmq3-dev wget
 
-    - name: build
+    - name: Build Berkeley DB 4.8
       run: |
-        set -e
-        chmod +x ./autogen.sh
+        wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
+        tar -xzvf db-4.8.30.NC.tar.gz
+        cd db-4.8.30.NC/build_unix
+        ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$HOME/db4
+        make -j$(nproc)
+        make install
+
+    - name: Build rod-core-wallet
+      env:
+        BDB_PREFIX: $HOME/db4
+      run: |
         ./autogen.sh
-        ./configure --without-gui --disable-tests
+        ./configure \
+          --without-gui \
+          --disable-tests \
+          BDB_LIBS="-L$BDB_PREFIX/lib -ldb_cxx-4.8" \
+          BDB_CFLAGS="-I$BDB_PREFIX/include"
         make -j$(nproc)
