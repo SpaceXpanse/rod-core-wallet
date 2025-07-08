@@ -3,7 +3,7 @@ name: ubuntu24
 on:
   push:
     branches:
-      - 0.6.8
+      - 0.6.9   # Added for consistency, optional
   pull_request:
 
 jobs:
@@ -17,18 +17,19 @@ jobs:
 
     - name: install-deps
       run: |
-        # Removed add-apt-repository ppa:bitcoin/bitcoin as it's not needed for libdb_cxx_compat-dev or other packages on Ubuntu 24.04
+        set -e
         sudo apt-get update
-        sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-        sudo apt-get install -y libssl-dev libevent-dev libboost-all-dev
-        sudo apt-get install -y libzmq3-dev
-        # Replaced libdb4.8-dev libdb4.8++-dev with libdb_cxx_compat-dev for compatibility with older Berkeley DB versions
-        sudo apt-get install -y libdb_cxx_compat-dev
-        sudo apt-get install -y libminiupnpc-dev libnatpmp-dev
-        sudo apt-get install -y libqrencode-dev
+        sudo apt-get install -y --no-install-recommends \
+          build-essential libtool autotools-dev automake pkg-config \
+          bsdmainutils python3 python3-pip \
+          libssl-dev libevent-dev libboost-all-dev \
+          libzmq3-dev libdb_cxx_compat-dev \
+          libminiupnpc-dev libnatpmp-dev libqrencode-dev
 
     - name: build
       run: |
+        set -e
+        chmod +x ./autogen.sh
         ./autogen.sh
         ./configure --without-gui --disable-tests
-        make
+        make -j$(nproc)
