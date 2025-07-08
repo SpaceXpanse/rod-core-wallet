@@ -29,6 +29,8 @@ jobs:
         wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
         tar -xzvf db-4.8.30.NC.tar.gz
         cd db-4.8.30.NC/build_unix
+        export CFLAGS="-fcommon"
+        export CXXFLAGS="-fcommon -std=c++98"
         ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$HOME/db4
         make -j$(nproc)
         make install
