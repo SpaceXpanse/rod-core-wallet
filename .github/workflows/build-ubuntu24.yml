@@ -1,4 +1,4 @@
-name: Build Core Wallets
+name: Building SpaceXpanse Core Wallets
 on:
   push:
     branches:
@@ -206,7 +206,8 @@ jobs:
         restore-keys: ${{ runner.os }}-ccache-
     - name: Install dependencies
       run: |
-        brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent
+        brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent python3
+        pip3 install setuptools
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
