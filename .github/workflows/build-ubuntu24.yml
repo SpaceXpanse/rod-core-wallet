@@ -207,7 +207,12 @@ jobs:
     - name: Install dependencies
       run: |
         brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent python3
-        pip3 install setuptools
+        # Create virtual environment and install setuptools to comply with PEP 668
+        python3 -m venv build-env
+        source build-env/bin/activate
+        pip install setuptools
+        # Make the virtual environment available for subsequent steps
+        echo "$(pwd)/build-env/bin" >> $GITHUB_PATH
     - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
