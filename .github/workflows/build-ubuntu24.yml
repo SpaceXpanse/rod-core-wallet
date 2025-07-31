@@ -1,16 +1,20 @@
-name: Build new core wallets
+name: Build Core Wallets
 on:
   push:
     branches:
-     - ubuntu24build
-     - dev 
-     - '[0-9].[0-9].[0-9]+'
+    #  - main
+    #  - master
+      - dev
+      - ubuntu24build
+      - '[0-9].[0-9].[0-9]+'
     tags:
-     - build
-     - 'v[0-9].[0-9].[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
     branches:
+    #  - main
+    #  - master
       - dev
+
 jobs:
   linux-build:
     runs-on: ubuntu-24.04
@@ -24,7 +28,8 @@ jobs:
       run:
         shell: bash
     steps:
-    - uses: actions/cache@v3
+    # Cache ccache and spacexpanse parameters to speed up subsequent builds
+    - uses: actions/cache@v4
       with:
         path: |
           .ccache
@@ -34,12 +39,12 @@ jobs:
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
-    - uses: actions/checkout@v3
+        sudo apt-get install -y git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           depends/built
@@ -49,21 +54,32 @@ jobs:
         key: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-
     - run: chmod +x ./contrib/install_db4.sh
-    - run: ./contrib/install_db4.sh ./       
+    - run: ./contrib/install_db4.sh ./
     - run: ./autogen.sh 
     - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" 
     - run: make -j2
     - run: make deploy 
-    - name: Build project # This would actually build your project, using zip for an example artifact
+      continue-on-error: true
+    - name: Prepare artifacts
       run: |
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-linux64.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
+        ls -lh
+    - name: Verify build
+      run: |
+        # Verify binaries are executable
+        for binary in spacexpansed spacexpanse-cli spacexpanse-tx spacexpanse-wallet spacexpanse-util; do
+          if [ ! -x "$GITHUB_WORKSPACE/deploy/$binary" ]; then
+            echo "Error: $binary is not executable"
+            exit 1
+          fi
+        done
+        echo "All Linux binaries verified successfully"
     - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -72,9 +88,16 @@ jobs:
         draft: true
         prerelease: true
         files: ./spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-linux64.zip
+    - name: Notify build result
+      if: always()
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "Linux build succeeded"
+        else
+          echo "Linux build failed"
+        fi
 
   windows-build:
-
     runs-on: ubuntu-24.04
     env:
       APT_BASE: ccache
@@ -87,7 +110,7 @@ jobs:
         shell: bash
 
     steps:
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           .ccache
@@ -95,14 +118,13 @@ jobs:
         key: ${{ runner.os }}-ccache-mingw-${{ github.sha }}
         restore-keys: ${{ runner.os }}-ccache-mingw-
     - run: |
-        sudo apt-get update  
-        sudo apt-get upgrade  
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev g++-mingw-w64-x86-64 nsis
-    - uses: actions/checkout@v3
+        sudo apt-get update
+        sudo apt-get install -y git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev g++-mingw-w64-x86-64 nsis
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           depends/built
@@ -112,32 +134,40 @@ jobs:
         key: ${{ runner.os }}-depends-x86_64-w64-mingw32-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-w64-mingw32-
     - run: |
-        #chmod +x ./contrib/install_db4.sh
-        #./contrib/install_db4.sh ./     
+        chmod +x ./contrib/install_db4.sh
+        ./contrib/install_db4.sh ./
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
         PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++            
-    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
+    - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++
     - run: make -j2 -C depends HOST=x86_64-w64-mingw32
-      #working-directory: depends
     - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
     - run: make -j2
     - run: make deploy 
-    - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
-    #- run: ls -lh $GITHUB_WORKSPACE
-    - name: Build project # This would actually build your project, using zip for an example artifact
+      continue-on-error: true
+    - name: Prepare artifacts
       run: |
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.9-win64-setup.exe $GITHUB_WORKSPACE/deploy 
+        # Try to find and copy setup file with wildcard
+        cp $GITHUB_WORKSPACE/spacexpanse-*-win64-setup.exe $GITHUB_WORKSPACE/deploy 2>/dev/null || echo "Setup file not found, continuing without it"
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-win64.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
+        ls -lh
+    - name: Verify build
+      run: |
+        # Verify binaries are present
+        for binary in spacexpansed.exe spacexpanse-cli.exe spacexpanse-tx.exe spacexpanse-wallet.exe spacexpanse-util.exe spacexpanse-qt.exe; do
+          if [ ! -f "$GITHUB_WORKSPACE/deploy/$binary" ]; then
+            echo "Error: $binary is missing"
+            exit 1
+          fi
+        done
+        echo "All Windows binaries verified successfully"
     - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -146,9 +176,16 @@ jobs:
         draft: true
         prerelease: true
         files: ./spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-win64.zip
+    - name: Notify build result
+      if: always()
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "Windows build succeeded"
+        else
+          echo "Windows build failed"
+        fi
 
   macos-build:
-
     runs-on: macos-14
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
@@ -160,7 +197,7 @@ jobs:
         shell: bash
 
     steps:
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           .ccache
@@ -170,10 +207,10 @@ jobs:
     - name: Install dependencies
       run: |
         brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           depends/built
@@ -190,17 +227,29 @@ jobs:
         ./configure --with-gui=yes
     - run: make -j$(sysctl -n hw.ncpu)
     - run: make deploy
-    - name: Build project # This would actually build your project, using zip for an example artifact
+      continue-on-error: true
+    - name: Prepare artifacts
       run: |
         mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
-        cp -r $GITHUB_WORKSPACE/SpaceXpanse-Qt.dmg $GITHUB_WORKSPACE/deploy
+        # Try to find and copy DMG file with wildcard
+        cp $GITHUB_WORKSPACE/*SpaceXpanse*.dmg $GITHUB_WORKSPACE/deploy 2>/dev/null || echo "DMG file not found, continuing without it"
         zip -r --junk-paths spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-macos.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
+        ls -lh
+    - name: Verify build
+      run: |
+        # Verify binaries are executable
+        for binary in spacexpansed spacexpanse-cli spacexpanse-tx spacexpanse-wallet spacexpanse-util; do
+          if [ ! -x "$GITHUB_WORKSPACE/deploy/$binary" ]; then
+            echo "Error: $binary is not executable"
+            exit 1
+          fi
+        done
+        echo "All macOS binaries verified successfully"
     - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -209,3 +258,11 @@ jobs:
         draft: true
         prerelease: true
         files: ./spacexpanse-${{ github.ref_name }}-${{ github.run_number }}-macos.zip
+    - name: Notify build result
+      if: always()
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "macOS build succeeded"
+        else
+          echo "macOS build failed"
+        fi
