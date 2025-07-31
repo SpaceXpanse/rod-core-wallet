@@ -14,6 +14,8 @@ on:
     #  - main
     #  - master
       - dev
+    #  - ubuntu24build
+    #  - '[0-9].[0-9].[0-9]+'
 
 jobs:
   linux-build:
@@ -38,7 +40,6 @@ jobs:
         restore-keys: ${{ runner.os }}-ccache-
     - run: |
         sudo apt-get update
-        sudo apt-get upgrade
         sudo apt-get install -y git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
         sudo apt-get install -y libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
     - uses: actions/checkout@v4
@@ -53,10 +54,10 @@ jobs:
           depends/x86_64-unknown-linux-gnu          
         key: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-
-    - run: chmod +x ./contrib/install_db4.sh
-    - run: ./contrib/install_db4.sh ./
+    # Build dependencies using the depends system instead of install_db4.sh
+    - run: make -j2 -C depends HOST=x86_64-unknown-linux-gnu
     - run: ./autogen.sh 
-    - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" 
+    - run: CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure
     - run: make -j2
     - run: make deploy 
       continue-on-error: true
@@ -134,15 +135,14 @@ jobs:
         key: ${{ runner.os }}-depends-x86_64-w64-mingw32-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-w64-mingw32-
     - run: |
-        chmod +x ./contrib/install_db4.sh
-        ./contrib/install_db4.sh ./
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
         PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
     - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++
+    # Build dependencies using the depends system instead of install_db4.sh
     - run: make -j2 -C depends HOST=x86_64-w64-mingw32
     - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj
     - run: make -j2
     - run: make deploy 
       continue-on-error: true
@@ -219,18 +219,14 @@ jobs:
           depends/x86_64-apple-darwin18          
         key: ${{ runner.os }}-depends-x86_64-apple-darwin-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-apple-darwin-
+    # Build dependencies using the depends system
+    - run: make -j$(sysctl -n hw.ncpu) -C depends HOST=x86_64-apple-darwin18
     - run: ./autogen.sh
     - name: Configure
       run: |
-        export LDFLAGS="-L/usr/local/opt/berkeley-db@4/lib"
-        export CPPFLAGS="-I/usr/local/opt/berkeley-db@4/include"
-        ./configure --with-gui=yes
+        CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --with-gui=yes
     - run: make -j$(sysctl -n hw.ncpu)
     - run: make deploy
-      continue-on-error: true
-    - name: Prepare artifacts
-      run: |
-        mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
         # Try to find and copy DMG file with wildcard
