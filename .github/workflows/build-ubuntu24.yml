@@ -227,6 +227,10 @@ jobs:
         CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --with-gui=yes
     - run: make -j$(sysctl -n hw.ncpu)
     - run: make deploy
+      continue-on-error: true
+    - name: Prepare artifacts
+      run: |
+        mkdir -p deploy
         cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
         strip $GITHUB_WORKSPACE/deploy/*
         # Try to find and copy DMG file with wildcard
