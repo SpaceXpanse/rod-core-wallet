@@ -1,257 +1,274 @@
 name: Build core wallets
+
 on:
-  push: 
+  push:
     branches:
-     - ubuntu20build
-     - dev 
-     - '[0-9].[0-9].[0-9]+'
+      - issue*
+      - dev
+      - '[0-9].[0-9].[0-9]+'
     tags:
-     - build
-     - 'v[0-9].[0-9].[0-9]+'
+      - build
+      - 'v[0-9].[0-9].[0-9]+'
   pull_request:
     branches:
       - dev
+
 jobs:
   linux64:
+    name: Ubuntu wallet build
     runs-on: ubuntu-20.04
-    env:
-      APT_BASE: ccache
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_SIZE: 500M
-      CCACHE_COMPRESS: 1
-      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
     defaults:
       run:
-        shell: bash        
+        shell: bash
+    env:
+      BUILD_DIR: ${{ github.workspace }}/build-artifacts/linux64
+      ARTIFACT_NAME: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-linux64
     steps:
-    - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
-    - uses: actions/cache@v3
-      with:
-        path: |
-          .ccache
-          .spacexpanse-params
-        key: x86_64-unknown-linux-gnu-ccache-${{ env.NOW }} 
-        restore-keys: |
-            x86_64-unknown-linux-gnu-ccache-
-    - run: |
-        sudo apt-get update
-        sudo apt-get upgrade
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
-      with:
-        path: |
-          depends/built
-          depends/work/build
-          depends/sdk-sources
-          depends/x86_64-unknown-linux-gnu          
-        key: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
-        restore-keys: ubuntu-20.04-depends-x86_64-unknown-linux-gnu-
-    - run: chmod +x ./contrib/install_db4.sh
-    - run: ./contrib/install_db4.sh ./       
-    - run: ./autogen.sh 
-    - run: ./configure BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include" 
-    - run: make -j2
-    - run: make deploy 
-    - name: Build project # This would actually build your project, using zip for an example artifact
-      run: |
-        mkdir -p deploy
-        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
-        strip $GITHUB_WORKSPACE/deploy/*
-        zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
-        draft: true
-        prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_name: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_content_type: application/zip
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libtool \
+            autoconf \
+            autotools-dev \
+            automake \
+            pkg-config \
+            libssl-dev \
+            libevent-dev \
+            bsdmainutils \
+            python3 \
+            libminiupnpc-dev \
+            libnatpmp-dev \
+            libzmq3-dev \
+            libboost-system-dev \
+            libboost-filesystem-dev \
+            libboost-chrono-dev \
+            libboost-test-dev \
+            libboost-thread-dev \
+            libsqlite3-dev \
+            qtbase5-dev \
+            qttools5-dev \
+            qttools5-dev-tools \
+            libprotobuf-dev \
+            protobuf-compiler \
+            libqrencode-dev \
+            zip
+
+      - name: Install Berkeley DB 4.8
+        run: |
+          chmod +x ./contrib/install_db4.sh
+          ./contrib/install_db4.sh "$GITHUB_WORKSPACE"
+
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure \
+            BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" \
+            BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
+
+      - name: Build
+        run: make -j"$(nproc)"
+
+      - name: Package binaries
+        run: |
+          mkdir -p "$BUILD_DIR"
+          cp src/spacexpansed "$BUILD_DIR/"
+          cp src/spacexpanse-cli "$BUILD_DIR/"
+          cp src/spacexpanse-tx "$BUILD_DIR/"
+          cp src/spacexpanse-wallet "$BUILD_DIR/"
+          cp src/spacexpanse-util "$BUILD_DIR/"
+          cp src/qt/spacexpanse-qt "$BUILD_DIR/"
+          strip "$BUILD_DIR"/* || true
+          (cd "$BUILD_DIR" && zip -r "$GITHUB_WORKSPACE/${ARTIFACT_NAME}.zip" .)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}.zip
+          if-no-files-found: error
 
   win64:
-
+    name: Windows wallet build
     runs-on: ubuntu-20.04
-    env:
-      APT_BASE: ccache
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_SIZE: 500M
-      CCACHE_COMPRESS: 1
-      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
     defaults:
       run:
         shell: bash
-
+    env:
+      HOST: x86_64-w64-mingw32
+      BUILD_DIR: ${{ github.workspace }}/build-artifacts/win64
+      ARTIFACT_NAME: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-win64
+      CONFIG_SITE: ${{ github.workspace }}/depends/x86_64-w64-mingw32/share/config.site
     steps:
-    - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
-    - uses: actions/cache@v3
-      with:
-        path: |
-          .ccache
-          .spacexpanse-params
-        key: x86_64-w64-mingw32-ccache-${{ env.NOW }} 
-        restore-keys: |
-            x86_64-w64-mingw32-ccache-
-    - run: |
-        sudo apt-get update  
-        sudo apt-get upgrade  
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev g++-mingw-w64-x86-64 nsis
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
-      with:
-        path: |
-          depends/built
-          depends/sdk-sources
-          depends/work/build
-          depends/x86_64-w64-mingw32          
-        key: ubuntu-20.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
-        restore-keys: ubuntu-20.04-depends-x86_64-w64-mingw32-
-    - run: |
-        #chmod +x ./contrib/install_db4.sh
-        #./contrib/install_db4.sh ./     
-        export LC_ALL=C.UTF-8
-        unset CC CXX DISPLAY                 
-        PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++            
-    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
-    - run: make -j2 -C depends HOST=x86_64-w64-mingw32
-      #working-directory: depends
-    - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
-    - run: make -j2
-    - run: make deploy 
-    - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
-    #- run: ls -lh $GITHUB_WORKSPACE
-    - name: Build project # This would actually build your project, using zip for an example artifact
-      run: |
-        mkdir -p deploy
-        cp $GITHUB_WORKSPACE/src/spacexpansed.exe $GITHUB_WORKSPACE/src/spacexpanse-cli.exe $GITHUB_WORKSPACE/src/spacexpanse-tx.exe $GITHUB_WORKSPACE/src/spacexpanse-wallet.exe $GITHUB_WORKSPACE/src/spacexpanse-util.exe $GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe $GITHUB_WORKSPACE/deploy
-        strip $GITHUB_WORKSPACE/deploy/*
-        cp $GITHUB_WORKSPACE/spacexpanse-0.6.8.9-win64-setup.exe $GITHUB_WORKSPACE/deploy 
-        zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
-        draft: true
-        prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_name: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_content_type: application/zip
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            depends/built
+            depends/sdk-sources
+            depends/work/build
+            depends/x86_64-w64-mingw32
+          key: ${{ runner.os }}-depends-${{ env.HOST }}-${{ hashFiles('depends/packages/*', 'depends/packages/**/*.mk', 'depends/hosts/**', '.github/workflows/build-ubuntu20.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-depends-${{ env.HOST }}-
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            libtool \
+            autoconf \
+            autotools-dev \
+            automake \
+            pkg-config \
+            libssl-dev \
+            libevent-dev \
+            bsdmainutils \
+            python3 \
+            libminiupnpc-dev \
+            libnatpmp-dev \
+            libzmq3-dev \
+            libboost-system-dev \
+            libboost-filesystem-dev \
+            libboost-chrono-dev \
+            libboost-test-dev \
+            libboost-thread-dev \
+            g++-mingw-w64-x86-64-posix \
+            nsis \
+            zip
+
+      - name: Build depends
+        env:
+          LC_ALL: C.UTF-8
+        run: |
+          unset CC CXX DISPLAY
+          PATH="$(echo "$PATH" | sed -e 's/:\/mnt.*//g')"
+          make -j"$(nproc)" -C depends HOST="$HOST"
+
+      - name: Configure
+        env:
+          LC_ALL: C.UTF-8
+        run: |
+          ./autogen.sh
+          ./configure \
+            --prefix=/ \
+            --host="$HOST" \
+            --with-gui=yes \
+            --disable-gui-tests \
+            --disable-external-signer \
+            LDFLAGS=-Wa,-mbig-obj
+
+      - name: Build
+        env:
+          LC_ALL: C.UTF-8
+        run: make -j"$(nproc)"
+
+      - name: Package binaries
+        run: |
+          mkdir -p "$BUILD_DIR"
+          cp src/spacexpansed.exe "$BUILD_DIR/"
+          cp src/spacexpanse-cli.exe "$BUILD_DIR/"
+          cp src/spacexpanse-tx.exe "$BUILD_DIR/"
+          cp src/spacexpanse-wallet.exe "$BUILD_DIR/"
+          cp src/spacexpanse-util.exe "$BUILD_DIR/"
+          cp src/qt/spacexpanse-qt.exe "$BUILD_DIR/"
+          find . -maxdepth 1 -type f -name 'spacexpanse-*-win64-setup.exe' -exec cp {} "$BUILD_DIR/" \;
+          x86_64-w64-mingw32-strip "$BUILD_DIR"/*.exe || true
+          (cd "$BUILD_DIR" && zip -r "$GITHUB_WORKSPACE/${ARTIFACT_NAME}.zip" .)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}.zip
+          if-no-files-found: error
 
   macos:
-
-    runs-on: ubuntu-20.04
-    env:
-      APT_BASE: ccache
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_SIZE: 500M
-      CCACHE_COMPRESS: 1
-      PARAMS_DIR: ${{ github.workspace }}/.spacexpanse-params
+    name: macOS wallet build
+    runs-on: macos-13
     defaults:
       run:
         shell: bash
-
+    env:
+      BUILD_DIR: ${{ github.workspace }}/build-artifacts/macos
+      ARTIFACT_NAME: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-macos
     steps:
-    - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
-    - uses: actions/cache@v3
-      with:
-        path: |
-          .ccache
-          .spacexpanse-params
-        key: x86_64-apple-darwin18-ccache-${{ env.NOW }} 
-        restore-keys: |
-            x86_64-apple-darwin18-ccache-
-    - run: |
-        sudo apt-get update  
-        sudo apt-get upgrade  
-        sudo apt-get install git build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libminiupnpc-dev libnatpmp-dev libzmq3-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-        sudo apt-get install curl librsvg2-bin libtiff-tools bsdmainutils cmake imagemagick libz-dev python3-setuptools libtinfo5 xorriso libc++
-        sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.ref_name }}
-    - uses: actions/cache@v3
-      with:
-        path: |
-          depends/built
-          depends/sdk-sources
-          depends/work/build
-          depends/x86_64-apple-darwin18          
-        key: ubuntu-20.04-depends-x86_64-apple-darwin18-${{ env.NOW }}
-        restore-keys: ubuntu-20.04-x86_64-apple-darwin18-
-    - run: |
-        #chmod +x ./contrib/install_db4.sh
-        #./contrib/install_db4.sh ./     
-        export LC_ALL=C.UTF-8
-        unset CC CXX DISPLAY                 
-        PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-    #- run: echo 1 | sudo update-alternatives --config x86_64-apple-darwin18-g++            
-    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
-    - run: make -j2 -C depends HOST=x86_64-apple-darwin18
-      #working-directory: depends
-    - run: ./autogen.sh
-    - run: CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj #CFLAGS=$(DEBUG) -Wall -W -Wwrite-strings LDFLAGS= LIBS=  CFLAGS_C=-Wmissing-prototypes CFLAGS_CXX=-std=c++0x BDB_LIBS="-L$GITHUB_WORKSPACE/db4/lib -ldb_cxx-4.8" BDB_CFLAGS="-I$GITHUB_WORKSPACE/db4/include"
-    - run: make -j2
-    #- run: make deploy 
-    #- run: ls -lh 
-    - name: Build project # This would actually build your project, using zip for an example artifact
-      run: |
-        mkdir -p deploy
-        cp $GITHUB_WORKSPACE/src/spacexpansed $GITHUB_WORKSPACE/src/spacexpanse-cli $GITHUB_WORKSPACE/src/spacexpanse-tx $GITHUB_WORKSPACE/src/spacexpanse-wallet $GITHUB_WORKSPACE/src/spacexpanse-util $GITHUB_WORKSPACE/src/qt/spacexpanse-qt $GITHUB_WORKSPACE/deploy
-        strip $GITHUB_WORKSPACE/deploy/*
-        #cp -r $GITHUB_WORKSPACE/SpaceXpanse.dmg $GITHUB_WORKSPACE/deploy
-        zip -r --junk-paths spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip $GITHUB_WORKSPACE/deploy/*
-        ls -lh         
-    - name: Create Release  
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}.rc1
-        release_name: SpaceXpanse ROD core wallet ${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}
-        draft: true
-        prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_name: spacexpanse-${{ github.ref_name }}.${{ github.run_number }}-${{ github.job }}.zip
-        asset_content_type: application/zip
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        
+      - name: Cache Berkeley DB 4.8
+        uses: actions/cache@v4
+        with:
+          path: db4
+          key: ${{ runner.os }}-db4-${{ hashFiles('contrib/install_db4.sh') }}
+
+      - name: Install build dependencies
+        run: |
+          brew update
+          brew install \
+            autoconf \
+            automake \
+            boost \
+            coreutils \
+            libevent \
+            libnatpmp \
+            miniupnpc \
+            pkg-config \
+            protobuf \
+            qrencode \
+            qt@5 \
+            zeromq \
+            zip
+
+      - name: Install Berkeley DB 4.8
+        run: |
+          chmod +x ./contrib/install_db4.sh
+          ./contrib/install_db4.sh "$GITHUB_WORKSPACE"
+
+      - name: Configure environment
+        run: |
+          echo "QT_PATH=$(brew --prefix qt@5)" >> "$GITHUB_ENV"
+          echo "BDB_PREFIX=$GITHUB_WORKSPACE/db4" >> "$GITHUB_ENV"
+          echo "PKG_CONFIG_PATH=$(brew --prefix qt@5)/lib/pkgconfig:$(brew --prefix zeromq)/lib/pkgconfig:$(brew --prefix protobuf)/lib/pkgconfig:$PKG_CONFIG_PATH" >> "$GITHUB_ENV"
+          echo "PATH=$(brew --prefix qt@5)/bin:/usr/local/opt/coreutils/libexec/gnubin:/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH" >> "$GITHUB_ENV"
+
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure \
+            BDB_LIBS="-L$BDB_PREFIX/lib -ldb_cxx-4.8" \
+            BDB_CFLAGS="-I$BDB_PREFIX/include" \
+            CPPFLAGS="-I$QT_PATH/include" \
+            LDFLAGS="-L$QT_PATH/lib"
+
+      - name: Build
+        run: make -j"$(sysctl -n hw.ncpu)"
+
+      - name: Package binaries
+        run: |
+          mkdir -p "$BUILD_DIR"
+          cp src/spacexpansed "$BUILD_DIR/"
+          cp src/spacexpanse-cli "$BUILD_DIR/"
+          cp src/spacexpanse-tx "$BUILD_DIR/"
+          cp src/spacexpanse-wallet "$BUILD_DIR/"
+          cp src/spacexpanse-util "$BUILD_DIR/"
+          cp src/qt/spacexpanse-qt "$BUILD_DIR/"
+          if [ -d src/qt/SpaceXpanse-Qt.app ]; then
+            cp -R src/qt/SpaceXpanse-Qt.app "$BUILD_DIR/"
+          fi
+          (cd "$BUILD_DIR" && zip -r "$GITHUB_WORKSPACE/${ARTIFACT_NAME}.zip" .)
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/${{ env.ARTIFACT_NAME }}.zip
+          if-no-files-found: error
