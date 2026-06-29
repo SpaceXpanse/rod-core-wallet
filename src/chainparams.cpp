@@ -187,10 +187,10 @@ public:
 
         // The best chain should have at least this much work.
         // The value is the chain work of the SpaceXpanse mainnet chain at height
-        // 800'000 with best block hash:
-        // 4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000007d524faed2c48c6c828");
-        consensus.defaultAssumeValid = uint256S("0x4d26cb0da44a06a2f5dc639e921f49a62714b6156256caf8461840adb66dc83f"); // 800'000
+        // 3'900'000 with best block hash:
+        // 7042ec9f3100bcb1ae74aaf0b1520a0fece68b13a3dd907e24db71c239568638
+        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000033d0d04905951fa899d8e");
+        consensus.defaultAssumeValid = uint256S("0x7042ec9f3100bcb1ae74aaf0b1520a0fece68b13a3dd907e24db71c239568638"); // 3'900'000
 
         consensus.nAuxpowChainId = 1899;
 
@@ -263,11 +263,21 @@ public:
 //            {{ 0, uint256S("0x0")}}, 
 
             {
-                {0, uint256S("5d4b20be4fc87d2333aea5235d9de1c685696fc935f806a9ffd71c9f9abf3c57")},      
-                {48550, uint256S("9f7abe9fa74ea774f66a89beebb9381d1bfb6434c132a2d0b12e50ba8634bf69")},    
-                {800001, uint256S("c8f940192478381008b63f6b522aa609060fe8024436e68bb0e2d4f617d1c7f3")},   
+                {0, uint256S("5d4b20be4fc87d2333aea5235d9de1c685696fc935f806a9ffd71c9f9abf3c57")},
+                {48550, uint256S("9f7abe9fa74ea774f66a89beebb9381d1bfb6434c132a2d0b12e50ba8634bf69")},
+                {800001, uint256S("c8f940192478381008b63f6b522aa609060fe8024436e68bb0e2d4f617d1c7f3")},
+                {1000000, uint256S("f682cda177894276279c9c58a894b711e86f238c856daa8f35d5dde85502cd08")},
+                {1054080, uint256S("3fa86dcd2b242c893bf6393fa6ca779b4eda7e7063598aa4c068ebfc06995bb2")},
+                {1500000, uint256S("ed1f9849ed3bd156dc66e66101a36261ed06fca89152d817a0f7b7332bc5491c")},
+                {2000000, uint256S("4c6c7920b4b667207c6743a3436226b604d69a4791ee7052108c3a0e213d43d9")},
+                {2108160, uint256S("b050e93ba729fcc924e716ee6e6d4be962d06e7f86ec8ec501cdb4b7cbeac8fa")},
+                {2500000, uint256S("cc54236d2f9bb94c812b10503fb6086689c8b05ae8a8f5da1f6e20b19b579aef")},
+                {3000000, uint256S("293a1c60e73f2966db05ad23d9691141d25efcfe7dd1578376bd70dd4d82cd8c")},
+                {3162240, uint256S("066c799df22d5aa0b6bb1c0192fc30feb7a0ccab08e78f05e2fd513021b3a59c")},
+                {3500000, uint256S("e684c525818cef81bf7b3a33c55d6b1d17086ab5b8603002ea96509aa2735aa2")},
+                {3900000, uint256S("7042ec9f3100bcb1ae74aaf0b1520a0fece68b13a3dd907e24db71c239568638")},
             }
-          
+
         };
 
         m_assumeutxo_data = MapAssumeutxo{
@@ -275,10 +285,10 @@ public:
         };
 
         chainTxData = ChainTxData{
-            // Data from RPC: getchaintxstats 800001 c8f940192478381008b63f6b522aa609060fe8024436e68bb0e2d4f617d1c7f3
-            /* nTime    */ 1680320335, // 1626099379,
-            /* nTxCount */ 92864, // 4457837,
-            /* dTxRate  */ 0.03371758688912199, // 0.034450420845411,
+            // Data from RPC: getchaintxstats 3899999 7042ec9f3100bcb1ae74aaf0b1520a0fece68b13a3dd907e24db71c239568638
+            /* nTime    */ 1781657864,
+            /* nTxCount */ 4162706,
+            /* dTxRate  */ 0.0328133059558044,
         };
     }
 
