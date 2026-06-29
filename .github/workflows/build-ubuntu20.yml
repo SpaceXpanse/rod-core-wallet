@@ -1,9 +1,9 @@
-name: Build core wallets
+name: Build ROD core wallets
 
 on:
   push:
     branches:
-      - issue*
+      - '**/issue*'
       - dev
       - '[0-9].[0-9].[0-9]+'
     tags:
