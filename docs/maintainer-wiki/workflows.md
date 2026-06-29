@@ -1,0 +1,27 @@
+# Workflows
+
+## Build
+
+- Autotools bootstrap and configure from repository root using [`autogen.sh`](../../autogen.sh) and [`configure.ac`](../../configure.ac).
+- Native Windows build uses [`build_msvc/msvc-autogen.py`](../../build_msvc/msvc-autogen.py) and `msbuild`, not the Autotools output tree ([`build_msvc/README.md`](../../build_msvc/README.md)).
+
+## Tests
+
+- Unit tests: `make check` or targeted `make spacexpanse_test` after a successful build ([`src/Makefile.test.include`](../../src/Makefile.test.include)).
+- Single C++ suite: run `make src/test/<suite>_tests.cpp.test` from repo root; the make rule extracts the Boost suite name automatically and emits a sibling `.log` file ([`src/Makefile.test.include`](../../src/Makefile.test.include)).
+- Functional tests: run a script directly or through [`test/functional/test_runner.py`](../../test/functional/test_runner.py) with explicit filenames ([`test/README.md`](../../test/README.md)).
+- Util tests are included in `make check`; standalone Python helpers are in [`test/util/`](../../test/util/) ([`test/README.md`](../../test/README.md)).
+
+## Lint
+
+- Run specific shell lint scripts from [`test/lint/`](../../test/lint/), or aggregate via [`test/lint/lint-all.sh`](../../test/lint/lint-all.sh) ([`test/README.md`](../../test/README.md)).
+- Python lint uses `flake8` plus `mypy` over functional tests and `contrib/devtools` ([`test/lint/lint-python.sh`](../../test/lint/lint-python.sh)).
+
+## Documentation updates
+
+- Update durable facts in this wiki, then refresh the local memory bank summaries.
+- For protocol-critical facts, cite canonical core/spec sources and mark uncertain values as `UNVERIFIED` until checked.
+
+## CI reproduction
+
+- Local CI scripts under [`ci/`](../../ci/) are Docker-oriented and may mutate caches or home-mounted files; prefer targeted local commands unless reproducing CI-specific behavior ([`ci/README.md`](../../ci/README.md)).
