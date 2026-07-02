@@ -56,10 +56,11 @@ jobs:
           depends/x86_64-unknown-linux-gnu          
         key: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-
-    # Build dependencies using the depends system instead of install_db4.sh
-    - run: make -j2 -C depends HOST=x86_64-unknown-linux-gnu
+    # Build non-Qt dependencies with depends. Qt is taken from the runner packages
+    # to avoid xcb_proto's Python 3.12-incompatible imp usage on Ubuntu 24.04.
+    - run: make -j2 -C depends HOST=x86_64-unknown-linux-gnu NO_QT=1
     - run: ./autogen.sh 
-    - run: CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure
+    - run: CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure --with-gui=qt5
     - run: make -j2
     - name: Prepare artifacts
       run: |
@@ -141,6 +142,7 @@ jobs:
           depends/x86_64-w64-mingw32          
         key: ${{ runner.os }}-depends-x86_64-w64-mingw32-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-w64-mingw32-
+    - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++
     # Build dependencies using the depends system instead of install_db4.sh
     - run: make -j2 -C depends HOST=x86_64-w64-mingw32
     - run: ./autogen.sh
@@ -195,7 +197,7 @@ jobs:
         fi
 
   macos-build:
-    runs-on: macos-14
+    runs-on: macos-13
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_SIZE: 500M
@@ -223,21 +225,14 @@ jobs:
           .spacexpanse-params
         key: ${{ runner.os }}-ccache-${{ github.sha }}
         restore-keys: ${{ runner.os }}-ccache-
-    - uses: actions/cache@v4
-      with:
-        path: |
-          depends/built
-          depends/sdk-sources
-          depends/work/build
-          depends/x86_64-apple-darwin18          
-        key: ${{ runner.os }}-depends-x86_64-apple-darwin-${{ hashFiles('**/configure.ac') }}
-        restore-keys: ${{ runner.os }}-depends-x86_64-apple-darwin-
-    # Build dependencies using the depends system
-    - run: make -j$(sysctl -n hw.ncpu) -C depends HOST=x86_64-apple-darwin18
     - run: ./autogen.sh
     - name: Configure
       run: |
-        CONFIG_SITE=$PWD/depends/x86_64-apple-darwin18/share/config.site ./configure --with-gui=yes
+        export PATH="$(brew --prefix qt@5)/bin:$PATH"
+        export CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix libevent)/include -I$(brew --prefix protobuf)/include -I$(brew --prefix qrencode)/include"
+        export LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix protobuf)/lib -L$(brew --prefix qrencode)/lib"
+        export PKG_CONFIG_PATH="$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix libevent)/lib/pkgconfig:$(brew --prefix protobuf)/lib/pkgconfig:$(brew --prefix qrencode)/lib/pkgconfig"
+        ./configure --with-gui=qt5
     - run: make -j$(sysctl -n hw.ncpu)
     - name: Prepare artifacts
       run: |
