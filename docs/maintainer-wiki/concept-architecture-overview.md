@@ -24,6 +24,13 @@ The build separates reusable code into `libbitcoin_server`, `libbitcoin_common`,
 
 At code level, the repository is dominated by C/C++ sources under [`src/`](../../src/) and embedded upstream subtrees such as [`src/secp256k1`](../../src/secp256k1), [`src/leveldb`](../../src/leveldb), [`src/univalue`](../../src/univalue), and [`src/crc32c`](../../src/crc32c). A local scan recorded 2,209 files total, with 1,788 categorized as code and 214 as documentation.
 
+More specific directory responsibilities from the current scan and build files:
+
+- [`src/names/`](../../src/names/) and [`src/rpc/names.cpp`](../../src/rpc/names.cpp) carry the Namecoin-derived name-value logic extended for SpaceXpanse/ROD behavior.
+- [`src/node/`](../../src/node/) and [`src/interfaces/`](../../src/interfaces/) define newer interface boundaries between node, wallet, and GUI-facing code, while preserving the project-specific [`lowerCamelCase`](../../doc/developer-notes.md) exception for interface methods.
+- [`src/qt/`](../../src/qt/) contains the optional desktop GUI plus Qt-specific name-management screens such as [`managenamespage.cpp`](../../src/qt/managenamespage.cpp) and [`configurenamedialog.cpp`](../../src/qt/configurenamedialog.cpp), showing that the SpaceXpanse fork exposes naming functionality beyond a stock wallet shell.
+- [`test/functional/test_framework/`](../../test/functional/test_framework/) is a substantial shared Python harness, not just helper scripts; functional-test architecture depends on it for RPC, P2P, wallet, auxpow, and SpaceXpanse-specific fixtures.
+
 ## Data and feature flow
 
 - Consensus, chainstate, mempool, networking, and RPC code live primarily in server/common libraries.
