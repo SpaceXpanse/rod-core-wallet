@@ -197,7 +197,7 @@ jobs:
         fi
 
   macos-build:
-    runs-on: macos-13
+    runs-on: macos-14
     env:
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_SIZE: 500M
