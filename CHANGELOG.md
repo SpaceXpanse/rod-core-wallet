@@ -6,6 +6,8 @@ The format is based on Keep a Changelog and this project follows a practical `Un
 
 ## [Unreleased]
 
+## [0.6.8.10] - 2026-07-02
+
 ### Fixed
 - Added [`#include <stdexcept>`](src/support/lockedpool.cpp:25) in [`src/support/lockedpool.cpp`](src/support/lockedpool.cpp) so [`std::runtime_error`](src/support/lockedpool.cpp:103) and [`std::runtime_error`](src/support/lockedpool.cpp:328) compile reliably across CI toolchains.
 - Added [`#include <cstdint>`](src/util/bip32.h:9) in [`src/util/bip32.h`](src/util/bip32.h) so [`uint32_t`](src/util/bip32.h:14) declarations do not rely on indirect includes.

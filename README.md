@@ -1,5 +1,5 @@
 # SpaceXpanse ROD core wallet
-[![Build core wallets](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml/badge.svg)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build-ubuntu20-macos11.yml)  
+[![Build core wallets](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/SpaceXpanse/rod-core-wallet/actions/workflows/build.yml)  
 
 ROD blockchain website: https://rod.spacexpanse.org
 
@@ -22,7 +22,7 @@ More Information
 
 SpaceXpanse ROD core wallet includes the base elements required for experienced users, miners and crypto exchanges: spacexpansed, spacexpanse-qt, spacexpanse-cli and the usual.
 
-You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.8/doc/spacexpanse for more SpaceXpanse ROD blockchain specs and additional information.
+You may check https://github.com/spacexpanse/rod-core-wallet/tree/0.6.8.10/doc/spacexpanse for more SpaceXpanse ROD blockchain specs and additional information.
 
 Several tutorials and more information are here:
 https://github.com/SpaceXpanse/Documentation/wiki or https://docs.spacexpanse.org
@@ -30,9 +30,9 @@ https://github.com/SpaceXpanse/Documentation/wiki or https://docs.spacexpanse.or
 For issues with SpaceXpanse ROD core wallet you can create an issue in Github: https://github.com/SpaceXpanse/rod-core-wallet/issues
 
 If you want to compile it yourself you can also follow the documentation's guide:  
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-windows.md)   
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-unix.md)  
-[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8/doc/build-osx.md) 
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-windows.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8.10/doc/build-windows.md)   
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8.10/doc/build-unix.md)  
+[https://github.com/bitcoin/bitcoin/blob/master/doc/build-osx.md](https://github.com/SpaceXpanse/rod-core-wallet/blob/0.6.8.10/doc/build-osx.md) 
 
 ### Disclaimer
 
