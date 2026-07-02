@@ -5,13 +5,14 @@ on:
     branches:
       - ubuntu20build
       - dev
-      - '[0-9].[0-9].[0-9]+'
+      - '[0-9].[0-9].[0-9]*'
     tags:
       - build
-      - 'v[0-9].[0-9].[0-9]+'
+      - 'v[0-9].[0-9].[0-9]*'
   pull_request:
     branches:
       - dev
+  workflow_dispatch:
 
 jobs:
   linux64:
@@ -49,6 +50,7 @@ jobs:
             libboost-chrono-dev \
             libboost-test-dev \
             libboost-thread-dev \
+            libdbus-1-dev \
             libsqlite3-dev \
             qtbase5-dev \
             qttools5-dev \
