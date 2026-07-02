@@ -233,7 +233,7 @@ jobs:
         export CPPFLAGS="-I$(brew --prefix openssl@3)/include -I$(brew --prefix libevent)/include -I$(brew --prefix protobuf)/include -I$(brew --prefix qrencode)/include -I$BOOST_ROOT/include"
         export LDFLAGS="-L$(brew --prefix openssl@3)/lib -L$(brew --prefix libevent)/lib -L$(brew --prefix protobuf)/lib -L$(brew --prefix qrencode)/lib -L$BOOST_ROOT/lib"
         export PKG_CONFIG_PATH="$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix libevent)/lib/pkgconfig:$(brew --prefix protobuf)/lib/pkgconfig:$(brew --prefix qrencode)/lib/pkgconfig"
-        ./configure --with-gui=qt5 --with-boost="$BOOST_ROOT" --with-boost-libdir="$BOOST_ROOT/lib"
+        ./configure --with-gui=qt5 --disable-external-signer --with-boost="$BOOST_ROOT" --with-boost-libdir="$BOOST_ROOT/lib"
     - run: make -j$(sysctl -n hw.ncpu)
     - name: Prepare artifacts
       run: |

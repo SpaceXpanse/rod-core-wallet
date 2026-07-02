@@ -624,7 +624,10 @@ bool BerkeleyDatabase::Backup(const std::string& strDest) const
                         return false;
                     }
 
-                    fs::copy_file(pathSrc, pathDest, fs::copy_options::overwrite_existing);
+                    if (fs::exists(pathDest)) {
+                        fs::remove(pathDest);
+                    }
+                    fs::copy_file(pathSrc, pathDest);
                     LogPrintf("copied %s to %s\n", strFile, pathDest.string());
                     return true;
                 } catch (const fs::filesystem_error& e) {
