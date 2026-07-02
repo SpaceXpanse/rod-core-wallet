@@ -58,7 +58,7 @@ jobs:
         restore-keys: ${{ runner.os }}-depends-x86_64-unknown-linux-gnu-
     # Build non-Qt dependencies with depends. Qt is taken from the runner packages
     # to avoid xcb_proto's Python 3.12-incompatible imp usage on Ubuntu 24.04.
-    - run: make -j2 -C depends HOST=x86_64-unknown-linux-gnu NO_QT=1
+    - run: make -j2 -C depends HOST=x86_64-unknown-linux-gnu NO_QT=1 ALLOW_HOST_PACKAGES=1
     - run: ./autogen.sh 
     - run: CONFIG_SITE=$PWD/depends/x86_64-unknown-linux-gnu/share/config.site ./configure --with-gui=qt5
     - run: make -j2
