@@ -5,19 +5,16 @@ on:
     branches:
       - ubuntu20build
       - dev
-      - '[0-9].[0-9].[0-9]*'
-    tags:
-      - build
-      - 'v[0-9].[0-9].[0-9]*'
   pull_request:
     branches:
+      - ubuntu20build
       - dev
   workflow_dispatch:
 
 jobs:
   linux64:
     name: Ubuntu wallet build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -40,7 +37,7 @@ jobs:
             pkg-config \
             libssl-dev \
             libevent-dev \
-            bsdmainutils \
+            bsdextrautils \
             python3 \
             libminiupnpc-dev \
             libnatpmp-dev \
@@ -96,7 +93,7 @@ jobs:
 
   win64:
     name: Windows wallet build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -133,7 +130,7 @@ jobs:
             pkg-config \
             libssl-dev \
             libevent-dev \
-            bsdmainutils \
+            bsdextrautils \
             python3 \
             libminiupnpc-dev \
             libnatpmp-dev \
