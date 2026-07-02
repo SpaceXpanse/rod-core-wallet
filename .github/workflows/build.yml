@@ -143,11 +143,14 @@ jobs:
         key: ${{ runner.os }}-depends-x86_64-w64-mingw32-${{ hashFiles('**/configure.ac') }}
         restore-keys: ${{ runner.os }}-depends-x86_64-w64-mingw32-
     - run: echo 1 | sudo update-alternatives --config x86_64-w64-mingw32-g++
+    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status"
     # Build dependencies using the depends system instead of install_db4.sh
     - run: make -j2 -C depends HOST=x86_64-w64-mingw32
     - run: ./autogen.sh
     - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ --with-gui=yes LDFLAGS=-Wa,-mbig-obj
     - run: make -j2
+    - run: make deploy
+    - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status"
     - name: Prepare artifacts
       run: |
         set -euo pipefail
@@ -155,8 +158,7 @@ jobs:
         mkdir -p "$GITHUB_WORKSPACE/deploy"
         cp "$GITHUB_WORKSPACE/src/spacexpansed.exe" "$GITHUB_WORKSPACE/src/spacexpanse-cli.exe" "$GITHUB_WORKSPACE/src/spacexpanse-tx.exe" "$GITHUB_WORKSPACE/src/spacexpanse-wallet.exe" "$GITHUB_WORKSPACE/src/spacexpanse-util.exe" "$GITHUB_WORKSPACE/src/qt/spacexpanse-qt.exe" "$GITHUB_WORKSPACE/deploy"
         x86_64-w64-mingw32-strip "$GITHUB_WORKSPACE"/deploy/*.exe
-        # Try to find and copy setup file with wildcard
-        cp $GITHUB_WORKSPACE/spacexpanse-*-win64-setup.exe $GITHUB_WORKSPACE/deploy 2>/dev/null || echo "Setup file not found, continuing without it"
+        cp "$GITHUB_WORKSPACE"/spacexpanse-*-win64-setup.exe "$GITHUB_WORKSPACE/deploy"
         (cd "$GITHUB_WORKSPACE/deploy" && zip -r "$GITHUB_WORKSPACE/$archive_name" .)
         ls -lh
         echo "ARCHIVE_NAME=$archive_name" >> "$GITHUB_ENV"
@@ -211,11 +213,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: |
-        brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent python3 zip
+        brew install automake libtool boost berkeley-db@4 qt@5 protobuf qrencode libevent python3 zip librsvg
         # Create virtual environment and install setuptools to comply with PEP 668
         python3 -m venv build-env
         source build-env/bin/activate
-        pip install setuptools
+        pip install setuptools ds_store mac_alias
         # Make the virtual environment available for subsequent steps
         echo "$(pwd)/build-env/bin" >> $GITHUB_PATH
     - uses: actions/cache@v4
@@ -235,6 +237,7 @@ jobs:
         export PKG_CONFIG_PATH="$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix libevent)/lib/pkgconfig:$(brew --prefix protobuf)/lib/pkgconfig:$(brew --prefix qrencode)/lib/pkgconfig"
         ./configure --with-gui=qt5 --disable-external-signer --with-boost="$BOOST_ROOT" --with-boost-libdir="$BOOST_ROOT/lib"
     - run: make -j$(sysctl -n hw.ncpu)
+    - run: make deploy
     - name: Prepare artifacts
       run: |
         set -euo pipefail
@@ -242,8 +245,7 @@ jobs:
         mkdir -p "$GITHUB_WORKSPACE/deploy"
         cp "$GITHUB_WORKSPACE/src/spacexpansed" "$GITHUB_WORKSPACE/src/spacexpanse-cli" "$GITHUB_WORKSPACE/src/spacexpanse-tx" "$GITHUB_WORKSPACE/src/spacexpanse-wallet" "$GITHUB_WORKSPACE/src/spacexpanse-util" "$GITHUB_WORKSPACE/src/qt/spacexpanse-qt" "$GITHUB_WORKSPACE/deploy"
         strip "$GITHUB_WORKSPACE"/deploy/* || true
-        # Try to find and copy DMG file with wildcard
-        cp $GITHUB_WORKSPACE/*SpaceXpanse*.dmg $GITHUB_WORKSPACE/deploy 2>/dev/null || echo "DMG file not found, continuing without it"
+        cp "$GITHUB_WORKSPACE"/*.dmg "$GITHUB_WORKSPACE/deploy"
         (cd "$GITHUB_WORKSPACE/deploy" && zip -r "$GITHUB_WORKSPACE/$archive_name" .)
         ls -lh
         echo "ARCHIVE_NAME=$archive_name" >> "$GITHUB_ENV"
